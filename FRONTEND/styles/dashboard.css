@@ -1,0 +1,98 @@
+/* DASHBOARD SPECIFIC STYLES */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* BALANCE CARD */
+
+.balance-card-large {
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.2) 0%, rgba(167, 139, 250, 0.05) 100%);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+}
+
+.balance-amount {
+    font-size: 3rem;
+    font-weight: var(--font-weight-semibold);
+    margin: 0.5rem 0;
+}
+
+.balance-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--green);
+}
+
+.trend-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.dashboard-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.stat-card {
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    background-color: var(--card);
+    border: 1px solid var(--border);
+}
+
+.stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.stat-amount {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-semibold);
+}
+
+.stat-icon-positive {
+    width: 1rem;
+    height: 1rem;
+    color: var(--green);
+}
+
+.stat-icon-negative {
+    width: 1rem;
+    height: 1rem;
+    color: var(--red);
+}
+
+.stat-label-positive {
+    font-size: 0.75rem;
+    color: var(--green);
+    margin-top: 0.25rem;
+}
+
+.stat-label-negative {
+    font-size: 0.75rem;
+    color: var(--red);
+    margin-top: 0.25rem;
+}
+
+/* Chart Placeholder */
+.chart-placeholder {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-svg {
+    width: 100%;
+    height: 100%;
+}

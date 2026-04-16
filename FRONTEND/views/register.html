@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrack - Register</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/authentication.css">
+</head>
+<body>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>FinTrack</h1>
+            <p class="text-muted">Create your account</p>
+        </div>
+
+        <form class="auth-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input
+                        type="text"
+                        id="name"
+                        class="form-input"
+                        placeholder="John Doe"
+                        required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                        type="email"
+                        id="email"
+                        class="form-input"
+                        placeholder="you@example.com"
+                        required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                        type="password"
+                        id="password"
+                        class="form-input"
+                        placeholder="••••••••"
+                        required
+                >
+            </div>
+
+            <button type="submit" class="btn-primary btn-full">
+                <a href="dashboard.html" style="color: inherit; text-decoration: none; display: block;">Create Account</a>
+            </button>
+        </form>
+
+        <p class="auth-footer">
+            Already have an account?
+            <a href="index.html" class="text-primary">Sign in</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>
