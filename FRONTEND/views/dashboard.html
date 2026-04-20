@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../styles/dashboard.css">
     <link rel="stylesheet" href="../styles/transactions.css">
     <link rel="stylesheet" href="../styles/modals.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -132,37 +133,7 @@
             <div class="card">
                 <h3 class="card-title">Spending Trend</h3>
                 <div class="chart-placeholder">
-                    <svg viewBox="0 0 600 300" class="chart-svg">
-                        <!-- Grid lines -->
-                        <line x1="50" y1="0" x2="50" y2="250" stroke="rgba(153, 153, 153, 0.2)" stroke-width="1"/>
-                        <line x1="0" y1="250" x2="600" y2="250" stroke="rgba(153, 153, 153, 0.2)" stroke-width="1"/>
-
-                        <!-- Chart area gradient -->
-                        <defs>
-                            <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:hsl(270, 60%, 65%);stop-opacity:0.3" />
-                                <stop offset="100%" style="stop-color:hsl(270, 60%, 65%);stop-opacity:0" />
-                            </linearGradient>
-                        </defs>
-
-                        <!-- Area path -->
-                        <path d="M 50 150 L 150 180 L 250 100 L 350 130 L 450 80 L 550 110 L 550 250 L 50 250 Z"
-                              fill="url(#chartGradient)"/>
-
-                        <!-- Line path -->
-                        <path d="M 50 150 L 150 180 L 250 100 L 350 130 L 450 80 L 550 110"
-                              stroke="hsl(270, 60%, 65%)"
-                              stroke-width="2"
-                              fill="none"/>
-
-                        <!-- X-axis labels -->
-                        <text x="50" y="280" fill="hsl(0, 0%, 60%)" font-size="12" text-anchor="middle">Jan</text>
-                        <text x="150" y="280" fill="hsl(0, 0%, 60%)" font-size="12" text-anchor="middle">Feb</text>
-                        <text x="250" y="280" fill="hsl(0, 0%, 60%)" font-size="12" text-anchor="middle">Mar</text>
-                        <text x="350" y="280" fill="hsl(0, 0%, 60%)" font-size="12" text-anchor="middle">Apr</text>
-                        <text x="450" y="280" fill="hsl(0, 0%, 60%)" font-size="12" text-anchor="middle">May</text>
-                        <text x="550" y="280" fill="hsl(0, 0%, 60%)" font-size="12" text-anchor="middle">Jun</text>
-                    </svg>
+                    <canvas id="spendingTrendChart" class="chart-svg"></canvas>
                 </div>
             </div>
 
@@ -403,6 +374,72 @@
             sidebarOverlay.classList.remove('active');
         });
     });
+
+    const chartCanvas = document.getElementById('spendingTrendChart');
+    if (chartCanvas && window.Chart) {
+        const ctx = chartCanvas.getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, 'rgba(167, 139, 250, 0.35)');
+        gradient.addColorStop(1, 'rgba(167, 139, 250, 0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Spending',
+                    data: [3200, 2800, 4100, 3600, 4700, 3900],
+                    borderColor: 'hsl(270, 60%, 65%)',
+                    backgroundColor: gradient,
+                    fill: true,
+                    tension: 0.35,
+                    borderWidth: 3,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: 'hsl(270, 60%, 65%)',
+                    pointBorderColor: '#1e1e1e',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return '$' + context.parsed.y.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(153, 153, 153, 0.12)'
+                        },
+                        ticks: {
+                            color: 'hsl(0, 0%, 60%)'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(153, 153, 153, 0.12)'
+                        },
+                        ticks: {
+                            color: 'hsl(0, 0%, 60%)',
+                            callback: function(value) {
+                                return '$' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 
     // Modal Functions
     function openModal(id) {
