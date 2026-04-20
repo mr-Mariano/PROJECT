@@ -1,0 +1,220 @@
+/* TAX */
+.tax-badge {
+    padding: 0.4rem 0.75rem;
+    border-radius: 9999px;
+    background-color: rgba(167, 139, 250, 0.15);
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.tax-layout {
+    display: grid;
+    grid-template-columns: minmax(320px, 420px) 1fr;
+    gap: 1.5rem;
+}
+
+.tax-calculator-card {
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    height: fit-content;
+}
+
+.tax-calculator-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.tax-icon-wrapper,
+.tax-empty-icon-wrapper {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.875rem;
+    background-color: rgba(167, 139, 250, 0.12);
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.tax-icon,
+.tax-empty-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+}
+
+.tax-calculator-title {
+    margin-bottom: 0.25rem;
+}
+
+.tax-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tax-input-wrapper {
+    position: relative;
+}
+
+.tax-currency {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted-foreground);
+}
+
+.tax-input {
+    padding-left: 2rem;
+}
+
+.tax-disclaimer {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    background-color: rgba(167, 139, 250, 0.08);
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+}
+
+.tax-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tax-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    min-height: 280px;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border);
+    background-color: rgba(41, 41, 41, 0.6);
+    text-align: center;
+}
+
+.tax-empty-text {
+    max-width: 28rem;
+    color: var(--muted-foreground);
+}
+
+.tax-results-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tax-result-card {
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(167, 139, 250, 0.06));
+    border: 1px solid rgba(167, 139, 250, 0.25);
+}
+
+.tax-result-amount {
+    margin: 0.5rem 0;
+    font-size: 2.5rem;
+    font-weight: var(--font-weight-semibold);
+}
+
+.tax-result-rate {
+    color: var(--green);
+    font-size: 0.95rem;
+}
+
+.tax-result-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.tax-stat-card {
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    background-color: var(--card);
+    border: 1px solid var(--border);
+}
+
+.tax-stat-label {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    margin-bottom: 0.4rem;
+}
+
+.tax-stat-value {
+    font-size: 1.35rem;
+    font-weight: var(--font-weight-semibold);
+}
+
+.tax-breakdown-title {
+    margin-bottom: 1rem;
+}
+
+.tax-breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.tax-breakdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tax-breakdown-item.total {
+    padding-top: 0.25rem;
+    border-bottom: none;
+    font-weight: var(--font-weight-semibold);
+}
+
+.tax-breakdown-label {
+    color: var(--muted-foreground);
+}
+
+.tax-breakdown-negative {
+    color: var(--red);
+}
+
+.tax-breakdown-total {
+    color: var(--green);
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .tax-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .tax-result-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .tax-badge {
+        width: 100%;
+        text-align: center;
+    }
+
+    .tax-breakdown-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

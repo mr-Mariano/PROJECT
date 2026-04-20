@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Estimation - FinTrack</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/tax.css">
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1>FinTrack</h1>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="transactions.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M7 16V4M17 8v12M3 20h18M3 4h18" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+                <span>Transactions</span>
+            </a>
+
+            <a href="budgets.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="6"></circle>
+                    <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+                <span>Budgets</span>
+            </a>
+
+            <a href="documents.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"></path>
+                    <polyline points="14 2 14 8 20 8" stroke-width="2"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13" stroke-width="2"></line>
+                    <line x1="16" y1="17" x2="8" y2="17" stroke-width="2"></line>
+                    <line x1="10" y1="9" x2="8" y2="9" stroke-width="2"></line>
+                </svg>
+                <span>Documents</span>
+            </a>
+
+            <a href="tax.html" class="nav-item active">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"></rect>
+                    <path d="M8 10h8M8 14h5" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+                <span>Tax Estimation</span>
+            </a>
+
+            <a href="profile.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" stroke-width="2"></path>
+                    <circle cx="12" cy="7" r="4" stroke-width="2"></circle>
+                </svg>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <nav class="mobile-navbar">
+            <span class="mobile-navbar-brand">FinTrack</span>
+            <button class="hamburger-btn" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <div class="page-container">
+            <div class="page-header">
+                <h2 class="page-title">Tax Estimation</h2>
+                <span class="tax-badge">Simple monthly estimator</span>
+            </div>
+
+            <div class="tax-layout">
+                <section class="tax-calculator-card">
+                    <div class="tax-calculator-header">
+                        <div class="tax-icon-wrapper">
+                            <svg class="tax-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"></rect>
+                                <path d="M8 10h8M8 14h5" stroke-width="2" stroke-linecap="round"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="tax-calculator-title">Estimate your taxes</h3>
+                            <p class="card-label">Use your monthly income and optional deductions.</p>
+                        </div>
+                    </div>
+
+                    <form class="tax-form" id="taxForm">
+                        <div class="form-group">
+                            <label for="monthlyIncome">Monthly Income</label>
+                            <div class="tax-input-wrapper">
+                                <span class="tax-currency">$</span>
+                                <input type="number" id="monthlyIncome" class="form-input tax-input" placeholder="5000" min="0" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deductions">Deductions</label>
+                            <div class="tax-input-wrapper">
+                                <span class="tax-currency">$</span>
+                                <input type="number" id="deductions" class="form-input tax-input" placeholder="0" min="0" step="0.01">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="filingStatus">Filing Status</label>
+                            <select id="filingStatus" class="form-input">
+                                <option value="1">Single</option>
+                                <option value="0.95">Married</option>
+                                <option value="0.9">Head of Household</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-primary btn-full">Calculate</button>
+                    </form>
+
+                    <div class="tax-disclaimer">
+                        <p>This estimate is simplified and intended for planning only.</p>
+                    </div>
+                </section>
+
+                <section class="tax-results" id="taxResults">
+                    <div class="tax-empty-state" id="taxEmptyState">
+                        <div class="tax-empty-icon-wrapper">
+                            <svg class="tax-empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"></rect>
+                                <path d="M8 10h8M8 14h5" stroke-width="2" stroke-linecap="round"></path>
+                            </svg>
+                        </div>
+                        <p class="tax-empty-text">Enter your monthly income to see your estimated tax and take-home pay.</p>
+                    </div>
+
+                    <div class="tax-results-content hidden" id="taxResultsContent">
+                        <div class="tax-result-card">
+                            <p class="card-label">Estimated Monthly Tax</p>
+                            <p class="tax-result-amount" id="monthlyTaxValue">$0.00</p>
+                            <div class="tax-result-rate">
+                                <span id="effectiveRate">Effective rate: 0%</span>
+                            </div>
+                        </div>
+
+                        <div class="tax-result-stats">
+                            <div class="tax-stat-card">
+                                <p class="tax-stat-label">Annual Tax</p>
+                                <p class="tax-stat-value" id="annualTaxValue">$0.00</p>
+                            </div>
+
+                            <div class="tax-stat-card">
+                                <p class="tax-stat-label">Take-Home Pay</p>
+                                <p class="tax-stat-value" id="takeHomeValue">$0.00</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h4 class="tax-breakdown-title">Tax Breakdown</h4>
+                            <div class="tax-breakdown-list">
+                                <div class="tax-breakdown-item">
+                                    <span class="tax-breakdown-label">Gross Income</span>
+                                    <span id="grossIncomeValue">$0.00</span>
+                                </div>
+                                <div class="tax-breakdown-item">
+                                    <span class="tax-breakdown-label">Deductions</span>
+                                    <span id="deductionsValue">$0.00</span>
+                                </div>
+                                <div class="tax-breakdown-item">
+                                    <span class="tax-breakdown-label">Estimated Tax</span>
+                                    <span class="tax-breakdown-negative" id="estimatedTaxValue">-$0.00</span>
+                                </div>
+                                <div class="tax-breakdown-item total">
+                                    <span>Net Income</span>
+                                    <span class="tax-breakdown-total" id="netIncomeValue">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('active');
+        sidebar.classList.toggle('mobile-open');
+        sidebarOverlay.classList.toggle('active');
+    });
+
+    sidebarOverlay.addEventListener('click', () => {
+        hamburgerBtn.classList.remove('active');
+        sidebar.classList.remove('mobile-open');
+        sidebarOverlay.classList.remove('active');
+    });
+
+    document.querySelectorAll('.nav-item').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                hamburgerBtn.classList.remove('active');
+                sidebar.classList.remove('mobile-open');
+                sidebarOverlay.classList.remove('active');
+            }
+        });
+    });
+
+    const taxForm = document.getElementById('taxForm');
+    const taxEmptyState = document.getElementById('taxEmptyState');
+    const taxResultsContent = document.getElementById('taxResultsContent');
+
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD'
+        }).format(value);
+    }
+
+    function calculateProgressiveTax(amount) {
+        const brackets = [
+            { limit: 1000, rate: 0.10 },
+            { limit: 3000, rate: 0.12 },
+            { limit: Infinity, rate: 0.22 }
+        ];
+
+        let remaining = amount;
+        let previousLimit = 0;
+        let totalTax = 0;
+
+        brackets.forEach(bracket => {
+            if (remaining <= 0) return;
+            const taxableAtBracket = Math.min(remaining, bracket.limit - previousLimit);
+            totalTax += taxableAtBracket * bracket.rate;
+            remaining -= taxableAtBracket;
+            previousLimit = bracket.limit;
+        });
+
+        return totalTax;
+    }
+
+    taxForm.addEventListener('submit', event => {
+        event.preventDefault();
+
+        const income = Number(document.getElementById('monthlyIncome').value || 0);
+        const deductions = Number(document.getElementById('deductions').value || 0);
+        const filingMultiplier = Number(document.getElementById('filingStatus').value || 1);
+
+        const taxableIncome = Math.max(0, income - deductions);
+        const monthlyTax = calculateProgressiveTax(taxableIncome) * filingMultiplier;
+        const annualTax = monthlyTax * 12;
+        const takeHomePay = Math.max(0, income - monthlyTax);
+        const effectiveRate = taxableIncome > 0 ? (monthlyTax / taxableIncome) * 100 : 0;
+
+        document.getElementById('monthlyTaxValue').textContent = formatCurrency(monthlyTax);
+        document.getElementById('annualTaxValue').textContent = formatCurrency(annualTax);
+        document.getElementById('takeHomeValue').textContent = formatCurrency(takeHomePay);
+        document.getElementById('grossIncomeValue').textContent = formatCurrency(income);
+        document.getElementById('deductionsValue').textContent = formatCurrency(deductions);
+        document.getElementById('estimatedTaxValue').textContent = `-${formatCurrency(monthlyTax)}`;
+        document.getElementById('netIncomeValue').textContent = formatCurrency(takeHomePay);
+        document.getElementById('effectiveRate').textContent = `Effective rate: ${effectiveRate.toFixed(1)}%`;
+
+        taxEmptyState.classList.add('hidden');
+        taxResultsContent.classList.remove('hidden');
+    });
+</script>
+</body>
+</html>
