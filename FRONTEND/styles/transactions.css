@@ -308,6 +308,57 @@
         bottom: auto;
         top: calc(100% + 0.5rem);
     }
+
+    .transaction-title{
+        font-size: 0.95rem;
+    }
+
+    .transaction-amount,
+    .transaction-item-full .transaction-amount-large {
+        font-size: 0.875rem;
+    }
+
+    .transaction-actions{
+        gap: 0.25rem;
+    }
+
+    .transaction-meta {
+        gap: 0.5rem;
+    }
+
+    .transaction-date {
+        font-size: 0.75rem;
+    }
+
+    .transaction-category {
+        font-size: 0.65rem;
+        padding: 0.1rem 0.5rem;
+    }
+
+    .action-btn {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+    }
+
+    .action-btn svg {
+        width: 0.875rem !important;
+        height: 0.875rem !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .transaction-meta{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: start;
+    }
+
+    .transaction-amount,
+    .transaction-item-full .transaction-amount-large {
+        font-size: 0.75rem;
+    }
 }
 
 /* Pantalla Intermedia (Tablet: 769px - 1024px) */

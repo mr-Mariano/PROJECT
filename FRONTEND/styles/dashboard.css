@@ -6,6 +6,15 @@
     margin-bottom: 2rem;
 }
 
+@media (max-width: 768px) {
+    .dashboard-grid {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+
 /* BALANCE CARD */
 
 .balance-card-large {
