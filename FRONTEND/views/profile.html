@@ -1,415 +1,264 @@
-<!doctype html>
-<html
-  lang="en"
-  class="dark"
->
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - FinTrack</title>
-    <link
-      rel="stylesheet"
-      href="../styles/styles.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../styles/profile.css"
-    />
-  </head>
-  <body>
-    <div
-      class="sidebar-overlay"
-      id="sidebarOverlay"
-    ></div>
-    <div class="app-layout">
-      <!-- Sidebar -->
-      <aside
-        class="sidebar"
-        id="sidebar"
-      >
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/profile.css">
+    <link rel="stylesheet" href="../styles/modals.css">
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="app-layout">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-          <h1>FinTrack</h1>
+            <h1>FinTrack</h1>
         </div>
 
         <nav class="sidebar-nav">
-          <a
-            href="dashboard.html"
-            class="nav-item"
-          >
-            <svg
-              class="nav-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <rect
-                x="3"
-                y="3"
-                width="7"
-                height="7"
-                rx="1"
-              ></rect>
-              <rect
-                x="14"
-                y="3"
-                width="7"
-                height="7"
-                rx="1"
-              ></rect>
-              <rect
-                x="14"
-                y="14"
-                width="7"
-                height="7"
-                rx="1"
-              ></rect>
-              <rect
-                x="3"
-                y="14"
-                width="7"
-                height="7"
-                rx="1"
-              ></rect>
-            </svg>
-            <span>Dashboard</span>
-          </a>
+            <a href="dashboard.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+                <span>Dashboard</span>
+            </a>
 
-          <a
-            href="transactions.html"
-            class="nav-item"
-          >
-            <svg
-              class="nav-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M7 16V4M17 8v12M3 20h18M3 4h18"
-                stroke-width="2"
-                stroke-linecap="round"
-              ></path>
-            </svg>
-            <span>Transactions</span>
-          </a>
+            <a href="transactions.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M7 16V4M17 8v12M3 20h18M3 4h18" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+                <span>Transactions</span>
+            </a>
 
-          <a
-            href="budgets.html"
-            class="nav-item"
-          >
-            <svg
-              class="nav-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-              ></circle>
-              <circle
-                cx="12"
-                cy="12"
-                r="6"
-              ></circle>
-              <circle
-                cx="12"
-                cy="12"
-                r="2"
-              ></circle>
-            </svg>
-            <span>Budgets</span>
-          </a>
+            <a href="budgets.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="6"></circle>
+                    <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+                <span>Budgets</span>
+            </a>
 
-          <a
-            href="documents.html"
-            class="nav-item"
-          >
-            <svg
-              class="nav-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                stroke-width="2"
-              ></path>
-              <polyline
-                points="14 2 14 8 20 8"
-                stroke-width="2"
-              ></polyline>
-              <line
-                x1="16"
-                y1="13"
-                x2="8"
-                y2="13"
-                stroke-width="2"
-              ></line>
-              <line
-                x1="16"
-                y1="17"
-                x2="8"
-                y2="17"
-                stroke-width="2"
-              ></line>
-              <line
-                x1="10"
-                y1="9"
-                x2="8"
-                y2="9"
-                stroke-width="2"
-              ></line>
-            </svg>
-            <span>Documents</span>
-          </a>
+            <a href="documents.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"></path>
+                    <polyline points="14 2 14 8 20 8" stroke-width="2"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13" stroke-width="2"></line>
+                    <line x1="16" y1="17" x2="8" y2="17" stroke-width="2"></line>
+                    <line x1="10" y1="9" x2="8" y2="9" stroke-width="2"></line>
+                </svg>
+                <span>Documents</span>
+            </a>
 
-          <a
-            href="tax.html"
-            class="nav-item"
-          >
-            <svg
-              class="nav-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <rect
-                x="4"
-                y="4"
-                width="16"
-                height="16"
-                rx="2"
-                stroke-width="2"
-              ></rect>
-              <path
-                d="M8 10h8M8 14h5"
-                stroke-width="2"
-                stroke-linecap="round"
-              ></path>
-            </svg>
-            <span>Tax Estimation</span>
-          </a>
-
-          <a
-            href="profile.html"
-            class="nav-item active"
-          >
-            <svg
-              class="nav-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
-                stroke-width="2"
-              ></path>
-              <circle
-                cx="12"
-                cy="7"
-                r="4"
-                stroke-width="2"
-              ></circle>
-            </svg>
-            <span>Profile</span>
-          </a>
+            <a href="profile.html" class="nav-item active">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" stroke-width="2"></path>
+                    <circle cx="12" cy="7" r="4" stroke-width="2"></circle>
+                </svg>
+                <span>Profile</span>
+            </a>
         </nav>
-      </aside>
+    </aside>
 
-      <!-- Main Content -->
-      <main class="main-content">
-        <!-- Mobile Navbar -->
+    <main class="main-content">
         <nav class="mobile-navbar">
-          <span class="mobile-navbar-brand">FinTrack</span>
-          <button
-            class="hamburger-btn"
-            id="hamburgerBtn"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+            <span class="mobile-navbar-brand">FinTrack</span>
+            <button class="hamburger-btn" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
 
         <div class="page-container">
-          <h2 class="page-title">Profile</h2>
+            <h2 class="page-title">Profile</h2>
 
-          <!-- Personal Information -->
-          <div class="card">
-            <h3 class="card-title">Personal Information</h3>
+            <div class="card">
+                <h3 class="card-title">Personal Information</h3>
 
-            <form class="profile-form">
-              <div class="form-group">
-                <label>
-                  <svg
-                    class="label-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
-                      stroke-width="2"
-                    ></path>
-                    <circle
-                      cx="12"
-                      cy="7"
-                      r="4"
-                      stroke-width="2"
-                    ></circle>
-                  </svg>
-                  Name
-                </label>
-                <input
-                  type="text"
-                  class="form-input"
-                  value="John Doe"
-                />
-              </div>
+                <form class="profile-form">
+                    <div class="form-group">
+                        <label>
+                            <svg class="label-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" stroke-width="2"></path>
+                                <circle cx="12" cy="7" r="4" stroke-width="2"></circle>
+                            </svg>
+                            Name
+                        </label>
+                        <input type="text" class="form-input" value="John Doe" />
+                    </div>
 
-              <div class="form-group">
-                <label>
-                  <svg
-                    class="label-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                      stroke-width="2"
-                    ></path>
-                    <polyline
-                      points="22,6 12,13 2,6"
-                      stroke-width="2"
-                    ></polyline>
-                  </svg>
-                  Email
-                </label>
-                <input
-                  type="email"
-                  class="form-input"
-                  value="john.doe@example.com"
-                />
-              </div>
+                    <div class="form-group">
+                        <label>
+                            <svg class="label-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke-width="2"></path>
+                                <polyline points="22,6 12,13 2,6" stroke-width="2"></polyline>
+                            </svg>
+                            Email
+                        </label>
+                        <input type="email" class="form-input" value="john.doe@example.com" />
+                    </div>
 
-              <button
-                type="button"
-                class="btn-primary profile-save-btn"
-              >
-                Save Changes
-              </button>
-            </form>
-          </div>
-
-          <!-- Security -->
-          <div class="card">
-            <h3 class="card-title">Security</h3>
-
-            <div class="security-section">
-              <p class="security-label">
-                <svg
-                  class="label-icon"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <rect
-                    x="3"
-                    y="11"
-                    width="18"
-                    height="11"
-                    rx="2"
-                    ry="2"
-                    stroke-width="2"
-                  ></rect>
-                  <path
-                    d="M7 11V7a5 5 0 0 1 10 0v4"
-                    stroke-width="2"
-                  ></path>
-                </svg>
-                Change Password
-              </p>
-              <button
-                type="button"
-                class="btn-secondary"
-              >
-                Update Password
-              </button>
+                    <button type="button" class="btn-primary profile-save-btn">
+                        Save Changes
+                    </button>
+                </form>
             </div>
-          </div>
 
-          <!-- Danger Zone -->
-          <div class="card danger-zone-card">
-            <h3 class="card-title danger-zone-title">
-              <svg
-                class="label-icon"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                  stroke-width="2"
-                ></path>
-                <line
-                  x1="12"
-                  y1="9"
-                  x2="12"
-                  y2="13"
-                  stroke-width="2"
-                ></line>
-                <line
-                  x1="12"
-                  y1="17"
-                  x2="12.01"
-                  y2="17"
-                  stroke-width="2"
-                ></line>
-              </svg>
-              Danger Zone
-            </h3>
-            <p class="text-muted">
-              Once you delete your account, there is no going back. Please be
-              certain.
-            </p>
-            <button
-              type="button"
-              class="btn-danger danger-delete-btn"
-            >
-              Delete Account
-            </button>
-          </div>
+            <div class="card">
+                <h3 class="card-title">Security</h3>
+
+                <div class="security-section">
+                    <p class="security-label">
+                        <svg class="label-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke-width="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke-width="2"></path>
+                        </svg>
+                        Change Password
+                    </p>
+                    <button type="button" class="btn-secondary" onclick="openUpdatePasswordModal()">
+                        Update Password
+                    </button>
+                </div>
+            </div>
+
+            <div class="card danger-zone-card">
+                <h3 class="card-title danger-zone-title">
+                    <svg class="label-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke-width="2"></path>
+                        <line x1="12" y1="9" x2="12" y2="13" stroke-width="2"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17" stroke-width="2"></line>
+                    </svg>
+                    Danger Zone
+                </h3>
+                <p class="text-muted">
+                    Once you delete your account, there is no going back. Please be certain.
+                </p>
+                <button type="button" class="btn-danger danger-delete-btn" onclick="openDeleteAccountModal()">
+                    Delete Account
+                </button>
+            </div>
+
+            <!-- Update Password Modal -->
+            <div class="modal" id="updatePasswordModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Update Password</h3>
+                        <button class="modal-close" onclick="closeUpdatePasswordModal()">×</button>
+                    </div>
+                    <form class="modal-body" id="updatePasswordForm">
+                        <div class="form-group">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" class="form-input" id="newPassword" placeholder="Enter your new password" data-field="newPassword">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm your new password" data-field="confirmPassword">
+                        </div>
+                    </form>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeUpdatePasswordModal()">Cancel</button>
+                        <button type="button" class="btn-primary" onclick="saveUpdatePassword()">Update Password</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Account Modal -->
+            <div class="modal" id="deleteAccountModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Delete Account</h3>
+                        <button class="modal-close" onclick="closeDeleteAccountModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted">
+                            Are you absolutely sure you want to delete your account? This action cannot be undone. All your data will be permanently removed.
+                        </p>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeDeleteAccountModal()">Cancel</button>
+                        <button type="button" class="btn-danger" onclick="confirmDeleteAccount()">Yes, Delete My Account</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </main>
-    </div>
+    </main>
+</div>
 
-    <script>
-      // Mobile sidebar toggle
-      const hamburgerBtn = document.getElementById('hamburgerBtn');
-      const sidebar = document.getElementById('sidebar');
-      const sidebarOverlay = document.getElementById('sidebarOverlay');
+<script>
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-      if (hamburgerBtn) {
+    if (hamburgerBtn) {
         hamburgerBtn.addEventListener('click', () => {
-          sidebar.classList.toggle('mobile-open');
-          hamburgerBtn.classList.toggle('active');
-          sidebarOverlay.classList.toggle('active');
+            sidebar.classList.toggle('mobile-open');
+            hamburgerBtn.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
         });
-      }
+    }
 
-      if (sidebarOverlay) {
+    if (sidebarOverlay) {
         sidebarOverlay.addEventListener('click', () => {
-          sidebar.classList.remove('mobile-open');
-          hamburgerBtn.classList.remove('active');
-          sidebarOverlay.classList.remove('active');
+            sidebar.classList.remove('mobile-open');
+            hamburgerBtn.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
         });
-      }
-    </script>
-  </body>
+    }
+
+    // Update Password Modal Functions
+    function openUpdatePasswordModal() {
+        const modal = document.getElementById('updatePasswordModal');
+        modal.classList.add('active');
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+    }
+
+    function closeUpdatePasswordModal() {
+        const modal = document.getElementById('updatePasswordModal');
+        modal.classList.remove('active');
+    }
+
+    function saveUpdatePassword() {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (!newPassword || !confirmPassword) {
+            alert('Please fill in all fields');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+
+        alert('Password updated successfully');
+        closeUpdatePasswordModal();
+    }
+
+    // Delete Account Modal Functions
+    function openDeleteAccountModal() {
+        const modal = document.getElementById('deleteAccountModal');
+        modal.classList.add('active');
+    }
+
+    function closeDeleteAccountModal() {
+        const modal = document.getElementById('deleteAccountModal');
+        modal.classList.remove('active');
+    }
+
+    function confirmDeleteAccount() {
+        console.log('Account deletion requested:')
+
+        alert('Your account has been deleted');
+        closeDeleteAccountModal();
+    }
+</script>
+</body>
 </html>
