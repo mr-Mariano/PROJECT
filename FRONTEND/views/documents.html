@@ -1,278 +1,708 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html
+  lang="en"
+  class="dark"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>Documents - FinTrack</title>
-    <link rel="stylesheet" href="../styles/styles.css">
-    <link rel="stylesheet" href="../styles/documents.css">
-</head>
-<body>
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-<div class="app-layout">
-    <aside class="sidebar" id="sidebar">
+    <link
+      rel="stylesheet"
+      href="../styles/styles.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../styles/documents.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../styles/modals.css"
+    />
+  </head>
+  <body>
+    <div
+      class="sidebar-overlay"
+      id="sidebarOverlay"
+    ></div>
+    <div class="app-layout">
+      <aside
+        class="sidebar"
+        id="sidebar"
+      >
         <div class="sidebar-header">
-            <h1>FinTrack</h1>
+          <h1>FinTrack</h1>
         </div>
 
         <nav class="sidebar-nav">
-            <a href="dashboard.html" class="nav-item">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-                    <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-                    <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-                    <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-                </svg>
-                <span>Dashboard</span>
-            </a>
+          <a
+            href="dashboard.html"
+            class="nav-item"
+          >
+            <svg
+              class="nav-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <rect
+                x="3"
+                y="3"
+                width="7"
+                height="7"
+                rx="1"
+              ></rect>
+              <rect
+                x="14"
+                y="3"
+                width="7"
+                height="7"
+                rx="1"
+              ></rect>
+              <rect
+                x="14"
+                y="14"
+                width="7"
+                height="7"
+                rx="1"
+              ></rect>
+              <rect
+                x="3"
+                y="14"
+                width="7"
+                height="7"
+                rx="1"
+              ></rect>
+            </svg>
+            <span>Dashboard</span>
+          </a>
 
-            <a href="transactions.html" class="nav-item">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M7 16V4M17 8v12M3 20h18M3 4h18" stroke-width="2" stroke-linecap="round"></path>
-                </svg>
-                <span>Transactions</span>
-            </a>
+          <a
+            href="transactions.html"
+            class="nav-item"
+          >
+            <svg
+              class="nav-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 16V4M17 8v12M3 20h18M3 4h18"
+                stroke-width="2"
+                stroke-linecap="round"
+              ></path>
+            </svg>
+            <span>Transactions</span>
+          </a>
 
-            <a href="budgets.html" class="nav-item">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <circle cx="12" cy="12" r="6"></circle>
-                    <circle cx="12" cy="12" r="2"></circle>
-                </svg>
-                <span>Budgets</span>
-            </a>
+          <a
+            href="budgets.html"
+            class="nav-item"
+          >
+            <svg
+              class="nav-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              ></circle>
+              <circle
+                cx="12"
+                cy="12"
+                r="6"
+              ></circle>
+              <circle
+                cx="12"
+                cy="12"
+                r="2"
+              ></circle>
+            </svg>
+            <span>Budgets</span>
+          </a>
 
-            <a href="documents.html" class="nav-item active">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"></path>
-                    <polyline points="14 2 14 8 20 8" stroke-width="2"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13" stroke-width="2"></line>
-                    <line x1="16" y1="17" x2="8" y2="17" stroke-width="2"></line>
-                    <line x1="10" y1="9" x2="8" y2="9" stroke-width="2"></line>
-                </svg>
-                <span>Documents</span>
-            </a>
+          <a
+            href="documents.html"
+            class="nav-item active"
+          >
+            <svg
+              class="nav-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                stroke-width="2"
+              ></path>
+              <polyline
+                points="14 2 14 8 20 8"
+                stroke-width="2"
+              ></polyline>
+              <line
+                x1="16"
+                y1="13"
+                x2="8"
+                y2="13"
+                stroke-width="2"
+              ></line>
+              <line
+                x1="16"
+                y1="17"
+                x2="8"
+                y2="17"
+                stroke-width="2"
+              ></line>
+              <line
+                x1="10"
+                y1="9"
+                x2="8"
+                y2="9"
+                stroke-width="2"
+              ></line>
+            </svg>
+            <span>Documents</span>
+          </a>
 
-
-            <a href="profile.html" class="nav-item">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" stroke-width="2"></path>
-                    <circle cx="12" cy="7" r="4" stroke-width="2"></circle>
-                </svg>
-                <span>Profile</span>
-            </a>
+          <a
+            href="profile.html"
+            class="nav-item"
+          >
+            <svg
+              class="nav-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+                stroke-width="2"
+              ></path>
+              <circle
+                cx="12"
+                cy="7"
+                r="4"
+                stroke-width="2"
+              ></circle>
+            </svg>
+            <span>Profile</span>
+          </a>
         </nav>
-    </aside>
+      </aside>
 
-    <main class="main-content">
+      <main class="main-content">
         <nav class="mobile-navbar">
-            <span class="mobile-navbar-brand">FinTrack</span>
-            <button class="hamburger-btn" id="hamburgerBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+          <span class="mobile-navbar-brand">FinTrack</span>
+          <button
+            class="hamburger-btn"
+            id="hamburgerBtn"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </nav>
 
         <div class="page-container">
-            <div class="page-header">
-                <h2 class="page-title">Documents</h2>
-                <button class="btn-primary" id="chooseFilesBtn">
-                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        <polyline points="17 8 12 3 7 8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
-                        <line x1="12" y1="3" x2="12" y2="15" stroke-width="2" stroke-linecap="round"></line>
-                    </svg>
-                    Upload Files
-                </button>
+          <div class="page-header">
+            <h2 class="page-title">Documents</h2>
+            <button
+              class="btn-primary"
+              id="chooseFilesBtn"
+            >
+              <svg
+                class="btn-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+                <polyline
+                  points="17 8 12 3 7 8"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></polyline>
+                <line
+                  x1="12"
+                  y1="3"
+                  x2="12"
+                  y2="15"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                ></line>
+              </svg>
+              Upload Files
+            </button>
+          </div>
+
+          <input
+            type="file"
+            id="fileInput"
+            accept=".pdf,.jpg,.jpeg,.png"
+            multiple
+            hidden
+          />
+
+          <section
+            class="upload-area"
+            id="uploadArea"
+          >
+            <div class="upload-content">
+              <div class="upload-icon-wrapper">
+                <svg
+                  class="upload-icon"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                  <polyline
+                    points="17 8 12 3 7 8"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></polyline>
+                  <line
+                    x1="12"
+                    y1="3"
+                    x2="12"
+                    y2="15"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  ></line>
+                </svg>
+              </div>
+              <h3 class="upload-title">Upload your financial documents</h3>
+              <p class="upload-description">
+                Drag and drop your files here or use the upload button to
+                browse.
+              </p>
+              <p class="upload-note">Supported formats: PDF, JPG and PNG</p>
+            </div>
+          </section>
+
+          <section class="card documents-card">
+            <div class="documents-card-header">
+              <h3 class="card-title">Recent documents</h3>
+              <span
+                class="documents-count"
+                id="documentsCount"
+                >4 files</span
+              >
             </div>
 
-            <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" multiple hidden>
-
-            <section class="upload-area" id="uploadArea">
-                <div class="upload-content">
-                    <div class="upload-icon-wrapper">
-                        <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <polyline points="17 8 12 3 7 8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
-                            <line x1="12" y1="3" x2="12" y2="15" stroke-width="2" stroke-linecap="round"></line>
-                        </svg>
+            <div
+              class="documents-list"
+              id="documentsList"
+            >
+              <div class="document-item">
+                <div class="document-info-wrapper">
+                  <div class="document-icon-wrapper">
+                    <svg
+                      class="document-icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                        stroke-width="2"
+                      ></path>
+                      <polyline
+                        points="14 2 14 8 20 8"
+                        stroke-width="2"
+                      ></polyline>
+                      <line
+                        x1="16"
+                        y1="13"
+                        x2="8"
+                        y2="13"
+                        stroke-width="2"
+                      ></line>
+                      <line
+                        x1="16"
+                        y1="17"
+                        x2="8"
+                        y2="17"
+                        stroke-width="2"
+                      ></line>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="document-name">Tax Return 2025.pdf</p>
+                    <div class="document-meta">
+                      <span>Mar 15, 2026</span>
+                      <span>2.4 MB</span>
                     </div>
-                    <h3 class="upload-title">Upload your financial documents</h3>
-                    <p class="upload-description">Drag and drop your files here or use the upload button to browse.</p>
-                    <p class="upload-note">Supported formats: PDF, JPG and PNG</p>
+                  </div>
                 </div>
-            </section>
-            
-            <section class="card documents-card">
-                <div class="documents-card-header">
-                    <h3 class="card-title">Recent documents</h3>
-                    <span class="documents-count" id="documentsCount">4 files</span>
+                <div class="document-actions">
+                  <button
+                    class="document-download-btn"
+                    type="button"
+                  >
+                    View
+                  </button>
+                  <button
+                    class="document-delete-btn"
+                    type="button"
+                  >
+                    Delete
+                  </button>
                 </div>
+              </div>
 
-                <div class="documents-list" id="documentsList">
-                    <div class="document-item">
-                        <div class="document-info-wrapper">
-                            <div class="document-icon-wrapper">
-                                <svg class="document-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"></path>
-                                    <polyline points="14 2 14 8 20 8" stroke-width="2"></polyline>
-                                    <line x1="16" y1="13" x2="8" y2="13" stroke-width="2"></line>
-                                    <line x1="16" y1="17" x2="8" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="document-name">Tax Return 2025.pdf</p>
-                                <div class="document-meta">
-                                    <span>Mar 15, 2026</span>
-                                    <span>2.4 MB</span>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="document-download-btn" type="button">View</button>
+              <div class="document-item">
+                <div class="document-info-wrapper">
+                  <div class="document-icon-wrapper">
+                    <svg
+                      class="document-icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                        stroke-width="2"
+                      ></path>
+                      <polyline
+                        points="14 2 14 8 20 8"
+                        stroke-width="2"
+                      ></polyline>
+                      <line
+                        x1="16"
+                        y1="13"
+                        x2="8"
+                        y2="13"
+                        stroke-width="2"
+                      ></line>
+                      <line
+                        x1="16"
+                        y1="17"
+                        x2="8"
+                        y2="17"
+                        stroke-width="2"
+                      ></line>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="document-name">Bank Statement March.pdf</p>
+                    <div class="document-meta">
+                      <span>Apr 01, 2026</span>
+                      <span>1.8 MB</span>
                     </div>
-
-                    <div class="document-item">
-                        <div class="document-info-wrapper">
-                            <div class="document-icon-wrapper">
-                                <svg class="document-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"></path>
-                                    <polyline points="14 2 14 8 20 8" stroke-width="2"></polyline>
-                                    <line x1="16" y1="13" x2="8" y2="13" stroke-width="2"></line>
-                                    <line x1="16" y1="17" x2="8" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="document-name">Bank Statement March.pdf</p>
-                                <div class="document-meta">
-                                    <span>Apr 01, 2026</span>
-                                    <span>1.8 MB</span>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="document-download-btn" type="button">View</button>
-                    </div>
-
-                    <div class="document-item">
-                        <div class="document-info-wrapper">
-                            <div class="document-icon-wrapper">
-                                <svg class="document-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"></path>
-                                    <polyline points="14 2 14 8 20 8" stroke-width="2"></polyline>
-                                    <line x1="16" y1="13" x2="8" y2="13" stroke-width="2"></line>
-                                    <line x1="16" y1="17" x2="8" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="document-name">Insurance Policy.pdf</p>
-                                <div class="document-meta">
-                                    <span>Jan 10, 2026</span>
-                                    <span>3.2 MB</span>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="document-download-btn" type="button">View</button>
-                    </div>
-
-                    <div class="document-item">
-                        <div class="document-info-wrapper">
-                            <div class="document-icon-wrapper">
-                                <svg class="document-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"></path>
-                                    <polyline points="14 2 14 8 20 8" stroke-width="2"></polyline>
-                                    <line x1="16" y1="13" x2="8" y2="13" stroke-width="2"></line>
-                                    <line x1="16" y1="17" x2="8" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="document-name">Receipt - Electronics.pdf</p>
-                                <div class="document-meta">
-                                    <span>Mar 28, 2026</span>
-                                    <span>0.5 MB</span>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="document-download-btn" type="button">View</button>
-                    </div>
+                  </div>
                 </div>
-            </section>
+                <div class="document-actions">
+                  <button
+                    class="document-download-btn"
+                    type="button"
+                  >
+                    View
+                  </button>
+                  <button
+                    class="document-delete-btn"
+                    type="button"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+
+              <div class="document-item">
+                <div class="document-info-wrapper">
+                  <div class="document-icon-wrapper">
+                    <svg
+                      class="document-icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                        stroke-width="2"
+                      ></path>
+                      <polyline
+                        points="14 2 14 8 20 8"
+                        stroke-width="2"
+                      ></polyline>
+                      <line
+                        x1="16"
+                        y1="13"
+                        x2="8"
+                        y2="13"
+                        stroke-width="2"
+                      ></line>
+                      <line
+                        x1="16"
+                        y1="17"
+                        x2="8"
+                        y2="17"
+                        stroke-width="2"
+                      ></line>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="document-name">Insurance Policy.pdf</p>
+                    <div class="document-meta">
+                      <span>Jan 10, 2026</span>
+                      <span>3.2 MB</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="document-actions">
+                  <button
+                    class="document-download-btn"
+                    type="button"
+                  >
+                    View
+                  </button>
+                  <button
+                    class="document-delete-btn"
+                    type="button"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+
+              <div class="document-item">
+                <div class="document-info-wrapper">
+                  <div class="document-icon-wrapper">
+                    <svg
+                      class="document-icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                        stroke-width="2"
+                      ></path>
+                      <polyline
+                        points="14 2 14 8 20 8"
+                        stroke-width="2"
+                      ></polyline>
+                      <line
+                        x1="16"
+                        y1="13"
+                        x2="8"
+                        y2="13"
+                        stroke-width="2"
+                      ></line>
+                      <line
+                        x1="16"
+                        y1="17"
+                        x2="8"
+                        y2="17"
+                        stroke-width="2"
+                      ></line>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="document-name">Receipt - Electronics.pdf</p>
+                    <div class="document-meta">
+                      <span>Mar 28, 2026</span>
+                      <span>0.5 MB</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="document-actions">
+                  <button
+                    class="document-download-btn"
+                    type="button"
+                  >
+                    View
+                  </button>
+                  <button
+                    class="document-delete-btn"
+                    type="button"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
-    </main>
-</div>
+      </main>
+    </div>
 
-<script>
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    <div
+      class="modal"
+      id="deleteDocumentModal"
+    >
+      <div class="modal-content modal-small">
+        <div class="modal-header">
+          <h3>Delete Document</h3>
+          <button
+            class="modal-close"
+            type="button"
+            onclick="closeDeleteDocumentModal()"
+          >
+            ×
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Are you sure you want to delete
+            <strong id="documentToDeleteName"></strong>?
+          </p>
+          <p class="text-muted">This action cannot be undone</p>
+        </div>
+        <div class="modal-actions">
+          <button
+            class="btn-secondary"
+            type="button"
+            onclick="closeDeleteDocumentModal()"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn-danger"
+            type="button"
+            onclick="confirmDeleteDocument()"
+          >
+            Confirm Delete
+          </button>
+        </div>
+      </div>
+    </div>
 
-    hamburgerBtn.addEventListener('click', () => {
+    <script>
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+      hamburgerBtn.addEventListener('click', () => {
         hamburgerBtn.classList.toggle('active');
         sidebar.classList.toggle('mobile-open');
         sidebarOverlay.classList.toggle('active');
-    });
+      });
 
-    sidebarOverlay.addEventListener('click', () => {
+      sidebarOverlay.addEventListener('click', () => {
         hamburgerBtn.classList.remove('active');
         sidebar.classList.remove('mobile-open');
         sidebarOverlay.classList.remove('active');
-    });
+      });
 
-    document.querySelectorAll('.nav-item').forEach(link => {
+      document.querySelectorAll('.nav-item').forEach((link) => {
         link.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                hamburgerBtn.classList.remove('active');
-                sidebar.classList.remove('mobile-open');
-                sidebarOverlay.classList.remove('active');
-            }
+          if (window.innerWidth <= 768) {
+            hamburgerBtn.classList.remove('active');
+            sidebar.classList.remove('mobile-open');
+            sidebarOverlay.classList.remove('active');
+          }
         });
-    });
+      });
 
-    const chooseFilesBtn = document.getElementById('chooseFilesBtn');
-    const fileInput = document.getElementById('fileInput');
-    const uploadArea = document.getElementById('uploadArea');
-    const documentsList = document.getElementById('documentsList');
-    const documentsCount = document.getElementById('documentsCount');
+      const chooseFilesBtn = document.getElementById('chooseFilesBtn');
+      const fileInput = document.getElementById('fileInput');
+      const uploadArea = document.getElementById('uploadArea');
+      const documentsList = document.getElementById('documentsList');
+      const documentsCount = document.getElementById('documentsCount');
+      const deleteDocumentModal = document.getElementById(
+        'deleteDocumentModal',
+      );
+      const documentToDeleteName = document.getElementById(
+        'documentToDeleteName',
+      );
 
-    chooseFilesBtn.addEventListener('click', () => fileInput.click());
-    uploadArea.addEventListener('click', () => fileInput.click());
+      let selectedDocumentName = '';
 
-    ['dragenter', 'dragover'].forEach(eventName => {
-        uploadArea.addEventListener(eventName, event => {
-            event.preventDefault();
-            uploadArea.classList.add('drag-active');
+      chooseFilesBtn.addEventListener('click', () => fileInput.click());
+      uploadArea.addEventListener('click', () => fileInput.click());
+
+      ['dragenter', 'dragover'].forEach((eventName) => {
+        uploadArea.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          uploadArea.classList.add('drag-active');
         });
-    });
+      });
 
-    ['dragleave', 'drop'].forEach(eventName => {
-        uploadArea.addEventListener(eventName, event => {
-            event.preventDefault();
-            uploadArea.classList.remove('drag-active');
+      ['dragleave', 'drop'].forEach((eventName) => {
+        uploadArea.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          uploadArea.classList.remove('drag-active');
         });
-    });
+      });
 
-    uploadArea.addEventListener('drop', event => {
+      uploadArea.addEventListener('drop', (event) => {
         const files = event.dataTransfer.files;
         appendDocuments(files);
-    });
+      });
 
-    fileInput.addEventListener('change', event => {
+      fileInput.addEventListener('change', (event) => {
         appendDocuments(event.target.files);
         fileInput.value = '';
-    });
+      });
 
-    function appendDocuments(files) {
-        Array.from(files).forEach(file => {
-            const item = document.createElement('div');
-            item.className = 'document-item';
+      documentsList.addEventListener('click', (event) => {
+        const deleteBtn = event.target.closest('.document-delete-btn');
+        if (!deleteBtn) {
+          return;
+        }
 
-            const sizeInMb = `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
-            const today = new Date().toLocaleDateString('en-US', {
-                month: 'short',
-                day: '2-digit',
-                year: 'numeric'
-            });
+        const documentItem = deleteBtn.closest('.document-item');
+        const documentName =
+          documentItem?.querySelector('.document-name')?.textContent ||
+          'this document';
+        openDeleteDocumentModal(documentName);
+      });
 
-            item.innerHTML = `
+      deleteDocumentModal.addEventListener('click', (event) => {
+        if (event.target === deleteDocumentModal) {
+          closeDeleteDocumentModal();
+        }
+      });
+
+      function openDeleteDocumentModal(documentName) {
+        selectedDocumentName = documentName;
+        documentToDeleteName.textContent = selectedDocumentName;
+        deleteDocumentModal.classList.add('active');
+      }
+
+      function closeDeleteDocumentModal() {
+        deleteDocumentModal.classList.remove('active');
+      }
+
+      function confirmDeleteDocument() {
+        console.log('Deleted', selectedDocumentName);
+        alert(`Document "${selectedDocumentName}" deleted`);
+        closeDeleteDocumentModal();
+      }
+
+      function appendDocuments(files) {
+        Array.from(files).forEach((file) => {
+          const item = document.createElement('div');
+          item.className = 'document-item';
+
+          const sizeInMb = `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
+          const today = new Date().toLocaleDateString('en-US', {
+            month: 'short',
+            day: '2-digit',
+            year: 'numeric',
+          });
+
+          item.innerHTML = `
                 <div class="document-info-wrapper">
                     <div class="document-icon-wrapper">
                         <svg class="document-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -290,15 +720,19 @@
                         </div>
                     </div>
                 </div>
-                <button class="document-download-btn" type="button">New</button>
+                <div class="document-actions">
+                    <button class="document-download-btn" type="button">View</button>
+                    <button class="document-delete-btn" type="button">Delete</button>
+                </div>
             `;
 
-            documentsList.prepend(item);
+          documentsList.prepend(item);
         });
 
-        const totalItems = documentsList.querySelectorAll('.document-item').length;
+        const totalItems =
+          documentsList.querySelectorAll('.document-item').length;
         documentsCount.textContent = `${totalItems} file${totalItems === 1 ? '' : 's'}`;
-    }
-</script>
-</body>
+      }
+    </script>
+  </body>
 </html>
