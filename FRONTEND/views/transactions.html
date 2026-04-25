@@ -80,17 +80,42 @@
         <div class="page-container">
             <div class="page-header">
                 <h2 class="page-title">Transactions</h2>
-                <button class="btn-primary" id="createNewTransaction">
-                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <line x1="12" y1="5" x2="12" y2="19" stroke-width="2" stroke-linecap="round"></line>
-                        <line x1="5" y1="12" x2="19" y2="12" stroke-width="2" stroke-linecap="round"></line>
-                    </svg>
-                    Add Transaction
-                </button>
+                <div class="header-actions">
+                    <button class="btn-primary" id="createNewTransaction" type="button">
+                        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <line x1="12" y1="5" x2="12" y2="19" stroke-width="2" stroke-linecap="round"></line>
+                            <line x1="5" y1="12" x2="19" y2="12" stroke-width="2" stroke-linecap="round"></line>
+                        </svg>
+                        Add Transaction
+                    </button>
+                    <button class="btn-add-category btn-create-category" id="newCategoryBtn" type="button">
+                        <svg class="btn-create-category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                            <path d="M20.59 13.41 11 23l-9-9V3h11l9 9.41z" stroke-width="1.8" stroke-linejoin="round"></path>
+                            <circle cx="7.5" cy="7.5" r="1.5" stroke-width="1.8"></circle>
+                            <path d="M16 7v6M13 10h6" stroke-width="1.8" stroke-linecap="round"></path>
+                        </svg>
+                        <span class="btn-create-category-text">Create Category</span>
+                    </button>
+                    <button class="btn-add-category btn-create-account" id="createNewAccount" type="button">
+                        <svg class="btn-create-category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                            <rect x="3" y="6" width="18" height="12" rx="2" stroke-width="1.8"></rect>
+                            <line x1="3" y1="10" x2="21" y2="10" stroke-width="1.8"></line>
+                            <path d="M16 15h3" stroke-width="1.8" stroke-linecap="round"></path>
+                            <path d="M7 3v6M4 6h6" stroke-width="1.8" stroke-linecap="round"></path>
+                        </svg>
+                        <span class="btn-create-category-text">Create Account</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Search and Filters -->
             <div class="transactions-filters">
+                <div class="account-filter-row">
+                    <label class="account-filter-label" for="accountFilterSelect">Account</label>
+                    <select id="accountFilterSelect" class="account-filter-select form-input">
+                        <option value="all">All Accounts</option>
+                    </select>
+                </div>
                 <div class="search-box">
                     <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <circle cx="11" cy="11" r="8" stroke-width="2"></circle>
@@ -102,15 +127,16 @@
                 <div class="filters-and-actions">
                     <div class="filter-buttons">
                         <div class="filter-btn-group">
-                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn active" data-category="all" type="button">All</button>
                         </div>
 
                         <!--Filter Options-->
                         <div class="filter-btn-group">
-                            <button class="filter-btn">
-                                <span class="emoji">💰</span> Income
+                            <button class="filter-btn" data-category="Income" type="button">
+                                <span class="category-icon" data-role="category-icon" data-icon="💰" role="img" aria-label="Income icon" style="display:inline-flex;align-items:center;justify-content:center;width:1.6em;height:1.6em;margin-right:0.45rem;border-radius:999px;background:rgba(255,255,255,0.12);">💰</span>
+                                <span class="category-label" data-role="category-label">Income</span>
                             </button>
-                            <button class="filter-settings-btn" onclick="toggleCategorySettings(this)" title="Settings">
+                            <button class="filter-settings-btn" onclick="openEditCategoryModal('Income')" title="Edit category">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                     <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
@@ -137,10 +163,11 @@
                         </div>
 
                         <div class="filter-btn-group">
-                            <button class="filter-btn">
-                                <span class="emoji">🍔</span>Food
+                            <button class="filter-btn" data-category="Food" type="button">
+                                <span class="category-icon" data-role="category-icon" data-icon="🍔" role="img" aria-label="Food icon" style="display:inline-flex;align-items:center;justify-content:center;width:1.6em;height:1.6em;margin-right:0.45rem;border-radius:999px;background:rgba(255,255,255,0.12);">🍔</span>
+                                <span class="category-label" data-role="category-label">Food</span>
                             </button>
-                            <button class="filter-settings-btn" onclick="toggleCategorySettings(this)" title="Settings">
+                            <button class="filter-settings-btn" onclick="openEditCategoryModal('Food')" title="Edit category">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                     <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
@@ -167,10 +194,11 @@
                         </div>
 
                         <div class="filter-btn-group">
-                            <button class="filter-btn">
-                                <span class="emoji">🧾</span> Bills
+                            <button class="filter-btn" data-category="Bills" type="button">
+                                <span class="category-icon" data-role="category-icon" data-icon="🧾" role="img" aria-label="Bills icon" style="display:inline-flex;align-items:center;justify-content:center;width:1.6em;height:1.6em;margin-right:0.45rem;border-radius:999px;background:rgba(255,255,255,0.12);">🧾</span>
+                                <span class="category-label" data-role="category-label">Bills</span>
                             </button>
-                            <button class="filter-settings-btn" onclick="toggleCategorySettings(this)" title="Settings">
+                            <button class="filter-settings-btn" onclick="openEditCategoryModal('Bills')" title="Edit category">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                     <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
@@ -197,10 +225,11 @@
                         </div>
 
                         <div class="filter-btn-group">
-                            <button class="filter-btn">
-                                <span class="emoji">🏥</span> Health
+                            <button class="filter-btn" data-category="Health" type="button">
+                                <span class="category-icon" data-role="category-icon" data-icon="🏥" role="img" aria-label="Health icon" style="display:inline-flex;align-items:center;justify-content:center;width:1.6em;height:1.6em;margin-right:0.45rem;border-radius:999px;background:rgba(255,255,255,0.12);">🏥</span>
+                                <span class="category-label" data-role="category-label">Health</span>
                             </button>
-                            <button class="filter-settings-btn" onclick="toggleCategorySettings(this)" title="Settings">
+                            <button class="filter-settings-btn" onclick="openEditCategoryModal('Health')" title="Edit category">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                     <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
@@ -228,21 +257,13 @@
 
                     </div>
                 
-                    <div class="category-action">
-                        <button class="btn-add-category" id="newCategoryBtn">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-                            </svg>
-                            New Category
-                        </button>
-                    </div>
                 </div>
             
             </div>
 
             <!-- Transactions List -->
             <div class="transactions-list-full">
-                <div class="transaction-item-full">
+                <div class="transaction-item-full" data-account-id="acc-main">
                     <div class="transaction-info">
                         <p class="transaction-title">Grocery Store</p>
                         <div class="transaction-meta">
@@ -254,19 +275,20 @@
                             </svg>
                             <span class="transaction-date">Apr 8, 2026</span>
                             <span class="transaction-category">Food</span>
+                            <span class="transaction-account">Main Account</span>
                         </div>
                     </div>
                     <p class="transaction-amount-large">-$142.50</p>
 
                     <!-- Actions on Transaction -->
                     <div class="transaction-actions">
-                        <button class="action-btn edit-btn" onclick="openEditModal('Grocery Store', '-$142.50')">
+                        <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
                             </svg>
                         </button>
-                        <button class="action-btn delete-btn" onclick="openDeleteModal('Grocery Store')">
+                        <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
@@ -277,7 +299,7 @@
                     </div>
                 </div>
 
-                <div class="transaction-item-full">
+                <div class="transaction-item-full" data-account-id="acc-savings">
                     <div class="transaction-info">
                         <p class="transaction-title">Salary Deposit</p>
                         <div class="transaction-meta">
@@ -289,19 +311,20 @@
                             </svg>
                             <span class="transaction-date">Apr 1, 2026</span>
                             <span class="transaction-category">Income</span>
+                            <span class="transaction-account">Savings</span>
                         </div>
                     </div>
                     <p class="transaction-amount-large positive">+$5,200.00</p>
 
                      <!-- Actions on Transaction -->
                     <div class="transaction-actions">
-                        <button class="action-btn edit-btn" onclick="openEditModal('Grocery Store', '-$142.50')">
+                        <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
                             </svg>
                         </button>
-                        <button class="action-btn delete-btn" onclick="openDeleteModal('Grocery Store')">
+                        <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
@@ -312,7 +335,7 @@
                     </div>
                 </div>
 
-                <div class="transaction-item-full">
+                <div class="transaction-item-full" data-account-id="acc-main">
                     <div class="transaction-info">
                         <p class="transaction-title">Electric Bill</p>
                         <div class="transaction-meta">
@@ -324,19 +347,20 @@
                             </svg>
                             <span class="transaction-date">Apr 6, 2026</span>
                             <span class="transaction-category">Bills</span>
+                            <span class="transaction-account">Main Account</span>
                         </div>
                     </div>
                     <p class="transaction-amount-large">-$89.00</p>
 
                      <!-- Actions on Transaction -->
                     <div class="transaction-actions">
-                        <button class="action-btn edit-btn" onclick="openEditModal('Grocery Store', '-$142.50')">
+                        <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
                             </svg>
                         </button>
-                        <button class="action-btn delete-btn" onclick="openDeleteModal('Grocery Store')">
+                        <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
@@ -347,7 +371,7 @@
                     </div>
                 </div>
 
-                <div class="transaction-item-full">
+                <div class="transaction-item-full" data-account-id="acc-cash">
                     <div class="transaction-info">
                         <p class="transaction-title">Coffee Shop</p>
                         <div class="transaction-meta">
@@ -359,19 +383,20 @@
                             </svg>
                             <span class="transaction-date">Apr 7, 2026</span>
                             <span class="transaction-category">Food</span>
+                            <span class="transaction-account">Cash Wallet</span>
                         </div>
                     </div>
                     <p class="transaction-amount-large">-$12.50</p>
 
                      <!-- Actions on Transaction -->
                     <div class="transaction-actions">
-                        <button class="action-btn edit-btn" onclick="openEditModal('Grocery Store', '-$142.50')">
+                        <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
                             </svg>
                         </button>
-                        <button class="action-btn delete-btn" onclick="openDeleteModal('Grocery Store')">
+                        <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
@@ -382,7 +407,7 @@
                     </div>
                 </div>
 
-                <div class="transaction-item-full">
+                <div class="transaction-item-full" data-account-id="acc-main">
                     <div class="transaction-info">
                         <p class="transaction-title">Gym Membership</p>
                         <div class="transaction-meta">
@@ -394,19 +419,20 @@
                             </svg>
                             <span class="transaction-date">Apr 5, 2026</span>
                             <span class="transaction-category">Health</span>
+                            <span class="transaction-account">Main Account</span>
                         </div>
                     </div>
                     <p class="transaction-amount-large">-$45.00</p>
 
                      <!-- Actions on Transaction -->
                     <div class="transaction-actions">
-                        <button class="action-btn edit-btn" onclick="openEditModal('Grocery Store', '-$142.50')">
+                        <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
                             </svg>
                         </button>
-                        <button class="action-btn delete-btn" onclick="openDeleteModal('Grocery Store')">
+                        <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
@@ -417,7 +443,7 @@
                     </div>
                 </div>
 
-                <div class="transaction-item-full">
+                <div class="transaction-item-full" data-account-id="acc-savings">
                     <div class="transaction-info">
                         <p class="transaction-title">Freelance Project</p>
                         <div class="transaction-meta">
@@ -429,19 +455,20 @@
                             </svg>
                             <span class="transaction-date">Apr 3, 2026</span>
                             <span class="transaction-category">Income</span>
+                            <span class="transaction-account">Savings</span>
                         </div>
                     </div>
                     <p class="transaction-amount-large positive">+$1,200.00</p>
 
                      <!-- Actions on Transaction -->
                     <div class="transaction-actions">
-                        <button class="action-btn edit-btn" onclick="openEditModal('Grocery Store', '-$142.50')">
+                        <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
                             </svg>
                         </button>
-                        <button class="action-btn delete-btn" onclick="openDeleteModal('Grocery Store')">
+                        <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
@@ -452,7 +479,7 @@
                     </div>
                 </div>
 
-                <div class="transaction-item-full">
+                <div class="transaction-item-full" data-account-id="acc-main">
                     <div class="transaction-info">
                         <p class="transaction-title">Restaurant</p>
                         <div class="transaction-meta">
@@ -464,19 +491,20 @@
                             </svg>
                             <span class="transaction-date">Apr 2, 2026</span>
                             <span class="transaction-category">Food</span>
+                            <span class="transaction-account">Main Account</span>
                         </div>
                     </div>
                     <p class="transaction-amount-large">-$67.80</p>
 
                      <!-- Actions on Transaction -->
                     <div class="transaction-actions">
-                        <button class="action-btn edit-btn" onclick="openEditModal('Grocery Store', '-$142.50')">
+                        <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
                             </svg>
                         </button>
-                        <button class="action-btn delete-btn" onclick="openDeleteModal('Grocery Store')">
+                        <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
@@ -487,7 +515,7 @@
                     </div>
                 </div>
 
-                <div class="transaction-item-full">
+                <div class="transaction-item-full" data-account-id="acc-main">
                     <div class="transaction-info">
                         <p class="transaction-title">Gas Station</p>
                         <div class="transaction-meta">
@@ -499,19 +527,20 @@
                             </svg>
                             <span class="transaction-date">Apr 4, 2026</span>
                             <span class="transaction-category">Transport</span>
+                            <span class="transaction-account">Main Account</span>
                         </div>
                     </div>
                     <p class="transaction-amount-large">-$52.00</p>
 
                     <!-- Actions on Transaction -->
                     <div class="transaction-actions">
-                        <button class="action-btn edit-btn" onclick="openEditModal('Grocery Store', '-$142.50')">
+                        <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
                             </svg>
                         </button>
-                        <button class="action-btn delete-btn" onclick="openDeleteModal('Grocery Store')">
+                        <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
@@ -534,7 +563,7 @@
                 <h3>Edit Transaction</h3>
                 <button class="modal-close" onclick="closeModal('editModalTransaction')">×</button>
             </div>
-            <form class="modal-body">
+            <form class="modal-body" id="editTransactionForm">
                 <div class="form-group">
                     <label>Description</label>
                     <input type="text" id="editTitle" class="form-input" placeholder="Name of transaction">
@@ -545,17 +574,26 @@
                 </div>
                 <div class="form-group">
                     <label>Category</label>
-                    <select class="form-input">
+                    <select class="form-input" id="editCategory">
                         <option>Food</option>
                         <option>Bills</option>
                         <option>Health</option>
+                        <option>Transport</option>
                         <option>Income</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Account</label>
+                    <select class="form-input" id="editTransactionAccount" required>
+                        <option value="acc-main">Main Account</option>
+                        <option value="acc-savings">Savings</option>
+                        <option value="acc-cash">Cash Wallet</option>
                     </select>
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('editModalTransaction')">Cancel</button>
-                <button class="btn-primary">Save Changes</button>
+                <button class="btn-secondary" onclick="closeModal('editModalTransaction')" type="button">Cancel</button>
+                <button class="btn-primary" id="saveTransactionBtn" type="button">Save Changes</button>
             </div>
         </div>
     </div>
@@ -571,8 +609,8 @@
                 <p style="color: var(--muted-foreground); font-size: 0.875rem; margin-top: 0.5rem;">This action cannot be undone.</p>
             </div>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('deleteModalTransaction')">Cancel</button>
-                <button class="btn-danger">Delete</button>
+                <button class="btn-secondary" onclick="closeModal('deleteModalTransaction')" type="button">Cancel</button>
+                <button class="btn-danger" id="confirmDeleteTransactionBtn" type="button">Delete</button>
             </div>
         </div>
     </div>
@@ -584,18 +622,18 @@
                 <h3>Add New Transaction</h3>
                 <button class="modal-close" onclick="closeModal('createModalTransaction')">×</button>
             </div>
-            <form class="modal-body">
+            <form class="modal-body" id="createTransactionForm">
                 <div class="form-group">
                     <label>Description</label>
-                    <input type="text" class="form-input" placeholder="Name of transaction">
+                    <input type="text" class="form-input" id="createTitle" placeholder="Name of transaction" required>
                 </div>
                 <div class="form-group">
                     <label>Amount</label>
-                    <input type="number" class="form-input" placeholder="0.00">
+                    <input type="number" class="form-input" id="createAmount" placeholder="0.00" step="0.01" required>
                 </div>
                 <div class="form-group">
                     <label>Category</label>
-                    <select class="form-input">
+                    <select class="form-input" id="createCategory">
                         <option>Food</option>
                         <option>Bills</option>
                         <option>Health</option>
@@ -603,10 +641,18 @@
                         <option>Income</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label>Account</label>
+                    <select class="form-input" id="createTransactionAccount" required>
+                        <option value="acc-main">Main Account</option>
+                        <option value="acc-savings">Savings</option>
+                        <option value="acc-cash">Cash Wallet</option>
+                    </select>
+                </div>
             </form>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('createModalTransaction')">Cancel</button>
-                <button class="btn-primary">Create Transaction</button>
+                <button class="btn-secondary" onclick="closeModal('createModalTransaction')" type="button">Cancel</button>
+                <button class="btn-primary" id="createTransactionBtn" type="button">Create Transaction</button>
             </div>
         </div>
     </div>
@@ -625,7 +671,19 @@
                 </div>
                 <div class="form-group">
                     <label>Icon</label>
-                    <input type="text" class="form-input" placeholder="e.g. 🎬 (emoji or icon name)" maxlength="2"></input>
+                    <select class="form-input" id="createCategoryIcon" required>
+                        <option value="" selected disabled>Select an icon</option>
+                        <option value="💰">💰 Money</option>
+                        <option value="🍔">🍔 Food</option>
+                        <option value="🧾">🧾 Bills</option>
+                        <option value="🏥">🏥 Health</option>
+                        <option value="🚗">🚗 Transport</option>
+                        <option value="🎬">🎬 Entertainment</option>
+                        <option value="🏠">🏠 Home</option>
+                        <option value="🎓">🎓 Education</option>
+                        <option value="🛒">🛒 Shopping</option>
+                        <option value="✈️">✈️ Travel</option>
+                    </select>
                 </div>
             </form>
             <div class="modal-actions">
@@ -649,7 +707,19 @@
                 </div>
                 <div class="form-group">
                     <label>Icon</label>
-                    <input type="text" class="form-input" id="editCategoryIcon" placeholder="e.g. 🎬 (emoji or icon name)" maxlength="2"></input>
+                    <select class="form-input" id="editCategoryIcon" required>
+                        <option value="" disabled>Select an icon</option>
+                        <option value="💰">💰 Money</option>
+                        <option value="🍔">🍔 Food</option>
+                        <option value="🧾">🧾 Bills</option>
+                        <option value="🏥">🏥 Health</option>
+                        <option value="🚗">🚗 Transport</option>
+                        <option value="🎬">🎬 Entertainment</option>
+                        <option value="🏠">🏠 Home</option>
+                        <option value="🎓">🎓 Education</option>
+                        <option value="🛒">🛒 Shopping</option>
+                        <option value="✈️">✈️ Travel</option>
+                    </select>
                 </div>
             </form>
             <div class="modal-actions">
@@ -676,10 +746,53 @@
         </div>
     </div>
 
+    <!-- Modal Create Account -->
+    <div class="modal" id="createModalAccount">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h3>Add New Account</h3>
+                <button class="modal-close" onclick="closeModal('createModalAccount')">×</button>
+            </div>
+            <form class="modal-body" id="createAccountForm">
+                <div class="form-group">
+                    <label>Account Name</label>
+                    <input type="text" class="form-input" id="createAccountName" placeholder="e.g. Payroll Account" required>
+                </div>
+            </form>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeModal('createModalAccount')">Cancel</button>
+                <button class="btn-primary" id="saveAccountBtn" type="button">Create Account</button>
+            </div>
+        </div>
+    </div>
+
 <script>
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const sidebar = document.getElementById('sidebar');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const ACCOUNTS_STORAGE_KEY = 'fintrack.accounts';
+    const searchInput = document.querySelector('.search-input');
+    const accountFilterSelect = document.getElementById('accountFilterSelect');
+    const createTransactionAccount = document.getElementById('createTransactionAccount');
+    const editTransactionAccount = document.getElementById('editTransactionAccount');
+    const createAccountForm = document.getElementById('createAccountForm');
+    const saveAccountBtn = document.getElementById('saveAccountBtn');
+    const createAccountNameInput = document.getElementById('createAccountName');
+    const createTransactionForm = document.getElementById('createTransactionForm');
+    const editTransactionForm = document.getElementById('editTransactionForm');
+    const createTitleInput = document.getElementById('createTitle');
+    const createAmountInput = document.getElementById('createAmount');
+    const createCategorySelect = document.getElementById('createCategory');
+    const createTransactionBtn = document.getElementById('createTransactionBtn');
+    const saveTransactionBtn = document.getElementById('saveTransactionBtn');
+    const confirmDeleteTransactionBtn = document.getElementById('confirmDeleteTransactionBtn');
+    const categoryFilterButtons = Array.from(document.querySelectorAll('.filter-btn[data-category]'));
+    const transactionsList = document.querySelector('.transactions-list-full');
+
+    let accounts = loadAccounts();
+    let selectedCategoryFilter = 'all';
+    let currentEditingTransaction = null;
+    let pendingDeleteTransaction = null;
 
     // Toggle sidebar on hamburger button click
     hamburgerBtn.addEventListener('click', () => {
@@ -713,14 +826,47 @@
         document.getElementById(id).classList.remove('active');
     }
 
-    function openEditModal(title, amount) {
-        document.getElementById('editTitle').value = title;
-        document.getElementById('editAmount').value = amount.replace('$', '').replace('-', '');
+    function openEditModal(source, amount) {
+        const editTitle = document.getElementById('editTitle');
+        const editAmount = document.getElementById('editAmount');
+        const editCategory = document.getElementById('editCategory');
+
+        if (source instanceof HTMLElement) {
+            const transactionItem = source.closest('.transaction-item-full');
+            if (transactionItem) {
+                currentEditingTransaction = transactionItem;
+                const titleText = transactionItem.querySelector('.transaction-title')?.textContent?.trim() || '';
+                const amountText = transactionItem.querySelector('.transaction-amount-large')?.textContent?.trim() || '';
+                const categoryText = transactionItem.querySelector('.transaction-category')?.textContent?.trim() || '';
+                const accountId = transactionItem.dataset.accountId || 'acc-main';
+
+                editTitle.value = titleText;
+                editAmount.value = amountText.replace(/[$,+-]/g, '').trim();
+                if (categoryText) {
+                    editCategory.value = categoryText;
+                }
+                editTransactionAccount.value = accountId;
+            }
+        } else {
+            currentEditingTransaction = null;
+            editTitle.value = source || '';
+            editAmount.value = (amount || '').replace('$', '').replace('-', '');
+        }
+
         openModal('editModalTransaction');
     }
 
-    function openDeleteModal(title) {
-        document.getElementById('deleteTitle').textContent = title;
+    function openDeleteModal(source) {
+        if (source instanceof HTMLElement) {
+            const transactionItem = source.closest('.transaction-item-full');
+            pendingDeleteTransaction = transactionItem;
+            const titleText = transactionItem?.querySelector('.transaction-title')?.textContent?.trim() || 'this transaction';
+            document.getElementById('deleteTitle').textContent = titleText;
+        } else {
+            pendingDeleteTransaction = null;
+            document.getElementById('deleteTitle').textContent = source;
+        }
+
         openModal('deleteModalTransaction');
     }
 
@@ -738,10 +884,125 @@
         openModal('createModalTransaction');
     });
 
+    // Create Account Button
+    document.getElementById('createNewAccount').addEventListener('click', () => {
+        openModal('createModalAccount');
+    });
+
     // Create Category Button
     document.getElementById('newCategoryBtn').addEventListener('click', () => {
         openModal('createModalCategory');
     });
+
+    categoryFilterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            selectedCategoryFilter = button.dataset.category || 'all';
+            categoryFilterButtons.forEach(item => item.classList.remove('active'));
+            button.classList.add('active');
+            applyTransactionFilters();
+        });
+    });
+
+    saveAccountBtn.addEventListener('click', () => {
+        const accountName = createAccountNameInput.value.trim();
+
+        if (!accountName) {
+            createAccountNameInput.focus();
+            return;
+        }
+
+        const accountExists = accounts.some(account => account.name.toLowerCase() === accountName.toLowerCase());
+        if (accountExists) {
+            createAccountNameInput.focus();
+            return;
+        }
+
+        const newAccount = {
+            id: `acc-${Date.now()}`,
+            name: accountName,
+            type: 'custom'
+        };
+
+        accounts.push(newAccount);
+        saveAccounts(accounts);
+        renderAccountOptions();
+        applyTransactionFilters();
+
+        createAccountForm.reset();
+        closeModal('createModalAccount');
+    });
+
+    createTransactionBtn.addEventListener('click', () => {
+        const title = createTitleInput.value.trim();
+        const amountValue = Number(createAmountInput.value);
+        const category = createCategorySelect.value;
+        const accountId = createTransactionAccount.value;
+
+        if (!title || Number.isNaN(amountValue) || amountValue === 0 || !category || !accountId) {
+            return;
+        }
+
+        const account = accounts.find(item => item.id === accountId);
+        if (!account) {
+            return;
+        }
+
+        const transactionCard = buildTransactionCard({
+            title,
+            amount: amountValue,
+            category,
+            accountId,
+            accountName: account.name,
+            dateLabel: 'Today'
+        });
+
+        transactionsList.prepend(transactionCard);
+        createTransactionForm.reset();
+        createTransactionAccount.value = accountId;
+        closeModal('createModalTransaction');
+        applyTransactionFilters();
+    });
+
+    saveTransactionBtn.addEventListener('click', () => {
+        if (!currentEditingTransaction) {
+            return;
+        }
+
+        const title = document.getElementById('editTitle').value.trim();
+        const amountValue = Number(document.getElementById('editAmount').value);
+        const category = document.getElementById('editCategory').value;
+        const accountId = editTransactionAccount.value;
+        const account = accounts.find(item => item.id === accountId);
+
+        if (!title || Number.isNaN(amountValue) || amountValue === 0 || !category || !account) {
+            return;
+        }
+
+        currentEditingTransaction.querySelector('.transaction-title').textContent = title;
+        currentEditingTransaction.querySelector('.transaction-category').textContent = category;
+        currentEditingTransaction.querySelector('.transaction-account').textContent = account.name;
+        currentEditingTransaction.querySelector('.transaction-amount-large').textContent = formatCurrency(amountValue);
+        currentEditingTransaction.querySelector('.transaction-amount-large').classList.toggle('positive', amountValue > 0);
+        currentEditingTransaction.dataset.accountId = accountId;
+
+        closeModal('editModalTransaction');
+        applyTransactionFilters();
+    });
+
+    confirmDeleteTransactionBtn.addEventListener('click', () => {
+        if (!pendingDeleteTransaction) {
+            closeModal('deleteModalTransaction');
+            return;
+        }
+
+        pendingDeleteTransaction.remove();
+        pendingDeleteTransaction = null;
+        closeModal('deleteModalTransaction');
+        applyTransactionFilters();
+    });
+
+    accountFilterSelect.addEventListener('change', applyTransactionFilters);
+    searchInput.addEventListener('input', applyTransactionFilters);
 
     // Open Edit Category Modal
     function openEditCategoryModal(categoryName) {
@@ -772,6 +1033,153 @@
             closeCategorySettings();
         }
     });
+
+    function loadAccounts() {
+        const stored = localStorage.getItem(ACCOUNTS_STORAGE_KEY);
+        const defaultAccounts = [
+            { id: 'acc-main', name: 'Main Account', type: 'checking' },
+            { id: 'acc-savings', name: 'Savings', type: 'savings' },
+            { id: 'acc-cash', name: 'Cash Wallet', type: 'cash' }
+        ];
+
+        if (!stored) {
+            localStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(defaultAccounts));
+            return defaultAccounts;
+        }
+
+        try {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                return parsed;
+            }
+        } catch (error) {
+            console.error('Invalid accounts in storage, falling back to defaults.', error);
+        }
+
+        localStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(defaultAccounts));
+        return defaultAccounts;
+    }
+
+    function saveAccounts(nextAccounts) {
+        localStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(nextAccounts));
+    }
+
+    function renderAccountOptions() {
+        const activeFilter = accountFilterSelect.value || 'all';
+        const editValue = editTransactionAccount.value || 'acc-main';
+        const createValue = createTransactionAccount.value || 'acc-main';
+
+        accountFilterSelect.innerHTML = '<option value="all">All Accounts</option>';
+        createTransactionAccount.innerHTML = '';
+        editTransactionAccount.innerHTML = '';
+
+        accounts.forEach(account => {
+            const filterOption = new Option(account.name, account.id);
+            const createOption = new Option(account.name, account.id);
+            const editOption = new Option(account.name, account.id);
+
+            accountFilterSelect.add(filterOption);
+            createTransactionAccount.add(createOption);
+            editTransactionAccount.add(editOption);
+        });
+
+        accountFilterSelect.value = accounts.some(account => account.id === activeFilter) ? activeFilter : 'all';
+        createTransactionAccount.value = accounts.some(account => account.id === createValue) ? createValue : accounts[0].id;
+        editTransactionAccount.value = accounts.some(account => account.id === editValue) ? editValue : accounts[0].id;
+
+        syncTransactionAccountBadges();
+    }
+
+    function syncTransactionAccountBadges() {
+        document.querySelectorAll('.transaction-item-full').forEach(item => {
+            const accountId = item.dataset.accountId;
+            const account = accounts.find(entry => entry.id === accountId);
+            const accountBadge = item.querySelector('.transaction-account');
+
+            if (accountBadge && account) {
+                accountBadge.textContent = account.name;
+            }
+        });
+    }
+
+    function applyTransactionFilters() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const selectedAccountId = accountFilterSelect.value;
+
+        document.querySelectorAll('.transaction-item-full').forEach(item => {
+            const title = item.querySelector('.transaction-title')?.textContent?.toLowerCase() || '';
+            const category = item.querySelector('.transaction-category')?.textContent?.toLowerCase() || '';
+            const account = item.querySelector('.transaction-account')?.textContent?.toLowerCase() || '';
+            const itemAccountId = item.dataset.accountId || '';
+
+            const matchesSearch = !searchTerm || title.includes(searchTerm) || category.includes(searchTerm) || account.includes(searchTerm);
+            const matchesAccount = selectedAccountId === 'all' || itemAccountId === selectedAccountId;
+            const matchesCategory = selectedCategoryFilter === 'all' || category === selectedCategoryFilter.toLowerCase();
+
+            item.style.display = matchesSearch && matchesAccount && matchesCategory ? '' : 'none';
+        });
+    }
+
+    function buildTransactionCard(transaction) {
+        const amountClass = transaction.amount > 0 ? 'transaction-amount-large positive' : 'transaction-amount-large';
+        const card = document.createElement('div');
+        card.className = 'transaction-item-full';
+        card.dataset.accountId = transaction.accountId;
+
+        card.innerHTML = `
+            <div class="transaction-info">
+                <p class="transaction-title"></p>
+                <div class="transaction-meta">
+                    <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke-width="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6" stroke-width="2"></line>
+                        <line x1="8" y1="2" x2="8" y2="6" stroke-width="2"></line>
+                        <line x1="3" y1="10" x2="21" y2="10" stroke-width="2"></line>
+                    </svg>
+                    <span class="transaction-date"></span>
+                    <span class="transaction-category"></span>
+                    <span class="transaction-account"></span>
+                </div>
+            </div>
+            <p class="${amountClass}"></p>
+            <div class="transaction-actions">
+                <button class="action-btn edit-btn" type="button" onclick="openEditModal(this)">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
+                    </svg>
+                </button>
+                <button class="action-btn delete-btn" type="button" onclick="openDeleteModal(this)">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17" stroke-width="2"></line>
+                        <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
+                    </svg>
+                </button>
+            </div>
+        `;
+
+        card.querySelector('.transaction-title').textContent = transaction.title;
+        card.querySelector('.transaction-date').textContent = transaction.dateLabel;
+        card.querySelector('.transaction-category').textContent = transaction.category;
+        card.querySelector('.transaction-account').textContent = transaction.accountName;
+        card.querySelector('.transaction-amount-large').textContent = formatCurrency(transaction.amount);
+
+        return card;
+    }
+
+    function formatCurrency(value) {
+        const absValue = Math.abs(value).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        return `${value >= 0 ? '+' : '-'}$${absValue}`;
+    }
+
+    renderAccountOptions();
+    applyTransactionFilters();
 
 </script>
 </body>

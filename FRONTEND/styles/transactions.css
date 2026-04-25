@@ -55,17 +55,49 @@
     color: var(--green);
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
 /* Full Transactions Page */
 .transactions-filters {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
     gap: 1rem;
     margin-bottom: 1.5rem;
 }
 
+.account-filter-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 320px;
+}
+
+.account-filter-label {
+    color: var(--muted-foreground);
+    font-size: 0.82rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.account-filter-select {
+    width: 100%;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+}
+
 .search-box {
-    flex: 1;
-    min-width: 250px;
+    flex: 0 1 auto;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
     position: relative;
 }
 
@@ -77,6 +109,7 @@
     top: 50%;
     transform: translateY(-50%);
     color: var(--muted-foreground);
+    pointer-events: none;
 }
 
 .search-input {
@@ -98,15 +131,25 @@
 /* Filter Buttons */
 .filters-and-actions {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.5rem;
-    padding-left: 1rem;
-    border-left: 2px solid var(--border);
+    padding-left: 0;
+    border-left: none;
+    border-top: 2px solid var(--border);
+    padding-top: 1rem;
+    width: 100%;
+    flex: 0 1 auto;
+    min-width: 0;
+    flex-wrap: wrap;
 }
 
 .filter-buttons {
     display: flex;
     gap: 0.5rem;
+    width: 100%;
+    flex: 0 1 auto;
+    min-width: 0;
+    flex-wrap: wrap;
 }
 
 
@@ -135,6 +178,10 @@
 .category-action {
     display: flex;
     align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+    margin-left: 0;
+    flex-shrink: 0;
 }
 
 
@@ -169,6 +216,10 @@
     stroke-width: 2;
 }
 
+.btn-add-category {
+    white-space: nowrap;
+}
+
 
 /* Filter Options */
 .filter-btn-group {
@@ -182,7 +233,7 @@
 .filter-btn {
     padding: 0.5rem 1rem;
     height: 100%;
-    border-radius: var(--radius-sm);  /* Por defecto todas redondeadas */
+    border-radius: var(--radius-sm);  
     display: flex;
     align-items: center;
     font-size: 0.875rem;
@@ -193,9 +244,17 @@
     transition: all 0.2s ease;
 }
 
+.filter-btn-group:has(.filter-settings-btn) {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background-color: var(--card);
+}
+
 .filter-btn-group:has(.filter-settings-btn) .filter-btn {
-    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
-    border-right: none;
+    border: none;
+    border-right: 1px solid var(--border);
+    border-radius: 0;
 }
 
 .filter-btn:hover {
@@ -217,9 +276,8 @@
     height: 36px;
     padding: 0;
     background-color: var(--card);
-    border: 1px solid var(--border);
-    border-left: none;
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    border: none;
+    border-radius: 0;
     color: var(--muted-foreground);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -303,7 +361,65 @@
     flex-shrink: 0;
 }
 
+.btn-create-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.62rem 0.9rem;
+    border-radius: 0.75rem;
+    border: 1px dashed #a78bfa;
+    background: rgba(167, 139, 250, 0.12);
+    color: #d8b4fe;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+
+.btn-create-category:hover {
+    background: rgba(167, 139, 250, 0.2);
+    border-color: #c4b5fd;
+    transform: translateY(-1px);
+}
+
+.btn-create-category:active {
+    transform: translateY(0);
+}
+
+.btn-create-category-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.btn-create-category-text {
+    line-height: 1;
+}
+
+.btn-create-account {
+    border: 1px dashed rgba(56, 189, 248, 0.5);
+    background: rgba(56, 189, 248, 0.15);
+    color: #a5f3fc;
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+}
+
+.btn-create-account:hover {
+    background: rgba(56, 189, 248, 0.24);
+    border-color: rgba(56, 189, 248, 0.75);
+}
+
 @media (max-width: 768px) {
+    .header-actions {
+        width: 100%;
+        margin-left: 0;
+        justify-content: flex-start;
+    }
+
+    .header-actions .btn-primary,
+    .header-actions .btn-create-category {
+        flex: 1 1 220px;
+        justify-content: center;
+    }
+
     .category-settings-menu {
         bottom: auto;
         top: calc(100% + 0.5rem);
@@ -361,50 +477,21 @@
     }
 }
 
-/* Pantalla Intermedia (Tablet: 769px - 1024px) */
-@media (max-width: 1024px) and (min-width: 769px) {
-    .transactions-filters {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .search-box {
-        flex: 1;
-        width: 100%;
-    }
-
-    .filters-and-actions {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-        padding-left: 0;
-        border-left: none;
-        width: 100%;
-    }
-
-    .filter-buttons {
-        width: 100%;
-        flex-wrap: wrap;
-    }
-
+/* Desktop compacto y tablet */
+@media (max-width: 1200px) {
     .filter-btn {
         padding: 0.6rem 0.8rem;
         font-size: 0.8rem;
     }
 
-    .category-action {
-        width: 100%;
-    }
-
     .btn-add-category {
-        width: 100%;
-        justify-content: center;
         padding: 0.75rem 1rem;
     }
 }
 
 @media (max-width: 768px) {
     .filters-and-actions {
+        flex: 0 1 auto;
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
@@ -417,12 +504,14 @@
     }
     
     .filter-buttons {
+        flex: 0 1 auto;
         width: 100%;
         flex-wrap: wrap;
     }
     
     .category-action {
         width: 100%;
+        margin-left: 0;
     }
     
     .btn-add-category {
@@ -465,6 +554,15 @@
 .meta-icon {
     width: 0.875rem;
     height: 0.875rem;
+}
+
+.transaction-account {
+    padding: 0.125rem 0.625rem;
+    background-color: rgba(56, 189, 248, 0.14);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 0.375rem;
+    color: #a5f3fc;
+    font-size: 0.75rem;
 }
 
 
