@@ -6,6 +6,7 @@
     <title>FinTrack - Login</title>
     <link rel="stylesheet" href="../styles/styles.css">
     <link rel="stylesheet" href="../styles/authentication.css">
+    <script  src="../js/env.js"></script>
 </head>
 <body>
 <div class="auth-container">
@@ -15,11 +16,12 @@
             <p class="text-muted">Welcome back</p>
         </div>
 
-        <form class="auth-form">
+        <form class="auth-form" id="login-form">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input
                         type="email"
+                        name="email"
                         id="email"
                         class="form-input"
                         placeholder="you@example.com"
@@ -31,6 +33,7 @@
                 <label for="password">Password</label>
                 <input
                         type="password"
+                        name="password"
                         id="password"
                         class="form-input"
                         placeholder="••••••••"
@@ -39,7 +42,7 @@
             </div>
 
             <button type="submit" class="btn-primary btn-full">
-                <a href="dashboard.html" style="color: inherit; text-decoration: none; display: block;">Continue</a>
+                Continue
             </button>
         </form>
 
@@ -49,5 +52,6 @@
         </p>
     </div>
 </div>
+    <script src="../js/auth/login.js"></script>
 </body>
 </html>

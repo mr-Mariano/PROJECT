@@ -6,6 +6,7 @@
     <title>FinTrack - Register</title>
     <link rel="stylesheet" href="../styles/styles.css">
     <link rel="stylesheet" href="../styles/authentication.css">
+    <script src="../js/env.js"></script>
 </head>
 <body>
 <div class="auth-container">
@@ -15,10 +16,11 @@
             <p class="text-muted">Create your account</p>
         </div>
 
-        <form class="auth-form">
+        <form class="auth-form" id="register-form">
             <div class="form-group">
                 <label for="name">Full Name</label>
                 <input
+                        name="name"
                         type="text"
                         id="name"
                         class="form-input"
@@ -31,6 +33,7 @@
                 <label for="email">Email</label>
                 <input
                         type="email"
+                        name="email"
                         id="email"
                         class="form-input"
                         placeholder="you@example.com"
@@ -41,6 +44,7 @@
             <div class="form-group">
                 <label for="password">Password</label>
                 <input
+                        name="password"
                         type="password"
                         id="password"
                         class="form-input"
@@ -50,15 +54,16 @@
             </div>
 
             <button type="submit" class="btn-primary btn-full">
-                <a href="dashboard.html" style="color: inherit; text-decoration: none; display: block;">Create Account</a>
+               Create Account
             </button>
         </form>
 
         <p class="auth-footer">
             Already have an account?
-            <a href="index.html" class="text-primary">Sign in</a>
+            <a href="/" class="text-primary">Sign in</a>
         </p>
     </div>
 </div>
+<script src="../js/auth/register.js"></script>
 </body>
 </html>

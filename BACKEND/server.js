@@ -1,9 +1,10 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import path from 'path'
-import { fileURLToPath } from 'url'
 import { api_router } from "./routes/api.js";
 import { __dirname } from "./env.js";
+import users from "./routes/users.js";
+
 
 dotenv.config()
 
@@ -21,6 +22,9 @@ app.use(express.static(path.join(__dirname, '../FRONTEND')))
 
 // API
 app.use(api_router)
+
+// Routes
+app.use('/users', users)
 
 
 app.listen(PORT, () => { console.log(`Server Running on Port: ${PORT}`)} )
