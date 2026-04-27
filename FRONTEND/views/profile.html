@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../styles/styles.css">
     <link rel="stylesheet" href="../styles/profile.css">
     <link rel="stylesheet" href="../styles/modals.css">
-    <script src="../js/env.js"></script>
+
 </head>
 <body>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -192,25 +192,7 @@
 </div>
 
 <script>
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-    if (hamburgerBtn) {
-        hamburgerBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('mobile-open');
-            hamburgerBtn.classList.toggle('active');
-            sidebarOverlay.classList.toggle('active');
-        });
-    }
-
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', () => {
-            sidebar.classList.remove('mobile-open');
-            hamburgerBtn.classList.remove('active');
-            sidebarOverlay.classList.remove('active');
-        });
-    }
+    initialize_sidebar_navigation();
 
     // Update Password Modal Functions
     function openUpdatePasswordModal() {

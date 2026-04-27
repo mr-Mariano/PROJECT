@@ -9,7 +9,12 @@
     <link rel="stylesheet" href="../styles/transactions.css">
     <link rel="stylesheet" href="../styles/modals.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- CONFIG -->
     <script src="../js/env.js"></script>
+
+    <!-- API -->
+    <script src="../js/api.js"></script>
 </head>
 <body>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -87,7 +92,7 @@
             <div class="dashboard-grid">
                 <div class="balance-card-large">
                     <p class="card-label">Total Balance</p>
-                    <p class="balance-amount">$24,847.32</p>
+                    <p class="balance-amount" id="dashboardTotalBalance"></p>
                     <div class="balance-trend">
                         <svg class="trend-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path d="M22 7L13.5 15.5L8.5 10.5L2 17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -105,7 +110,7 @@
                                 <path d="M7 17L17 7M17 7H7M17 7V17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                             </svg>
                         </div>
-                        <p class="stat-amount">$5,200</p>
+                        <p class="stat-amount" id="dashboardIncomeTotal"></p>
                         <p class="stat-label-positive">This month</p>
                     </div>
 
@@ -116,7 +121,7 @@
                                 <path d="M17 7L7 17M7 17H17M7 17V7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                             </svg>
                         </div>
-                        <p class="stat-amount">$4,289</p>
+                        <p class="stat-amount" id="dashboardExpensesTotal"></p>
                         <p class="stat-label-negative">This month</p>
                     </div>
                 </div>
@@ -133,201 +138,48 @@
             <!-- Recent Transactions -->
             <div class="card">
                 <h3 class="card-title">Recent Transactions</h3>
-                <div class="transactions-list">
-                    <div class="transaction-item" data-account-id="acc-main">
-                        <div class="transaction-info">
-                            <p class="transaction-title">Grocery Store</p>
-                            <div class="transaction-meta">
-                                <span class="transaction-date">Apr 8, 2026</span>
-                                <span class="transaction-category">Food</span>
-                                <span class="transaction-account">Main Account</span>
-                            </div>
-                        </div>
-                        <p class="transaction-amount">-$142.50</p>
-
-                        <!-- Actions on Transaction -->
-                        <div class="transaction-actions">
-                            <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-                                </svg>
-                            </button>
-                            <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-                                    <line x1="10" y1="11" x2="10" y2="17" stroke-width="2"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="transaction-item" data-account-id="acc-savings">
-                        <div class="transaction-info">
-                            <p class="transaction-title">Salary Deposit</p>
-                            <div class="transaction-meta">
-                                <span class="transaction-date">Apr 1, 2026</span>
-                                <span class="transaction-category">Income</span>
-                                <span class="transaction-account">Savings</span>
-                            </div>
-                        </div>
-                        <p class="transaction-amount positive">+$5,200.00</p>
-
-                        <!-- Actions on Transaction -->
-                        <div class="transaction-actions">
-                            <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-                                </svg>
-                            </button>
-                            <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-                                    <line x1="10" y1="11" x2="10" y2="17" stroke-width="2"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="transaction-item" data-account-id="acc-main">
-                        <div class="transaction-info">
-                            <p class="transaction-title">Electric Bill</p>
-                            <div class="transaction-meta">
-                                <span class="transaction-date">Apr 6, 2026</span>
-                                <span class="transaction-category">Bills</span>
-                                <span class="transaction-account">Main Account</span>
-                            </div>
-                        </div>
-                        <p class="transaction-amount">-$89.00</p>
-
-                        <!-- Actions on Transaction -->
-                        <div class="transaction-actions">
-                            <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-                                </svg>
-                            </button>
-                            <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-                                    <line x1="10" y1="11" x2="10" y2="17" stroke-width="2"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="transaction-item" data-account-id="acc-cash">
-                        <div class="transaction-info">
-                            <p class="transaction-title">Coffee Shop</p>
-                            <div class="transaction-meta">
-                                <span class="transaction-date">Apr 7, 2026</span>
-                                <span class="transaction-category">Food</span>
-                                <span class="transaction-account">Cash Wallet</span>
-                            </div>
-                        </div>
-                        <p class="transaction-amount">-$12.50</p>
-
-                        <!-- Actions on Transaction -->
-                        <div class="transaction-actions">
-                            <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-                                </svg>
-                            </button>
-                            <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-                                    <line x1="10" y1="11" x2="10" y2="17" stroke-width="2"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="transaction-item" data-account-id="acc-main">
-                        <div class="transaction-info">
-                            <p class="transaction-title">Gym Membership</p>
-                            <div class="transaction-meta">
-                                <span class="transaction-date">Apr 5, 2026</span>
-                                <span class="transaction-category">Health</span>
-                                <span class="transaction-account">Main Account</span>
-                            </div>
-                        </div>
-                        <p class="transaction-amount">-$45.00</p>
-
-                        <!-- Actions on Transaction -->
-                        <div class="transaction-actions">
-                            <button class="action-btn edit-btn" onclick="openEditModal(this)" type="button">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-                                </svg>
-                            </button>
-                            <button class="action-btn delete-btn" onclick="openDeleteModal(this)" type="button">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-                                    <line x1="10" y1="11" x2="10" y2="17" stroke-width="2"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                <div class="transactions-list" id="recent-transactions-list">
 
                 </div>
-
+                <div id="pagination" class="pagination" style="margin-top: 1rem; display: flex; gap: 0.5rem; align-items: center;"></div>
             </div>
 
         </div>
     </main>
-    
+
     <!-- MODALES -->
-    
+
     <!-- Edit Transaction -->
     <div class="modal" id="editModalTransaction">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Edit Transaction</h3>
-                <button class="modal-close" onclick="closeModal('editModalTransaction')">×</button>
+                <button class="modal-close" type="button" data-modal-close="editModalTransaction">×</button>
             </div>
             <form class="modal-body" id="editTransactionForm">
                 <div class="form-group">
-                    <label>Description</label>
-                    <input type="text" id="editTitle" class="form-input" placeholder="Name of transaction">
+                    <label for="editTitle">Title</label>
+                    <input name="editTitle" type="text" id="editTitle" class="form-input" placeholder="Name of transaction">
                 </div>
                 <div class="form-group">
-                    <label>Amount</label>
-                    <input type="number" id="editAmount" class="form-input" placeholder="0.00">
+                    <label for="editAmount">Amount</label>
+                    <input name="editAmount" type="number" id="editAmount" class="form-input" placeholder="0.00">
                 </div>
                 <div class="form-group">
-                    <label>Category</label>
-                    <select class="form-input" id="editCategory">
-                        <option>Food</option>
-                        <option>Bills</option>
-                        <option>Health</option>
-                        <option>Transport</option>
-                        <option>Income</option>
+                    <label for="editCategory">Category</label>
+                    <select name="editCategory" class="form-input" id="editCategory">
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Account</label>
-                    <select class="form-input" id="editTransactionAccount" required></select>
+                    <label for="editTransactionAccount">Account</label>
+                    <select name="editTransactionAccount" class="form-input" id="editTransactionAccount" required></select>
                 </div>
-            </form>
+
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('editModalTransaction')" type="button">Cancel</button>
-                <button class="btn-primary" id="saveTransactionBtn" type="button">Save Changes</button>
+                <button class="btn-secondary" type="button" data-modal-close="editModalTransaction">Cancel</button>
+                <button class="btn-primary" id="saveTransactionBtn" type="submit">Save Changes</button>
             </div>
+            </form>
         </div>
     </div>
 
@@ -342,269 +194,19 @@
                 <p style="color: var(--muted-foreground); font-size: 0.875rem; margin-top: 0.5rem;">This action cannot be undone.</p>
             </div>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('deleteModalTransaction')" type="button">Cancel</button>
+                <button class="btn-secondary" type="button" data-modal-close="deleteModalTransaction">Cancel</button>
                 <button class="btn-danger" id="confirmDeleteTransactionBtn" type="button">Delete</button>
             </div>
         </div>
     </div>
 </div>
+<!--UTILS-->
+<script src="../js/utils/utils_transactions.js"></script>
+<!-- SHARED -->
+<script src="../js/shared/modal_manager.js"></script>
+<script src="../js/shared/sidebar.js"></script>
 
-<script>
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-    const saveTransactionBtn = document.getElementById('saveTransactionBtn');
-    const confirmDeleteTransactionBtn = document.getElementById('confirmDeleteTransactionBtn');
-    const editTransactionAccount = document.getElementById('editTransactionAccount');
-    const ACCOUNTS_STORAGE_KEY = 'fintrack.accounts';
-
-    let currentEditingTransaction = null;
-    let pendingDeleteTransaction = null;
-    let accounts = loadAccounts();
-
-    // Toggle sidebar on hamburger button click
-    hamburgerBtn.addEventListener('click', () => {
-        hamburgerBtn.classList.toggle('active');
-        sidebar.classList.toggle('mobile-open');
-        sidebarOverlay.classList.toggle('active');
-    });
-
-    // Close sidebar when clicking overlay
-    sidebarOverlay.addEventListener('click', () => {
-        hamburgerBtn.classList.remove('active');
-        sidebar.classList.remove('mobile-open');
-        sidebarOverlay.classList.remove('active');
-    });
-
-    // Close sidebar when clicking on a nav link
-    document.querySelectorAll('.nav-item').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburgerBtn.classList.remove('active');
-            sidebar.classList.remove('mobile-open');
-            sidebarOverlay.classList.remove('active');
-        });
-    });
-
-    const chartCanvas = document.getElementById('spendingTrendChart');
-    if (chartCanvas && window.Chart) {
-        const ctx = chartCanvas.getContext('2d');
-        const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-        gradient.addColorStop(0, 'rgba(167, 139, 250, 0.35)');
-        gradient.addColorStop(1, 'rgba(167, 139, 250, 0)');
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Spending',
-                    data: [3200, 2800, 4100, 3600, 4700, 3900],
-                    borderColor: 'hsl(270, 60%, 65%)',
-                    backgroundColor: gradient,
-                    fill: true,
-                    tension: 0.35,
-                    borderWidth: 3,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
-                    pointBackgroundColor: 'hsl(270, 60%, 65%)',
-                    pointBorderColor: '#1e1e1e',
-                    pointBorderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return '$' + context.parsed.y.toLocaleString();
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            color: 'rgba(153, 153, 153, 0.12)'
-                        },
-                        ticks: {
-                            color: 'hsl(0, 0%, 60%)'
-                        }
-                    },
-                    y: {
-                        grid: {
-                            color: 'rgba(153, 153, 153, 0.12)'
-                        },
-                        ticks: {
-                            color: 'hsl(0, 0%, 60%)',
-                            callback: function(value) {
-                                return '$' + value;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    // Modal Functions
-    function openModal(id) {
-        document.getElementById(id).classList.add('active');
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).classList.remove('active');
-    }
-
-    function openEditModal(source) {
-        const editTitle = document.getElementById('editTitle');
-        const editAmount = document.getElementById('editAmount');
-        const editCategory = document.getElementById('editCategory');
-
-        const transactionItem = source?.closest('.transaction-item');
-
-        if (transactionItem) {
-            currentEditingTransaction = transactionItem;
-            const titleText = transactionItem.querySelector('.transaction-title')?.textContent?.trim() || '';
-            const amountText = transactionItem.querySelector('.transaction-amount')?.textContent?.trim() || '';
-            const categoryText = transactionItem.querySelector('.transaction-category')?.textContent?.trim() || '';
-            const accountId = transactionItem.dataset.accountId || 'acc-main';
-
-            editTitle.value = titleText;
-            editAmount.value = amountText.replace(/[$,+-]/g, '').trim();
-            if (categoryText) {
-                editCategory.value = categoryText;
-            }
-            editTransactionAccount.value = accountId;
-        }
-
-        openModal('editModalTransaction');
-    }
-
-    function openDeleteModal(source) {
-        const transactionItem = source?.closest('.transaction-item');
-
-        if (transactionItem) {
-            pendingDeleteTransaction = transactionItem;
-            const titleText = transactionItem.querySelector('.transaction-title')?.textContent?.trim() || 'this transaction';
-            document.getElementById('deleteTitle').textContent = titleText;
-        } else {
-            pendingDeleteTransaction = null;
-            document.getElementById('deleteTitle').textContent = source;
-        }
-
-        openModal('deleteModalTransaction');
-    }
-
-    // Close modals when clicking outside content
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal(modal.id);
-            }
-        });
-    });
-
-    saveTransactionBtn.addEventListener('click', () => {
-        if (!currentEditingTransaction) {
-            return;
-        }
-
-        const title = document.getElementById('editTitle').value.trim();
-        const amountValue = Number(document.getElementById('editAmount').value);
-        const category = document.getElementById('editCategory').value;
-        const accountId = editTransactionAccount.value;
-        const account = accounts.find(item => item.id === accountId);
-
-        if (!title || Number.isNaN(amountValue) || amountValue === 0 || !category || !account) {
-            return;
-        }
-
-        currentEditingTransaction.querySelector('.transaction-title').textContent = title;
-        currentEditingTransaction.querySelector('.transaction-category').textContent = category;
-        currentEditingTransaction.querySelector('.transaction-account').textContent = account.name;
-        currentEditingTransaction.querySelector('.transaction-amount').textContent = formatCurrency(amountValue);
-        currentEditingTransaction.querySelector('.transaction-amount').classList.toggle('positive', amountValue > 0);
-        currentEditingTransaction.dataset.accountId = accountId;
-
-        closeModal('editModalTransaction');
-    });
-
-    confirmDeleteTransactionBtn.addEventListener('click', () => {
-        if (pendingDeleteTransaction) {
-            pendingDeleteTransaction.remove();
-            pendingDeleteTransaction = null;
-        }
-
-        closeModal('deleteModalTransaction');
-    });
-
-    function formatCurrency(value) {
-        const absValue = Math.abs(value).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-
-        return `${value >= 0 ? '+' : '-'}$${absValue}`;
-    }
-
-    function loadAccounts() {
-        const stored = localStorage.getItem(ACCOUNTS_STORAGE_KEY);
-        const defaultAccounts = [
-            { id: 'acc-main', name: 'Main Account', type: 'checking' },
-            { id: 'acc-savings', name: 'Savings', type: 'savings' },
-            { id: 'acc-cash', name: 'Cash Wallet', type: 'cash' }
-        ];
-
-        if (!stored) {
-            return defaultAccounts;
-        }
-
-        try {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-                return parsed;
-            }
-        } catch (error) {
-            console.error('Invalid accounts in storage, falling back to defaults.', error);
-        }
-
-        return defaultAccounts;
-    }
-
-    function renderEditAccountOptions() {
-        const currentValue = editTransactionAccount.value;
-        editTransactionAccount.innerHTML = '';
-
-        accounts.forEach(account => {
-            const option = new Option(account.name, account.id);
-            editTransactionAccount.add(option);
-        });
-
-        editTransactionAccount.value = accounts.some(account => account.id === currentValue)
-            ? currentValue
-            : accounts[0].id;
-    }
-
-    function syncDashboardTransactionAccounts() {
-        document.querySelectorAll('.transaction-item').forEach(item => {
-            const accountId = item.dataset.accountId;
-            const account = accounts.find(entry => entry.id === accountId);
-            const accountBadge = item.querySelector('.transaction-account');
-
-            if (accountBadge && account) {
-                accountBadge.textContent = account.name;
-            }
-        });
-    }
-
-    renderEditAccountOptions();
-    syncDashboardTransactionAccounts();
-
-</script>
+<!-- FEATURES -->
+<script src="../js/features/dashboard/dashboard_ui.js"></script>
 </body>
 </html>

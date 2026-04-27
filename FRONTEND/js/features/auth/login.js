@@ -14,7 +14,7 @@ async function login(e){
     const password = form_data.get('password')
 
     try{
-        const res = await fetch('/users/login', {
+        const res = await fetch('/api/users/login', {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json'

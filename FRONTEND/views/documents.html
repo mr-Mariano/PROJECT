@@ -18,11 +18,19 @@
       rel="stylesheet"
       href="../styles/documents.css"
     />
+
     <link
       rel="stylesheet"
       href="../styles/modals.css"
     />
-   <script src="../js/env.js"></script>
+
+  <!-- CONFIG -->
+  <script src="../js/env.js"></script>
+
+  <!-- API -->
+  <script src="../js/api.js"></script>
+
+
   </head>
   <body>
     <div
@@ -589,31 +597,7 @@
     </div>
 
     <script>
-      const hamburgerBtn = document.getElementById('hamburgerBtn');
-      const sidebar = document.getElementById('sidebar');
-      const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-      hamburgerBtn.addEventListener('click', () => {
-        hamburgerBtn.classList.toggle('active');
-        sidebar.classList.toggle('mobile-open');
-        sidebarOverlay.classList.toggle('active');
-      });
-
-      sidebarOverlay.addEventListener('click', () => {
-        hamburgerBtn.classList.remove('active');
-        sidebar.classList.remove('mobile-open');
-        sidebarOverlay.classList.remove('active');
-      });
-
-      document.querySelectorAll('.nav-item').forEach((link) => {
-        link.addEventListener('click', () => {
-          if (window.innerWidth <= 768) {
-            hamburgerBtn.classList.remove('active');
-            sidebar.classList.remove('mobile-open');
-            sidebarOverlay.classList.remove('active');
-          }
-        });
-      });
+      initialize_sidebar_navigation();
 
       const chooseFilesBtn = document.getElementById('chooseFilesBtn');
       const fileInput = document.getElementById('fileInput');

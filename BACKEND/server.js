@@ -3,8 +3,7 @@ import dotenv from 'dotenv'
 import path from 'path'
 import { api_router } from "./routes/api.js";
 import { __dirname } from "./env.js";
-import users from "./routes/users.js";
-
+import { views_router } from "./routes/views.js";
 
 dotenv.config()
 
@@ -19,12 +18,11 @@ const app = express()
 // Serve Static Files
 app.use(express.static(path.join(__dirname, '../FRONTEND')))
 
+// Views
+app.use('/', views_router)
 
 // API
-app.use(api_router)
-
-// Routes
-app.use('/users', users)
+app.use('/api', api_router)
 
 
 app.listen(PORT, () => { console.log(`Server Running on Port: ${PORT}`)} )

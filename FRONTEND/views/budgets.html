@@ -9,7 +9,12 @@
     <link rel="stylesheet" href="../styles/budgets.css">
     <link rel="stylesheet" href="../styles/transactions.css">
 
+    <!-- CONFIG -->
     <script src="../js/env.js"></script>
+
+    <!-- API -->
+    <script src="../js/api.js"></script>
+
 </head>
 <body>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -354,7 +359,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Create New Budget</h3>
-                <button class="modal-close" onclick="closeModal('createBudgetModal')">×</button>
+                <button class="modal-close" onclick="close_modal('createBudgetModal')">×</button>
             </div>
             <div>
                 <form id="createBudgetForm" class="modal-body">
@@ -380,7 +385,7 @@
                 </form>
             </div>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('createBudgetModal')">Cancel</button>
+                <button class="btn-secondary" onclick="close_modal('createBudgetModal')">Cancel</button>
                 <button class="btn-primary" onclick="createBudget()">Create Budget</button>
             </div>
         </div>
@@ -391,7 +396,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Edit Budget</h3>
-                <button class="modal-close" onclick="closeModal('editBudgetModal')">×</button>
+                <button class="modal-close" onclick="close_modal('editBudgetModal')">×</button>
             </div>
             <form class="modal-body">
                 <div class="form-group">
@@ -415,7 +420,7 @@
                 </div>
             </form>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('editBudgetModal')">Cancel</button>
+                <button class="btn-secondary" onclick="close_modal('editBudgetModal')">Cancel</button>
                 <button class="btn-primary">Save Changes</button>
             </div>
         </div>
@@ -432,60 +437,21 @@
                 <p style="color: var(--muted-foreground); font-size: 0.875rem; margin-top: 0.5rem;">This action cannot be undone.</p>
             </div>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('deleteBudgetModal')">Cancel</button>
+                <button class="btn-secondary" onclick="close_modal('deleteBudgetModal')">Cancel</button>
                 <button class="btn-danger">Delete</button>
             </div>
         </div>
     </div>
 
     <script>
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        initialize_sidebar_navigation();
 
-        // Toggle sidebar on hamburger button click
-        hamburgerBtn.addEventListener('click', () => {
-            hamburgerBtn.classList.toggle('active');
-            sidebar.classList.toggle('mobile-open');
-            sidebarOverlay.classList.toggle('active');
-        });
 
-        // Close sidebar when clicking overlay
-        sidebarOverlay.addEventListener('click', () => {
-            hamburgerBtn.classList.remove('active');
-            sidebar.classList.remove('mobile-open');
-            sidebarOverlay.classList.remove('active');
-        });
 
-        // Close sidebar when clicking on a nav link
-        document.querySelectorAll('.nav-item').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburgerBtn.classList.remove('active');
-                sidebar.classList.remove('mobile-open');
-                sidebarOverlay.classList.remove('active');
-            });
-        });
 
-        // Close modals when clicking outside content
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal(modal.id);
-                }
-            });
-        });
-
-        // Modal functions
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
 
         document.getElementById("createBudgetBtn").addEventListener('click', () => {
-            openModal('createBudgetModal');
+            open_modal('createBudgetModal');
         });
 
         // Open Edit Budget Modal
@@ -493,13 +459,13 @@
             document.getElementById('editBudgetName').value = budgetName;
             document.getElementById('editBudgetLimit').value = budgetLimit.replace('$', '');
             document.getElementById('editBudgetCategory').value = category;
-            openModal('editBudgetModal');
+            open_modal('editBudgetModal');
         }
 
         // Open Delete Budget Modal
         function openDeleteBudgetModal(budgetName) {
             document.getElementById('deleteBudgetName').textContent = budgetName;
-            openModal('deleteBudgetModal');
+            open_modal('deleteBudgetModal');
         }
 
         
