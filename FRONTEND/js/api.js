@@ -1,35 +1,154 @@
-async function get_transactions({limit = 5, page = 1, category, account, search} = {}){
+async function fetch_with_auth(url, options = {}) {
+    const token = sessionStorage.getItem('token')
+    const res = await fetch(url, {
+        ...options,
+        headers: {
+            ...(options.headers || {}),
+            ...(token && { Authorization: `Bearer ${token}` })
+        }
+    })
 
-    // This is a JS API to create query Parameters easily
-    // the ...() is for evaluating, if category is truthy then it uses the one given if not then it unpacks nothing
+    if (res.status === 401) {
+        sessionStorage.removeItem('token')
+        window.location.href = '/login.html'
+    }
+
+    return res
+}
+
+
+// ===== HELPER =====
+async function handle_response(res, defaultMessage = 'Request failed') {
+    const text = await res.text()
+    const data = text ? JSON.parse(text) : {}
+
+    if (!res.ok) {
+        throw new Error(data.message || defaultMessage)
+    }
+
+    return data
+}
+
+
+// ================= TRANSACTIONS =================
+async function get_transactions({ limit = 5, page = 1, category, account, search } = {}) {
     const params = new URLSearchParams({
         limit, page,
         ...(category && { category }),
         ...(account && { account }),
-        ...(search && { search })
+        ...(search && { search }),
     })
 
-    const res = await fetch(`/api/transactions?${params}`)
-
-    if(!res.ok){ throw new Error('Error in Fetching the Transactions')}
-
-    const data = await res.json()
-    return data
+    const res = await fetch_with_auth(`/api/transactions?${params}`)
+    return handle_response(res, 'Error getting the transactions')
 }
 
-async function get_accounts(){
-    const res = await fetch("/api/accounts")
+async function create_transaction(data) {
+    const { title, amount, categoryId, accountId } = data
 
-    if(!res.ok){ throw new Error('Error in Fetching the Accounts')}
-    const data = await res.json()
+    if (!title) throw new Error('Title is required')
+    if (amount === null || amount === undefined || amount === '') throw new Error('Amount is required')
+    if (!categoryId) throw new Error('Category is required')
+    if (!accountId) throw new Error('Account is required')
+
+    const res = await fetch_with_auth('/api/transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+
+    return handle_response(res, 'Error creating transaction')
+}
+
+async function update_transaction(id, data) {
+    const res = await fetch_with_auth(`/api/transactions/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+
+    return handle_response(res, 'Error updating transaction')
+}
+
+
+async function delete_transaction_api(id) {
+    const res = await fetch_with_auth(`/api/transactions/${id}`, {
+        method: 'DELETE',
+    })
+
+    return handle_response(res, 'Error deleting transaction')
+}
+
+
+// ================= ACCOUNTS =================
+async function get_accounts() {
+    const res = await fetch_with_auth('/api/accounts')
+    const data = await handle_response(res, 'Error getting accounts')
     return data.accounts
 }
 
-async function get_categories(){
-    const res = await fetch("/api/categories")
+async function create_account(data) {
+    const res = await fetch_with_auth('/api/accounts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
 
-    if(!res.ok){ throw new Error('Error in Fetching the Categories')}
-    const data = await res.json()
+    return handle_response(res, 'Error creating account')
+}
+
+async function update_account(id, data) {
+    const res = await fetch_with_auth(`/api/accounts/${id}`, {
+        method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+
+    return handle_response(res, 'Error updating account')
+}
+
+async function delete_account(id) {
+    const res = await fetch_with_auth(`/api/accounts/${id}`, {
+        method: 'DELETE',
+    })
+
+    return handle_response(res, 'Error deleting account')
+}
+
+
+// ================= CATEGORIES =================
+async function get_categories() {
+    const res = await fetch_with_auth('/api/categories')
+    const data = await handle_response(res, 'Error getting categories')
     return data.categories
 }
 
+async function create_category(data) {
+    const res = await fetch_with_auth('/api/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+
+    const data_response = await handle_response(res, 'Error creating category')
+    return data_response.category
+}
+
+async function update_category(id, data) {
+    const res = await fetch_with_auth(`/api/categories/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+
+    const data_response = await handle_response(res, 'Error updating category')
+    return data_response.category
+}
+
+async function delete_category(id) {
+    const res = await fetch_with_auth(`/api/categories/${id}`, {
+        method: 'DELETE',
+    })
+
+    return handle_response(res, 'Error deleting category')
+}

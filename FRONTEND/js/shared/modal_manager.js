@@ -24,6 +24,14 @@ function bind_modal_backdrop_close() {
     });
 }
 
+function bind_modal_open_buttons() {
+    document.querySelectorAll('[data-modal-open]').forEach((button) => {
+        button.addEventListener('click', () => {
+            open_modal(button.dataset.modalOpen);
+        });
+    });
+}
+
 function bind_modal_close_buttons() {
     document.querySelectorAll('[data-modal-close]').forEach((button) => {
         button.addEventListener('click', () => {
@@ -43,5 +51,6 @@ function bind_modal_esc_close() {
 document.addEventListener('DOMContentLoaded', () => {
     bind_modal_backdrop_close();
     bind_modal_close_buttons();
+    bind_modal_open_buttons();
     bind_modal_esc_close();
 });

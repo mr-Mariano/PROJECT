@@ -226,35 +226,36 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 0;
-    height: 36px;
+    border-radius: var(--radius-sm);
+    background-color: var(--card);
+    border: 1px solid var(--border);
 }
 
 .filter-btn {
+    border: none;
+    background: transparent;
     padding: 0.5rem 1rem;
-    height: 100%;
-    border-radius: var(--radius-sm);  
     display: flex;
     align-items: center;
-    font-size: 0.875rem;
-    background-color: var(--card);
-    border: 1px solid var(--border);
-    color: var(--foreground);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.filter-btn-group:has(.filter-settings-btn) {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    background-color: var(--card);
+    gap: 0.45rem;
 }
 
 .filter-btn-group:has(.filter-settings-btn) .filter-btn {
-    border: none;
     border-right: 1px solid var(--border);
-    border-radius: 0;
+    border-top-left-radius: var(--radius-sm);
+    border-bottom-left-radius: var(--radius-sm);
+}
+
+.filter-settings-btn {
+    border: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--card);
+    color: white;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
 .filter-btn:hover {
@@ -268,21 +269,6 @@
     border-color: var(--primary);
 }
 
-.filter-settings-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    background-color: var(--card);
-    border: none;
-    border-radius: 0;
-    color: var(--muted-foreground);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
 
 .filter-settings-btn:hover {
     background-color: var(--accent);
@@ -315,6 +301,7 @@
     z-index: 10;
     min-width: 140px;
 }
+
 
 .category-settings-menu.active {
     opacity: 1;
@@ -383,6 +370,18 @@
 
 .btn-create-category:active {
     transform: translateY(0);
+}
+
+.category-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6em;
+    height: 1.6em;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    flex-shrink: 0;
+
 }
 
 .btn-create-category-icon {
@@ -521,7 +520,7 @@
 }
 
 /* Full Transactions Page */
-.transactions-list-full {
+.transactions-container {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;

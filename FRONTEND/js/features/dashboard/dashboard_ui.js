@@ -1,104 +1,163 @@
+// ================= GLOBAL STATE =================
 let currentEditingDashboardTransaction = null
 let pendingDeleteDashboardTransaction = null
+
 let currentPage = 1
 const LIMIT = 5
 
 let allTransactions = []
 let dashboardTransactions = []
+let prevTransactions = []
 
-document.addEventListener('DOMContentLoaded', async () => {
-    initialize_sidebar_navigation();
-    bind_dashboard_transaction_actions();
-    await init();
-});
+// ====== UTILS ==========
+function get_current_month_range(){
+    const now = new Date()
 
+    const from = new Date(now.getFullYear(), now.getMonth(), 1)
+    const to = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59)
+
+    return {
+        from: from.toISOString(),
+        to: to.toISOString()
+    }
+}
+
+function get_previous_month_range(){
+    const now = new Date()
+    const from = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    const to = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59)
+    return {
+        from: from.toISOString(),
+        to: to.toISOString()
+    }
+}
+
+function calculate_total(transactions){
+    return transactions.reduce((acc, tx) => acc + tx.amount, 0)
+}
 
 // ================= INIT =================
+document.addEventListener('DOMContentLoaded', async () => {
+    initialize_sidebar_navigation()
+    bind_dashboard_transaction_actions()
+    await init()
+})
+
+
+// ================= MAIN INIT =================
 async function init(){
 
-    const { transactions, total, page, limit } = await get_transactions({
-        limit: LIMIT,
-        page: currentPage
-    })
+    await refresh_transactions_only()
 
-    dashboardTransactions = transactions
-    render_transactions(transactions)
-    render_pagination({ total, page, limit })
+    const currentRange = get_current_month_range()
+    const prevRange = get_previous_month_range()
+
+    const [currentRes, prevRes] = await Promise.all([
+        get_transactions({ limit: 1000, ...currentRange }),
+        get_transactions({ limit: 1000, ...prevRange })
+    ])
+
+    const currentTx = currentRes.transactions
+    const prevTx = prevRes.transactions
+
+    const currentTotal = calculate_total(currentTx)
+    const prevTotal = calculate_total(prevTx)
+
+    const diff = currentTotal - prevTotal
+
+    allTransactions = currentTx
+    prevTransactions = prevTx
+
+    render_balance(currentTx, diff)
+    render_income(currentTx)
+    render_expenses(currentTx)
+    render_chart(currentTx)
+}
 
 
-    if (allTransactions.length === 0){
-        const res = await get_transactions({ limit: 1000 })
-        allTransactions = res.transactions
+// ================= PARTIAL REFRESH =================
+async function refresh_transactions_only(){
+    const loader = document.getElementById('transactionsLoader')
+    const container = document.getElementById('transactions-container')
+
+    loader.style.display = 'block'
+    container.innerHTML = ''
+
+    try {
+        const { transactions, total, page, limit } = await get_transactions({
+            limit: LIMIT,
+            page: currentPage
+        })
+        dashboardTransactions = transactions
+        render_transactions(transactions)
+        render_pagination({ total, page, limit })
+    } catch (err) {
+        container.innerHTML = `<p style="color:red;">Error loading transactions</p>`
+    } finally {
+        loader.style.display = 'none'
     }
-
-
-    render_balance(allTransactions)
-    render_income(allTransactions)
-    render_expenses(allTransactions)
-    render_chart(allTransactions)
 }
 
 
 // ================= RENDER =================
 function render_transactions(transactions){
-    const container = document.getElementById('recent-transactions-list')
+    const container = document.getElementById('transactions-container')
     if (!container) return
+
     container.innerHTML = ''
     render_transaction_list(transactions, container, { useDataActions: true })
 }
 
-function render_balance(transactions){
-    const total = transactions.reduce((acc, curr) => acc + curr.amount, 0);
 
-    const total_balance = document.getElementById('dashboardTotalBalance')
-    if (!total_balance) return
 
-    total_balance.textContent = `$${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+// ================= METRICS =================
+function render_balance(transactions, diff = 0){
+    const total = transactions.reduce((acc, curr) => acc + curr.amount, 0)
 
-    const trendIcon = document.querySelector('.balance-trend svg')
-    const trendText = document.querySelector('.balance-trend span')
+    const el = document.getElementById('dashboardTotalBalance')
+    const trendEl = document.querySelector('.balance-trend')
 
-    if (trendIcon) {
-        trendIcon.style.transform = total >= 0 ? 'rotate(0deg)' : 'rotate(180deg)'
-        trendIcon.style.color = total >= 0 ? '' : 'red'
-    }
+    if (!el) return
 
-    if (trendText) {
-        trendText.textContent = total >= 0 ? 'Positive balance' : 'Negative balance'
-        trendText.style.color = total >= 0 ? '' : 'red'
+    el.textContent = `$${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+
+    if (!trendEl) return
+
+    if (diff >= 0){
+        trendEl.innerHTML = `↑ +${diff.toFixed(2)} from last month`
+        trendEl.style.color = '#22c55e'
+    } else {
+        trendEl.innerHTML = `↓ ${Math.abs(diff).toFixed(2)} from last month`
+        trendEl.style.color = '#ef4444'
     }
 }
 
 function render_income(transactions){
-    const total = transactions.reduce((acc, curr) => curr.amount > 0 ? acc + curr.amount : acc, 0);
+    const total = transactions.reduce((acc, curr) => curr.amount > 0 ? acc + curr.amount : acc, 0)
 
-    const income_element = document.getElementById('dashboardIncomeTotal')
-    if (!income_element) return
-
-    income_element.textContent = `$${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+    document.getElementById('dashboardIncomeTotal').textContent =
+        `$${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
 }
 
 function render_expenses(transactions){
-    const total = transactions.reduce((acc, curr) => curr.amount < 0 ? acc + curr.amount : acc, 0);
+    const total = transactions.reduce((acc, curr) => curr.amount < 0 ? acc + curr.amount : acc, 0)
 
-    const expenses_element = document.getElementById('dashboardExpensesTotal')
-    if (!expenses_element) return
-
-    expenses_element.textContent = `$${Math.abs(total).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+    document.getElementById('dashboardExpensesTotal').textContent =
+        `$${Math.abs(total).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
 }
 
+
+// ================= CHART =================
 function render_chart(transactions){
     const canvas = document.getElementById('spendingTrendChart')
     if (!canvas) return
 
     const ctx = canvas.getContext('2d')
 
-    // Destroy previous chart if exists
     if (window.dashboardChart) {
         window.dashboardChart.destroy()
     }
 
-    // ===== GROUP BY MONTH =====
     const monthlyMap = {}
 
     transactions.forEach(tx => {
@@ -107,14 +166,11 @@ function render_chart(transactions){
         const date = new Date(tx.date)
         const key = `${date.getFullYear()}-${date.getMonth()}`
 
-        if (!monthlyMap[key]) {
-            monthlyMap[key] = 0
-        }
+        if (!monthlyMap[key]) monthlyMap[key] = 0
 
         monthlyMap[key] += tx.amount
     })
 
-    // Convert to arrays
     const sortedKeys = Object.keys(monthlyMap).sort((a, b) => new Date(a) - new Date(b))
 
     const labels = sortedKeys.map(key => {
@@ -124,15 +180,13 @@ function render_chart(transactions){
 
     const data = sortedKeys.map(key => monthlyMap[key])
 
-    // ===== CREATE CHART =====
     window.dashboardChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
+            labels,
             datasets: [{
-
                 label: 'Monthly Balance',
-                data: data,
+                data,
                 fill: true,
                 tension: 0.4,
                 borderWidth: 3,
@@ -148,13 +202,9 @@ function render_chart(transactions){
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false }
-            },
+            plugins: { legend: { display: false } },
             scales: {
-                x: {
-                    grid: { display: false }
-                },
+                x: { grid: { display: false } },
                 y: {
                     ticks: {
                         callback: (value) => `$${value}`
@@ -165,69 +215,65 @@ function render_chart(transactions){
     })
 }
 
-function render_pagination({total, page, limit}){
+
+// ================= PAGINATION =================
+function render_pagination({ total, page, limit }){
     const container = document.getElementById('pagination')
     if (!container) return
 
     container.innerHTML = ''
 
-    // PREV
-    if (currentPage > 1){
+    if (page > 1){
         const prev = document.createElement('button')
         prev.textContent = 'Prev'
-        prev.onclick = () => {
+        prev.onclick = async () => {
             currentPage--
-            init()
+            await refresh_transactions_only()
         }
         container.appendChild(prev)
     }
 
-    // PAGE LABEL
-    const page_span = document.createElement('span')
-    page_span.textContent = ` Page ${currentPage} `
-    container.appendChild(page_span)
+    const span = document.createElement('span')
+    span.textContent = ` Page ${page} `
+    container.appendChild(span)
 
-    // NEXT (solo si probablemente hay más)
     if (page * limit < total){
         const next = document.createElement('button')
         next.textContent = 'Next'
-        next.onclick = () => {
+        next.onclick = async () => {
             currentPage++
-            init()
+            await refresh_transactions_only()
         }
-
         container.appendChild(next)
     }
 }
 
+
 // ================= EVENTS =================
-function bind_dashboard_transaction_actions() {
-    const list = document.getElementById('recent-transactions-list')
+function bind_dashboard_transaction_actions(){
+    const list = document.getElementById('transactions-container')
 
-    if (list) {
-        list.addEventListener('click', (e) => {
-            const btn = e.target.closest('[data-transaction-action]')
-            if (!btn) return
+    list.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-transaction-action]')
+        if (!btn) return
 
-            const item = btn.closest('.transaction-item')
+        const item = btn.closest('.transaction-item')
 
-            if (btn.dataset.transactionAction === 'edit') {
-                open_edit_modal(item)
-            }
+        if (btn.dataset.transactionAction === 'edit'){
+            open_edit_modal(item)
+        }
 
-            if (btn.dataset.transactionAction === 'delete') {
-                open_delete_modal(item)
-            }
-        })
-    }
+        if (btn.dataset.transactionAction === 'delete'){
+            open_delete_modal(item)
+        }
+    })
 
-    const form = document.getElementById('editTransactionForm')
-    if(form){
-        form.addEventListener('submit', save_transaction)
-    }
+    document.getElementById('editTransactionForm')
+        ?.addEventListener('submit', save_transaction)
 
-    const delete_btn = document.getElementById('confirmDeleteTransactionBtn')
-    if (delete_btn) delete_btn.addEventListener('click', delete_transaction)
+    document.getElementById('confirmDeleteTransactionBtn')
+        ?.addEventListener('click', delete_transaction)
+
 }
 
 
@@ -239,15 +285,19 @@ function open_edit_modal(item){
     if (!transaction) return
 
     currentEditingDashboardTransaction = transaction
+
     document.getElementById('editTitle').value = transaction.title
-
-    const category_select = document.getElementById('editCategory')
-    load_categories_into_select(category_select, transaction.category)
-
     document.getElementById('editAmount').value = transaction.amount
 
-    const account_select = document.getElementById('editTransactionAccount')
-    load_accounts_into_select(account_select, transaction.accountId)
+    load_categories_into_select(
+        document.getElementById('editCategory'),
+        transaction.categoryId
+    )
+
+    load_accounts_into_select(
+        document.getElementById('editTransactionAccount'),
+        transaction.accountId
+    )
 
     open_modal('editModalTransaction')
 }
@@ -255,28 +305,39 @@ function open_edit_modal(item){
 async function save_transaction(e){
     e.preventDefault()
 
-    if (!currentEditingDashboardTransaction) return
-
     const id = currentEditingDashboardTransaction.id
+    const form = new FormData(e.target)
 
-    const form_data = new FormData(e.target)
-
-    const data = {
-        title: form_data.get('editTitle'),
-        category: form_data.get('editCategory'),
-        amount: Number(form_data.get('editAmount')),
-        accountId: form_data.get('editTransactionAccount')
+    const updatedData = {
+        title: form.get('editTitle'),
+        categoryId: form.get('editCategory'),
+        amount: Number(form.get('editAmount')),
+        accountId: form.get('editTransactionAccount')
     }
 
-    await fetch(`/api/transactions/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    })
+    const response = await update_transaction(id, updatedData)
+    const updatedTx = response.transaction || response
 
+    allTransactions = allTransactions.map(tx =>
+        tx.id === id ? updatedTx : tx
+    )
+
+    dashboardTransactions = dashboardTransactions.map(tx =>
+        tx.id === id ? updatedTx : tx
+    )
+
+    render_transactions(dashboardTransactions)
+    const currentTotal = calculate_total(allTransactions)
+    const prevTotal = calculate_total(prevTransactions)
+    const diff = currentTotal - prevTotal
+
+    render_balance(allTransactions, diff)
+    render_income(allTransactions)
+    render_expenses(allTransactions)
+    render_chart(allTransactions)
     close_modal('editModalTransaction')
-    await init()
 }
+
 
 
 // ================= DELETE =================
@@ -286,18 +347,31 @@ function open_delete_modal(item){
 }
 
 async function delete_transaction(){
-    if (!pendingDeleteDashboardTransaction) return
-
     const id = pendingDeleteDashboardTransaction.dataset.id
 
-    await fetch(`/api/transactions/${id}`, { method: 'DELETE' })
+    await delete_transaction_api(id)
+    allTransactions = allTransactions.filter(tx => tx.id !== id)
 
+    const isLastItemOnPage = dashboardTransactions.length === 1 && currentPage > 1
+    if (isLastItemOnPage) {
+        currentPage--
+    }
+
+    await refresh_transactions_only()
+    const currentTotal = calculate_total(allTransactions)
+    const prevTotal = calculate_total(prevTransactions)
+    const diff = currentTotal - prevTotal
+
+    render_balance(allTransactions, diff)
+    render_income(allTransactions)
+    render_expenses(allTransactions)
+    render_chart(allTransactions)
     close_modal('deleteModalTransaction')
-    await init()
 }
 
 
-// ================= ACCOUNTS =================
+
+// ================= SELECT HELPERS =================
 async function load_accounts_into_select(select, selectedId){
     const accounts = await get_accounts()
 
@@ -313,17 +387,17 @@ async function load_accounts_into_select(select, selectedId){
     select.value = selectedId
 }
 
-async function load_categories_into_select(select, selectedCategory){
+async function load_categories_into_select(select, selectedId){
     const categories = await get_categories()
 
     select.innerHTML = ''
 
     categories.forEach(cat => {
         const option = document.createElement('option')
-        option.value = cat.name
+        option.value = cat.id
         option.textContent = cat.name
         select.appendChild(option)
     })
 
-    select.value = selectedCategory
+    select.value = selectedId
 }

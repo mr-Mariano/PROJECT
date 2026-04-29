@@ -8,24 +8,31 @@ register_form.addEventListener('submit', register)
 async function register(e){
     e.preventDefault()
 
-    const data = new FormData(e.target)
-    const name = data.get('name')
-    const email = data.get('email')
-    const password = data.get('password')
+    const form_data = new FormData(e.target)
+    const name = form_data.get('name')
+    const email = form_data.get('email')
+    const password = form_data.get('password')
+
+    if (!email || !password || !name) {
+        alert('Email,password and Name are required')
+        return
+    }
 
     try{
-        const res = await fetch('/users/register', {
+        const res = await fetch('/register', {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json'
             },
             body : JSON.stringify({ name, email, password })
         })
+        const responseData = await res.json()
+        if(!res.ok){
+            alert(responseData.message || 'Error creating user')
+            return
+        }
 
-        if(!res.ok){ alert('Something in Name, Email or Password is incorrect') }
-
-        const data = await res.json()
-        sessionStorage.setItem('user', JSON.stringify(data.user))
+        sessionStorage.setItem('token', responseData.token)
         window.location.href = BASE_URI + 'dashboard.html'
 
     }catch(err){

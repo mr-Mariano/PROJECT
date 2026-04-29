@@ -1,316 +1,422 @@
-function format_dashboard_currency(amount) {
-    const normalizedAmount = Number(amount) || 0;
-    const absoluteAmount = Math.abs(normalizedAmount).toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    });
+// ==== GLOBAL STATE ====
+let selectedAccount  = 'all'
+let selectedCategory = 'all'
 
-    return `${normalizedAmount >= 0 ? '+' : '-'}$${absoluteAmount}`;
+let accounts     = []
+let categories   = []
+let transactions = []
+
+let current_editing_transaction  = null
+let current_deleting_transaction = null
+let current_editing_category     = null
+let current_deleting_category    = null
+
+const LIMIT = 10
+let   CURRENT_PAGE = 1
+
+
+//  BOOTSTRAP
+document.addEventListener('DOMContentLoaded', () => {
+    bind_account_filter()
+    bind_category_filter_events()
+    bind_transaction_actions()
+    bind_create_transaction_form()
+    bind_edit_transaction_form()
+    bind_delete_transaction_confirm()
+    bind_create_category_form()
+    bind_edit_category_form()
+    bind_delete_category_confirm()
+    bind_create_account_form()
+
+    init()
+})
+
+async function init() {
+    await Promise.all([
+        refresh_accounts(),
+        refresh_categories(),
+    ])
+    await refresh_transactions()
 }
 
-function parse_dashboard_amount(value) {
-    if (typeof value === 'number') {
-        return value;
-    }
 
-    const normalized = String(value || '')
-        .replace(/[^0-9.-]/g, '')
-        .trim();
+//  REFRESH HELPERS
+async function refresh_transactions() {
+    const params = { limit: LIMIT, page: CURRENT_PAGE }
+    if (selectedCategory !== 'all') params.category = selectedCategory
+    if (selectedAccount  !== 'all') params.account  = selectedAccount
 
-    if (!normalized) {
-        return 0;
-    }
+    const response = await get_transactions(params)
+    transactions = response.transactions
+    const { total, page, limit } = response
 
-    return Number(normalized);
+    const container = document.getElementById('transactions-container')
+    render_transaction_list(transactions, container, { itemClass: 'transaction-item-full' })
+    render_pagination({ total, page, limit })
 }
 
-function create_dashboard_transaction_item(transaction) {
-    const transactionItem = document.createElement('div');
-    transactionItem.classList.add('transaction-item');
-    transactionItem.dataset.transactionId = transaction.id || '';
-    transactionItem.dataset.accountId = transaction.accountId || '';
+async function refresh_accounts() {
+    accounts = await get_accounts()
 
-    const transactionInfo = document.createElement('div');
-    transactionInfo.classList.add('transaction-info');
+    const filter_dropdown = document.getElementById('accountFilterSelect')
+    filter_dropdown.innerHTML = '<option value="all">All Accounts</option>'
+    accounts.forEach(acc => {
+        const opt = document.createElement('option')
+        opt.value       = acc.id
+        opt.textContent = acc.name
+        filter_dropdown.appendChild(opt)
+    })
+    filter_dropdown.value = selectedAccount
 
-    const transactionTitle = document.createElement('p');
-    transactionTitle.classList.add('transaction-title');
-    transactionTitle.textContent = transaction.title || '';
-
-    const transactionMeta = document.createElement('div');
-    transactionMeta.classList.add('transaction-meta');
-
-    const transactionDate = document.createElement('span');
-    transactionDate.classList.add('transaction-date');
-    transactionDate.textContent = transaction.date || '';
-
-    const transactionCategory = document.createElement('span');
-    transactionCategory.classList.add('transaction-category');
-    transactionCategory.textContent = transaction.category || '';
-
-    const transactionAccount = document.createElement('span');
-    transactionAccount.classList.add('transaction-account');
-    transactionAccount.textContent = transaction.account || '';
-
-    transactionMeta.appendChild(transactionDate);
-    transactionMeta.appendChild(transactionCategory);
-    transactionMeta.appendChild(transactionAccount);
-    transactionInfo.appendChild(transactionTitle);
-    transactionInfo.appendChild(transactionMeta);
-
-    const transactionAmount = document.createElement('p');
-    transactionAmount.classList.add('transaction-amount');
-    const normalizedAmount = parse_dashboard_amount(transaction.amount);
-    if (normalizedAmount > 0) {
-        transactionAmount.classList.add('positive');
-    }
-    transactionAmount.textContent = format_dashboard_currency(normalizedAmount);
-
-    const transactionActions = document.createElement('div');
-    transactionActions.classList.add('transaction-actions');
-
-    const editButton = document.createElement('button');
-    editButton.type = 'button';
-    editButton.classList.add('action-btn', 'edit-btn');
-    editButton.dataset.transactionAction = 'edit';
-    editButton.setAttribute('aria-label', 'Edit transaction');
-    editButton.innerHTML = `
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-        </svg>
-    `;
-
-    const deleteButton = document.createElement('button');
-    deleteButton.type = 'button';
-    deleteButton.classList.add('action-btn', 'delete-btn');
-    deleteButton.dataset.transactionAction = 'delete';
-    deleteButton.setAttribute('aria-label', 'Delete transaction');
-    deleteButton.innerHTML = `
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-            <line x1="10" y1="11" x2="10" y2="17" stroke-width="2"></line>
-            <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-        </svg>
-    `;
-
-    transactionActions.appendChild(editButton);
-    transactionActions.appendChild(deleteButton);
-    transactionItem.appendChild(transactionInfo);
-    transactionItem.appendChild(transactionAmount);
-    transactionItem.appendChild(transactionActions);
-
-    return transactionItem;
+    _populate_select('createTransactionAccount', accounts)
+    _populate_select('editTransactionAccount',   accounts)
 }
 
-function render_dashboard_transactions(transactions, containerId = 'recent-transactions-list') {
-    const container = document.getElementById(containerId);
-    if (!container) {
-        return;
-    }
+async function refresh_categories() {
+    categories = await get_categories()
 
-    container.innerHTML = '';
+    const list = document.getElementById('filter-categories-container')
+    render_category_filter_buttons_list(categories, list)
 
-    const fragment = document.createDocumentFragment();
-    transactions.forEach((transaction) => {
-        fragment.appendChild(create_dashboard_transaction_item(transaction));
-    });
+    // FIX: render_category_filter_buttons_list siempre pone 'active' en "All".
+    // Restaurar el estado real de selectedCategory después de re-renderizar.
+    _sync_active_category_btn(list)
 
-    container.appendChild(fragment);
+    _populate_select('createCategory', categories)
+    _populate_select('editCategory',   categories)
 }
 
-function collect_dashboard_transactions_from_dom(containerId = 'recent-transactions-list') {
-    const container = document.getElementById(containerId);
-    if (!container) {
-        return [];
-    }
-
-    return Array.from(container.querySelectorAll('.transaction-item')).map((item) => {
-        const amountText = item.querySelector('.transaction-amount')?.textContent?.trim() || '0';
-        return {
-            id: item.dataset.transactionId || '',
-            title: item.querySelector('.transaction-title')?.textContent?.trim() || '',
-            date: item.querySelector('.transaction-date')?.textContent?.trim() || '',
-            category: item.querySelector('.transaction-category')?.textContent?.trim() || '',
-            accountId: item.dataset.accountId || '',
-            account: item.querySelector('.transaction-account')?.textContent?.trim() || '',
-            amount: parse_dashboard_amount(amountText),
-        };
-    });
+/** Marca como active el botón que coincide con selectedCategory */
+function _sync_active_category_btn(container) {
+    container.querySelectorAll('.filter-btn').forEach(btn => {
+        const matches = String(btn.dataset.category) === String(selectedCategory)
+        btn.classList.toggle('active', matches)
+    })
 }
 
-function update_dashboard_balances(transactions) {
-    const totalBalanceElement = document.getElementById('dashboardTotalBalance');
-    const incomeElement = document.getElementById('dashboardIncomeTotal');
-    const expensesElement = document.getElementById('dashboardExpensesTotal');
 
-    const income = transactions
-        .map((transaction) => parse_dashboard_amount(transaction.amount))
-        .filter((amount) => amount > 0)
-        .reduce((sum, amount) => sum + amount, 0);
+// ============================================================
+//  PAGINATION
+// ============================================================
+function render_pagination({ total, page, limit }) {
+    const container = document.getElementById('pagination')
+    if (!container) return
+    container.innerHTML = ''
 
-    const expenses = transactions
-        .map((transaction) => parse_dashboard_amount(transaction.amount))
-        .filter((amount) => amount < 0)
-        .reduce((sum, amount) => sum + Math.abs(amount), 0);
-
-    const totalBalance = income - expenses;
-
-    if (totalBalanceElement) {
-        totalBalanceElement.textContent = `$${Math.abs(totalBalance).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        })}`;
+    if (CURRENT_PAGE > 1) {
+        const prev = document.createElement('button')
+        prev.textContent = 'Prev'
+        prev.type        = 'button'
+        prev.onclick     = () => { CURRENT_PAGE--; refresh_transactions() }
+        container.appendChild(prev)
     }
 
-    if (incomeElement) {
-        incomeElement.textContent = `$${income.toLocaleString('en-US', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        })}`;
-    }
+    const label = document.createElement('span')
+    label.textContent = ` Page ${CURRENT_PAGE} `
+    container.appendChild(label)
 
-    if (expensesElement) {
-        expensesElement.textContent = `$${expenses.toLocaleString('en-US', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        })}`;
+    if (page * limit < total) {
+        const next = document.createElement('button')
+        next.textContent = 'Next'
+        next.type        = 'button'
+        next.onclick     = () => { CURRENT_PAGE++; refresh_transactions() }
+        container.appendChild(next)
     }
 }
 
-function get_last_six_months() {
-    const months = [];
-    const referenceDate = new Date();
 
-    for (let offset = 5; offset >= 0; offset -= 1) {
-        const date = new Date(referenceDate.getFullYear(), referenceDate.getMonth() - offset, 1);
-        months.push({
-            key: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`,
-            label: date.toLocaleString('en-US', { month: 'short' }),
-        });
-    }
-
-    return months;
+// ============================================================
+//  SELECT HELPER
+// ============================================================
+function _populate_select(select_id, items, selected_id = null) {
+    const select = document.getElementById(select_id)
+    if (!select) return
+    select.innerHTML = ''
+    const fragment = document.createDocumentFragment()
+    items.forEach(item => {
+        const opt = document.createElement('option')
+        opt.value       = item.id
+        opt.textContent = item.name ?? item.title
+        fragment.appendChild(opt)
+    })
+    select.appendChild(fragment)
+    if (selected_id !== null) select.value = selected_id
 }
 
-function get_month_key_from_date_label(dateLabel) {
-    const parsedDate = new Date(dateLabel);
-    if (Number.isNaN(parsedDate.getTime())) {
-        return null;
-    }
 
-    return `${parsedDate.getFullYear()}-${String(parsedDate.getMonth() + 1).padStart(2, '0')}`;
+
+function openEditTransactionModal(tx) {
+    current_editing_transaction = tx.id
+
+    document.getElementById('editTitle').value  = tx.title
+    document.getElementById('editAmount').value = tx.amount
+
+    _populate_select('editCategory',           categories, tx.categoryId)
+    _populate_select('editTransactionAccount', accounts,   tx.accountId)
+
+    open_modal('editModalTransaction')
 }
 
-function update_dashboard_chart(transactions) {
-    const canvas = document.getElementById('spendingTrendChart');
-    if (!canvas || typeof Chart === 'undefined') {
-        return;
-    }
+function openDeleteTransactionModal(tx) {
+    current_deleting_transaction = tx.id
+    document.getElementById('deleteTitle').textContent = tx.title
+    open_modal('deleteModalTransaction')
+}
 
-    const months = get_last_six_months();
-    const monthTotals = months.reduce((accumulator, month) => {
-        accumulator[month.key] = 0;
-        return accumulator;
-    }, {});
 
-    transactions.forEach((transaction) => {
-        const amount = parse_dashboard_amount(transaction.amount);
-        if (amount >= 0) {
-            return;
+//  TRANSACTION FORM BINDINGS
+function bind_create_transaction_form() {
+    document.getElementById('createTransactionForm')
+        .addEventListener('submit', async (e) => {
+            e.preventDefault()
+            const form = e.target
+            const formData = new FormData(form)
+
+            const categoryId = formData.get('category')
+            const accountId  = formData.get('account')
+
+            try {
+                console.log({
+                    title: formData.get('title'),
+                    amount: formData.get('amount'),
+                    categoryId: formData.get('category'),
+                    accountId: formData.get('account')
+                })
+                await create_transaction({
+                    title:      formData.get('title').trim(),
+                    amount:     parseFloat(formData.get('amount')),
+                    categoryId,
+                    accountId
+                })
+                close_modal('createModalTransaction')
+                form.reset()
+                CURRENT_PAGE = 1
+                await refresh_transactions()
+            } catch (err) {
+                alert(err.message)
+            }
+        })
+}
+
+function bind_edit_transaction_form() {
+    document.getElementById('editTransactionForm')
+        .addEventListener('submit', async (e) => {
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            const title = formData.get('editTitle')
+            const amount = formData.get('editAmount')
+            const category = formData.get('editCategory')
+            const account = formData.get('editTransactionAccount')
+
+            const parsedAmount = Number(amount)
+
+            if (isNaN(parsedAmount)) {
+                alert('Invalid amount')
+                return
+            }
+
+            try {
+                await update_transaction(current_editing_transaction, {
+                    title,
+                    amount: parsedAmount,
+                    categoryId: category,
+                    accountId: account
+                })
+
+                close_modal('editModalTransaction')
+                current_editing_transaction = null
+                await refresh_transactions()
+
+            } catch (err) {
+                alert(err.message)
+            }
+        })
+}
+
+function bind_delete_transaction_confirm() {
+    document.getElementById('confirmDeleteTransactionBtn')
+        .addEventListener('click', async () => {
+            try {
+                await delete_transaction_api(current_deleting_transaction)
+                close_modal('deleteModalTransaction')
+                current_deleting_transaction = null
+                if (transactions.length === 1 && CURRENT_PAGE > 1) CURRENT_PAGE--
+                await refresh_transactions()
+            } catch (err) {
+                alert(err.message)
+            }
+        })
+}
+
+
+//  CATEGORY MODALS
+function open_edit_category_modal(id) {
+    current_editing_category = id
+    const category = categories.find(cat => String(cat.id) === String(id))
+    if (!category) return
+    document.getElementById('editCategoryName').value = category.name
+    document.getElementById('editCategoryIcon').value = category.icon
+    open_modal('editModalCategory')
+}
+
+function open_delete_category_modal(id) {
+    current_deleting_category = id
+    const category = categories.find(cat => String(cat.id) === String(id))
+    if (!category) return
+    document.getElementById('categoryNameToDelete').textContent = category.name
+    open_modal('deleteModalCategory')
+}
+
+
+//  CATEGORY FORM BINDINGS
+function bind_create_category_form() {
+    document.getElementById('createCategoryForm')
+        .addEventListener('submit', async (e) => {
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            try {
+                await create_category({
+                    name: formData.get('name').trim(),
+                    icon: formData.get('icon'),
+                })
+
+                close_modal('createModalCategory')
+                await refresh_categories()
+
+            } catch (err) {
+                alert(err.message)
+            }
+        })
+}
+
+function bind_edit_category_form() {
+    document.getElementById('editCategoryForm')
+        .addEventListener('submit', async (e) => {
+            e.preventDefault()
+            const form = e.target
+            try {
+                await update_category(current_editing_category, {
+                    name: form.editName.value.trim(),
+                    icon: form.editIcon.value,
+                })
+
+                close_modal('editModalCategory')
+                current_editing_category = null
+
+                await Promise.all([
+                    refresh_categories(),
+                    refresh_transactions()
+                ])
+
+            } catch (err) {
+                alert(err.message)
+            }
+        })
+}
+
+function bind_delete_category_confirm() {
+    document.getElementById('confirmDeleteCategoryBtn')
+        .addEventListener('click', async () => {
+            if (!current_deleting_category) return
+            const deletedId = current_deleting_category
+            const btn = document.getElementById('confirmDeleteCategoryBtn')
+            btn.disabled = true
+            try {
+                await delete_category(deletedId)
+                close_modal('deleteModalCategory')
+                current_deleting_category = null
+
+                CURRENT_PAGE = 1
+
+                if (String(selectedCategory) === String(deletedId)) {
+                    selectedCategory = 'all'
+                }
+
+                await Promise.all([
+                    refresh_categories(),
+                    refresh_transactions()
+                ])
+
+            } catch (err) {
+                alert(err.message || 'Error deleting category')
+            }finally {
+                btn.disabled = false
+            }
+        })
+}
+
+
+//  FILTER BINDINGS
+function bind_account_filter() {
+    document.getElementById('accountFilterSelect')
+        .addEventListener('change', (e) => {
+            if (e.target.value === selectedAccount) return
+            selectedAccount = e.target.value
+            CURRENT_PAGE = 1
+            refresh_transactions()
+        })
+}
+
+function bind_category_filter_events() {
+    const container = document.getElementById('filter-categories-container')
+
+    container.addEventListener('click', (e) => {
+        const settingsBtn = e.target.closest('.filter-settings-btn')
+        if (settingsBtn) {
+            const menu   = settingsBtn.closest('.filter-btn-group').querySelector('.category-settings-menu')
+            const isOpen = menu.classList.contains('active')
+            container.querySelectorAll('.category-settings-menu').forEach(m => m.classList.remove('active'))
+            if (!isOpen) menu.classList.add('active')
+            return
         }
 
-        const monthKey = get_month_key_from_date_label(transaction.date);
-        if (!monthKey || !(monthKey in monthTotals)) {
-            return;
+        const editBtn = e.target.closest('.edit-mini')
+        if (editBtn) {
+            container.querySelectorAll('.category-settings-menu').forEach(m => m.classList.remove('active'))
+            open_edit_category_modal(editBtn.dataset.categoryId)
+            return
         }
 
-        monthTotals[monthKey] += Math.abs(amount);
-    });
+        const deleteBtn = e.target.closest('.delete-mini')
+        if (deleteBtn) {
+            container.querySelectorAll('.category-settings-menu').forEach(m => m.classList.remove('active'))
+            open_delete_category_modal(deleteBtn.dataset.categoryId)
+            return
+        }
 
-    const labels = months.map((month) => month.label);
-    const values = months.map((month) => monthTotals[month.key]);
+        container.querySelectorAll('.category-settings-menu').forEach(m => m.classList.remove('active'))
 
-    const context = canvas.getContext('2d');
-    const gradient = context.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, 'rgba(167, 139, 250, 0.35)');
-    gradient.addColorStop(1, 'rgba(167, 139, 250, 0)');
+        const filterBtn = e.target.closest('.filter-btn')
+        if (!filterBtn) return
 
-    if (window.dashboardSpendingChart) {
-        window.dashboardSpendingChart.destroy();
-    }
+        if (e.target.closest('.category-settings-menu')) return
 
-    window.dashboardSpendingChart = new Chart(context, {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Spending',
-                data: values,
-                borderColor: 'hsl(270, 60%, 65%)',
-                backgroundColor: gradient,
-                fill: true,
-                tension: 0.35,
-                borderWidth: 3,
-                pointRadius: 4,
-                pointHoverRadius: 6,
-                pointBackgroundColor: 'hsl(270, 60%, 65%)',
-                pointBorderColor: '#1e1e1e',
-                pointBorderWidth: 2,
-            }],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false,
-                },
-                tooltip: {
-                    callbacks: {
-                        label(context) {
-                            return `$${context.parsed.y.toLocaleString()}`;
-                        },
-                    },
-                },
-            },
-            scales: {
-                x: {
-                    grid: {
-                        color: 'rgba(153, 153, 153, 0.12)',
-                    },
-                    ticks: {
-                        color: 'hsl(0, 0%, 60%)',
-                    },
-                },
-                y: {
-                    grid: {
-                        color: 'rgba(153, 153, 153, 0.12)',
-                    },
-                    ticks: {
-                        color: 'hsl(0, 0%, 60%)',
-                        callback(value) {
-                            return `$${value}`;
-                        },
-                    },
-                },
-            },
-        },
-    });
+        const newCategory = String(filterBtn.dataset.category)
+        if (newCategory === String(selectedCategory)) return
+
+        container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
+        filterBtn.classList.add('active')
+
+        selectedCategory = newCategory
+        CURRENT_PAGE = 1
+        refresh_transactions()
+    })
 }
 
-function render_dashboard_overview(transactions) {
-    update_dashboard_balances(transactions);
-    update_dashboard_chart(transactions);
-}
 
-function render_dashboard_page(transactions = get_dashboard_seed_transactions()) {
-    render_dashboard_transactions(transactions);
-    render_dashboard_overview(transactions);
-}
-
-function refresh_dashboard_from_dom(containerId = 'recent-transactions-list') {
-    const transactions = collect_dashboard_transactions_from_dom(containerId);
-    render_dashboard_overview(transactions);
+//  ACCOUNT FORM BINDINGS
+function bind_create_account_form() {
+    document.getElementById('createAccountForm')
+        .addEventListener('submit', async (e) => {
+            e.preventDefault()
+            const form = e.target
+            try {
+                await create_account({ name: form.name.value.trim() })
+                close_modal('createModalAccount')
+                form.reset()
+                await refresh_accounts()
+            } catch (err) {
+                alert(err.message)
+            }
+        })
 }

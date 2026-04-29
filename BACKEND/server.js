@@ -1,28 +1,37 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import path from 'path'
+import cors from "cors"
 import { api_router } from "./routes/api.js";
 import { __dirname } from "./env.js";
 import { views_router } from "./routes/views.js";
+import { connect } from "./db.js";
+import {auth_middleware} from "./middleware/auth.js";
+import { login_user , create_user } from "./controllers/users_controller.js";
 
 dotenv.config()
 
-// Esto es standard me imagino, no tanto algo que
-// deba memorizar, sino entender que es la forma de obtener la ruta exacta y correcta siempre
-// del frontend en este, caso, pero sería lo mismo si quisiera los archivos que están en otra
-// parte del project donde está corriendo este server js que es el /BACKEND en este caso
-
 const PORT = process.env.PORT || 3000
 const app = express()
+app.use(cors())
+app.use(express.json())
 
 // Serve Static Files
 app.use(express.static(path.join(__dirname, '../FRONTEND')))
 
-// Views
+// PUBLIC ROUTES
+app.post('/login', login_user)
+app.post('/register', create_user)
+
+// VIEWS (HTML)
 app.use('/', views_router)
 
-// API
+
+app.use('/api', auth_middleware)
 app.use('/api', api_router)
 
 
-app.listen(PORT, () => { console.log(`Server Running on Port: ${PORT}`)} )
+connect().then( () => {
+        app.listen(PORT, () => { console.log(`Server Running on Port: ${PORT}`)} )
+    }
+)

@@ -8,6 +8,10 @@ views_router.get('/', (req, res) => {
     send_views(res, 'index')
 })
 
+views_router.get('/index.html', (req, res) => {
+    send_views(res, 'index')
+})
+
 // Register
 views_router.get('/register.html', (req, res) => {
     send_views(res, 'register')
@@ -19,7 +23,7 @@ views_router.get('/dashboard.html', (req, res) => {
 })
 
 // Transactions
-views_router.get('/transactions.html', (req, res) => {
+views_router.get( '/transactions.html', (req, res) => {
     send_views(res, 'transactions')
 })
 

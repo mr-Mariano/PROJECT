@@ -1,33 +1,21 @@
 const BASE_URI = 'http://localhost:3000/'
 
-const validate_login = () => {
+function validate_login() {
+    const token = sessionStorage.getItem('token')
+    const isAuth = !!token
 
-    const isAuth = !!sessionStorage.getItem('user')
+    const path = window.location.pathname.split('/').pop()
 
-    const path = window.location.pathname
-
-    const publicRoutes = ['/', '/index.html', '/register.html']
-
-    // Si NO está autenticado y NO está en ruta pública
+    const publicRoutes = ['index.html', '', 'register.html']
 
     if (!isAuth && !publicRoutes.includes(path)) {
-
-        alert('Please Log In First')
-
-        window.location.href = '/'
-
+        window.location.href = BASE_URI + 'index.html'
         return
-
     }
-
-    // Si YA está autenticado y está en login/register
 
     if (isAuth && publicRoutes.includes(path)) {
-
-        window.location.href = '/dashboard.html'
-
+        window.location.href = BASE_URI + 'dashboard.html'
     }
-
 }
 
 validate_login()

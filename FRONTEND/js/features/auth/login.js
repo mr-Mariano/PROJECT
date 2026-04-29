@@ -14,7 +14,7 @@ async function login(e){
     const password = form_data.get('password')
 
     try{
-        const res = await fetch('/api/users/login', {
+        const res = await fetch('/login', {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json'
@@ -22,10 +22,13 @@ async function login(e){
             body : JSON.stringify({email, password})
         })
 
-        if(!res.ok) { alert('Password and/or Email Incorrect') }
+        if(!res.ok) {
+            alert('Password and/or Email Incorrect')
+            return
+        }
 
         const data = await res.json()
-        sessionStorage.setItem('user', JSON.stringify(data.user))
+        sessionStorage.setItem('token', data.token)
         window.location.href = BASE_URI + 'dashboard.html'
 
     }catch(err){
