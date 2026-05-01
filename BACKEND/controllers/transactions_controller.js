@@ -4,15 +4,27 @@ import {Account} from "../models/Account.js";
 
 function map_transaction(tx){
 
+    const category = tx.category && typeof tx.category === 'object' ? tx.category : null
+
+    const account = tx.account && typeof tx.account === 'object' ? tx.account : null
+
     return {
-        id: tx.id,
+        id: tx._id.toString(),
         title: tx.title,
         amount: tx.amount,
         date: tx.date,
-        categoryId: tx.category?._id?.toString() || tx.category?.toString(),
-        categoryName: tx.category?.name,
-        accountId: tx.account?._id?.toString() || tx.account?.toString(),
-        accountName: tx.account?.name
+        categoryId:
+            category?._id?.toString() ||
+            tx.category?.toString(),
+        categoryName:
+            category?.name || '',
+        categoryIcon:
+            category?.icon || '',
+        accountId:
+            account?._id?.toString() ||
+            tx.account?.toString(),
+        accountName:
+            account?.name || ''
     }
 }
 
@@ -40,10 +52,15 @@ export const get_transactions = async (req, res) => {
         }
     }
 
-    if (from && to) {
-        query.date = {
-            $gte: new Date(req.query.from),
-            $lte: new Date(req.query.to)
+    if (from || to) {
+        query.date = {}
+
+        if (from) {
+            query.date.$gte = new Date(from)
+        }
+
+        if (to) {
+            query.date.$lte = new Date(to)
         }
     }
 
@@ -80,30 +97,49 @@ export const create_transaction = async(req,res) => {
     }
 
     try{
-        const category = await Category.findOne({
-            _id: categoryId,
-            user: req.user._id
-        })
+        let category
+        let account
 
-        if (!category) {
-            return res.status(400).json({ message: "Invalid category" })
+        if (categoryId) {
+            category = await Category.findOne({
+                _id: categoryId,
+                user: req.user._id
+            })
+
+            if (!category) {
+                return res.status(400).json({
+                    message: 'Invalid category'
+                })
+            }
+        } else {
+            category = await get_or_create_general_category(
+                req.user._id
+            )
         }
 
-        const account = await Account.findOne({
-            _id: accountId,
-            user: req.user._id
-        })
+        if (accountId) {
+            account = await Account.findOne({
+                _id: accountId,
+                user: req.user._id
+            })
 
-        if (!account) {
-            return res.status(400).json({ message: "Invalid account" })
+            if (!account) {
+                return res.status(400).json({
+                    message: 'Invalid account'
+                })
+            }
+        } else {
+            account = await get_or_create_general_account(
+                req.user._id
+            )
         }
 
         const transaction = await Transaction.create({
             user: req.user._id,
             title,
             amount,
-            category: categoryId,
-            account: accountId
+            category: category._id,
+            account: account._id
         })
 
         return res.status(201).json({
@@ -182,4 +218,41 @@ export const delete_transaction = async(req, res) => {
     }catch(err){
         return res.status(500).json({ message : "Internal Server Error" })
     }
+}
+
+
+export async function get_or_create_general_category(userId) {
+
+    let category = await Category.findOne({
+        user: userId,
+        name: 'General'
+    })
+
+    if (!category) {
+        category = await Category.create({
+            user: userId,
+            name: 'General',
+            icon: '🧾'
+        })
+    }
+
+    return category
+}
+
+export async function get_or_create_general_account(userId) {
+
+    let account = await Account.findOne({
+        user: userId,
+        name: 'General'
+    })
+
+    if (!account) {
+
+        account = await Account.create({
+            user: userId,
+            name: 'General'
+        })
+    }
+
+    return account
 }

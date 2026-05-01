@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     bind_edit_category_form()
     bind_delete_category_confirm()
     bind_create_account_form()
+    bind_linked_category_modal_actions()
 
     init()
 })
@@ -125,14 +126,15 @@ function render_pagination({ total, page, limit }) {
 }
 
 
-// ============================================================
+
 //  SELECT HELPER
-// ============================================================
 function _populate_select(select_id, items, selected_id = null) {
     const select = document.getElementById(select_id)
     if (!select) return
     select.innerHTML = ''
     const fragment = document.createDocumentFragment()
+
+
     items.forEach(item => {
         const opt = document.createElement('option')
         opt.value       = item.id
@@ -249,6 +251,37 @@ function bind_delete_transaction_confirm() {
 }
 
 
+function bind_linked_category_modal_actions(){
+    document.getElementById('confirmKeepTransactionsBtn')
+        ?.addEventListener('click', handle_keep_transactions_delete)
+
+    document.getElementById('confirmDeleteTransactionsBtn')
+        ?.addEventListener('click', handle_delete_transactions_delete)
+}
+
+async function handle_keep_transactions_delete(){
+    if(!current_deleting_category) return
+    const deletedId = current_deleting_category
+
+    try{
+        await delete_category_keep_transactions(deletedId)
+        close_modal('linkedCategoryModal')
+        current_deleting_category = null
+        CURRENT_PAGE = 1
+
+        if(String(selectedCategory) === String(deletedId)){
+            selectedCategory = 'all'
+        }
+
+        await Promise.all([
+            refresh_categories(),
+            refresh_transactions()
+        ])
+    }catch(err){
+        alert(err.message)
+    }
+}
+
 //  CATEGORY MODALS
 function open_edit_category_modal(id) {
     current_editing_category = id
@@ -265,6 +298,38 @@ function open_delete_category_modal(id) {
     if (!category) return
     document.getElementById('categoryNameToDelete').textContent = category.name
     open_modal('deleteModalCategory')
+}
+
+
+async function handle_delete_transactions_delete(){
+
+    if(!current_deleting_category) return
+
+    const deletedId = current_deleting_category
+
+    try{
+
+        await delete_category_with_transactions(deletedId)
+
+        close_modal('linkedCategoryModal')
+
+        current_deleting_category = null
+
+        CURRENT_PAGE = 1
+
+        if(String(selectedCategory) === String(deletedId)){
+            selectedCategory = 'all'
+        }
+
+        await Promise.all([
+            refresh_categories(),
+            refresh_transactions()
+        ])
+
+    }catch(err){
+        alert(err.message)
+    }
+
 }
 
 
@@ -322,10 +387,17 @@ function bind_delete_category_confirm() {
             const btn = document.getElementById('confirmDeleteCategoryBtn')
             btn.disabled = true
             try {
-                await delete_category(deletedId)
+                const response = await delete_category(deletedId)
+
+
+                if (response.message === 'CATEGORY_HAS_TRANSACTIONS') {
+                    close_modal('deleteModalCategory')
+                    open_modal('linkedCategoryModal')
+                    return
+                }
+
                 close_modal('deleteModalCategory')
                 current_deleting_category = null
-
                 CURRENT_PAGE = 1
 
                 if (String(selectedCategory) === String(deletedId)) {

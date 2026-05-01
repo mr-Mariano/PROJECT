@@ -14,7 +14,9 @@ function get_current_month_range(){
     const now = new Date()
 
     const from = new Date(now.getFullYear(), now.getMonth(), 1)
-    const to = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59)
+
+    const to = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+    to.setMilliseconds(-1)
 
     return {
         from: from.toISOString(),
@@ -46,7 +48,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // ================= MAIN INIT =================
 async function init(){
-
     await refresh_transactions_only()
 
     const currentRange = get_current_month_range()
@@ -59,6 +60,7 @@ async function init(){
 
     const currentTx = currentRes.transactions
     const prevTx = prevRes.transactions
+    console.log(currentTx)
 
     const currentTotal = calculate_total(currentTx)
     const prevTotal = calculate_total(prevTx)
@@ -71,7 +73,9 @@ async function init(){
     render_balance(currentTx, diff)
     render_income(currentTx)
     render_expenses(currentTx)
+
     render_chart(currentTx)
+    render_expenses_pie_chart(currentTx)
 }
 
 
@@ -84,10 +88,14 @@ async function refresh_transactions_only(){
     container.innerHTML = ''
 
     try {
+        const currentRange = get_current_month_range()
+
         const { transactions, total, page, limit } = await get_transactions({
             limit: LIMIT,
-            page: currentPage
+            page: currentPage,
+            ...currentRange
         })
+
         dashboardTransactions = transactions
         render_transactions(transactions)
         render_pagination({ total, page, limit })
@@ -149,6 +157,7 @@ function render_expenses(transactions){
 
 // ================= CHART =================
 function render_chart(transactions){
+
     const canvas = document.getElementById('spendingTrendChart')
     if (!canvas) return
 
@@ -158,63 +167,144 @@ function render_chart(transactions){
         window.dashboardChart.destroy()
     }
 
-    const monthlyMap = {}
+    const now = new Date()
 
-    transactions.forEach(tx => {
-        if (!tx.date) return
+    const currentMonthTransactions = transactions.filter(tx => {
+
+        if (!tx.date) return false
 
         const date = new Date(tx.date)
-        const key = `${date.getFullYear()}-${date.getMonth()}`
 
-        if (!monthlyMap[key]) monthlyMap[key] = 0
-
-        monthlyMap[key] += tx.amount
+        return (
+            date.getMonth() === now.getMonth() &&
+            date.getFullYear() === now.getFullYear()
+        )
     })
 
-    const sortedKeys = Object.keys(monthlyMap).sort((a, b) => new Date(a) - new Date(b))
+    const dailyMap = {}
 
-    const labels = sortedKeys.map(key => {
-        const [year, month] = key.split('-')
-        return new Date(year, month).toLocaleString('en-US', { month: 'short' })
+    currentMonthTransactions.forEach(tx => {
+
+        const date = new Date(tx.date)
+        const day = date.getDate()
+
+        if (!dailyMap[day]) {
+            dailyMap[day] = 0
+        }
+
+        dailyMap[day] = (dailyMap[day] || 0) + tx.amount
     })
 
-    const data = sortedKeys.map(key => monthlyMap[key])
+    const sortedDays = Object.keys(dailyMap)
+        .map(Number)
+        .sort((a, b) => a - b)
 
+    const labels = sortedDays.map(day => {
+        const date = new Date(now.getFullYear(), now.getMonth(), day)
+
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric'
+        })
+    })
+
+    const data = sortedDays.map(day => dailyMap[day])
+    console.log(labels)
+    console.log(data)
     window.dashboardChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels,
             datasets: [{
-                label: 'Monthly Balance',
+                label: 'Daily Flow',
                 data,
                 fill: true,
-                tension: 0.4,
+                tension: 0.35,
                 borderWidth: 3,
                 pointRadius: 4,
-                pointHoverRadius: 6,
                 borderColor: 'hsl(270, 60%, 65%)',
-                backgroundColor: 'rgba(167, 139, 250, 0.25)',
-                pointBackgroundColor: 'hsl(270, 60%, 65%)',
-                pointBorderColor: '#1e1e1e',
-                pointBorderWidth: 2
+                backgroundColor: 'rgba(167, 139, 250, 0.18)',
+                pointBackgroundColor: '#a78bfa',
+                pointBorderColor: '#a78bfa',
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { grid: { display: false } },
-                y: {
-                    ticks: {
-                        callback: (value) => `$${value}`
-                    }
+            animation : true,
+            plugins: {
+                legend: {
+                    display: false
                 }
             }
         }
     })
 }
 
+function render_expenses_pie_chart(transactions){
+
+    const canvas = document.getElementById('expensesPieChart')
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+
+    if (window.expensesPieChartInstance){
+
+        window.expensesPieChartInstance.destroy()
+
+    }
+
+    const now = new Date()
+
+    const expenses = transactions.filter(tx => {
+
+        if (!tx.date) return false
+
+        const date = new Date(tx.date)
+
+        return (
+            tx.amount < 0 &&
+            date.getMonth() === now.getMonth() &&
+            date.getFullYear() === now.getFullYear()
+        )
+    })
+
+    const categoryMap = {}
+
+    expenses.forEach(tx => {
+
+        const category = tx.categoryName || 'General'
+
+        if (!categoryMap[category]){
+            categoryMap[category] = 0
+        }
+
+        categoryMap[category] += Math.abs(tx.amount)
+    })
+
+    const labels = Object.keys(categoryMap)
+    const data = Object.values(categoryMap)
+
+    window.expensesPieChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels,
+            datasets: [{
+                data
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    })
+}
 
 // ================= PAGINATION =================
 function render_pagination({ total, page, limit }){
@@ -334,7 +424,10 @@ async function save_transaction(e){
     render_balance(allTransactions, diff)
     render_income(allTransactions)
     render_expenses(allTransactions)
+
     render_chart(allTransactions)
+    render_expenses_pie_chart(allTransactions)
+
     close_modal('editModalTransaction')
 }
 
@@ -365,7 +458,10 @@ async function delete_transaction(){
     render_balance(allTransactions, diff)
     render_income(allTransactions)
     render_expenses(allTransactions)
+
     render_chart(allTransactions)
+    render_expenses_pie_chart(allTransactions)
+
     close_modal('deleteModalTransaction')
 }
 

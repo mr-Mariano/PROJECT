@@ -127,12 +127,27 @@
                 </div>
             </div>
 
-            <!-- Spending Trend Chart -->
-            <div class="card">
-                <h3 class="card-title">Spending Trend</h3>
-                <div class="chart-placeholder">
-                    <canvas id="spendingTrendChart" class="chart-svg"></canvas>
+            <!-- Dashboard Charts -->
+            <div class="dashboard-charts-grid">
+
+                <!-- Daily Flow -->
+                <div class="card">
+                    <h3 class="card-title">Daily Cash Flow</h3>
+
+                    <div class="chart-placeholder">
+                        <canvas id="spendingTrendChart" class="chart-svg"></canvas>
+                    </div>
                 </div>
+
+                <!-- Expenses By Category -->
+                <div class="card">
+                    <h3 class="card-title">Expenses By Category</h3>
+
+                    <div class="chart-placeholder pie-chart-wrapper">
+                        <canvas id="expensesPieChart" class="chart-svg"></canvas>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Recent Transactions -->

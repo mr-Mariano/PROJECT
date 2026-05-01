@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Budgets - FinTrack</title>
-    <link rel="stylesheet" href="/styles/styles.css">
-    <link rel="stylesheet" href="/styles/modals.css">
-    <link rel="stylesheet" href="/styles/budgets.css">
-    <link rel="stylesheet" href="/styles/transactions.css">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/modals.css">
+    <link rel="stylesheet" href="../styles/budgets.css">
+    <link rel="stylesheet" href="../styles/transactions.css">
 
     <!-- CONFIG -->
-    <script src="/js/env.js"></script>
+    <script src="../js/env.js"></script>
 
     <!-- API -->
-    <script src="/js/api.js"></script>
+    <script src="../js/api.js"></script>
 
 </head>
 <body>
@@ -98,255 +98,8 @@
             </div>
 
             <!-- Budgets Grid -->
-            <div class="budgets-grid">
-                <!-- Budget Card 1 -->
-                <div class="budget-card">
-                    <div class="budget-header">
-                        <div>
-                            <h3 class="budget-name">Food & Dining</h3>
-                            <span class="transaction-category">Food</span>
-                        </div>
-                        <div class="budget-actions">
-                            <button onclick="openEditBudgetModal('Food & Dining', '$800', 'Food')" class="mini-btn edit-mini" title="Edit">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-                                </svg>
-                            </button>
-                            <button onclick="openDeleteBudgetModal('Food & Dining')" class="mini-btn delete-mini" title="Delete">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-                                    <line x1="10" y1="11" x2="10" y2="17" stroke-width="2"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="budget-limit-section">
-                            <p class="budget-limit">$800</p>
-                            <p class="budget-limit-label">limit</p>
-                        </div>
-                    </div>
+            <div class="budgets-grid" id="budgetsContainer">
 
-                    <div class="budget-progress-section">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 68%">
-                            </div>
-                        </div>
-
-                        <div class="budget-stats">
-                            <div>
-                                <p class="budget-stat">$545.00 <span class="text-muted">used</span></p>
-                            </div>
-                            <div class="budget-stat-right">
-                                <p class="text-muted">$255.00 left</p>
-                            </div>
-                        </div>
-
-                        <div class="budget-footer">
-                            <span class="text-muted">Progress</span>
-                            <span class="progress-percentage">68%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Budget Card 2 -->
-                <div class="budget-card">
-                    <div class="budget-header">
-                        <div>
-                            <h3 class="budget-name">Transportation</h3>
-                            <span class="transaction-category">Transport</span>
-                        </div>
-                        <div class="budget-actions">
-                            <button onclick="openEditBudgetModal('Transportation', '$200', 'Transport')" class="mini-btn edit-mini" title="Edit">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-                                </svg>
-                            </button>
-                            <button onclick="openDeleteBudgetModal('Transportation')" class="mini-btn delete-mini" title="Delete">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1
-    2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="budget-limit-section">
-                            <p class="budget-limit">$200</p>
-                            <p class="budget-limit-label">limit</p>
-                        </div>
-                    </div>
-
-                    <div class="budget-progress-section">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 64%"></div>
-                        </div>
-
-                        <div class="budget-stats">
-                            <div>
-                                <p class="budget-stat">$127.00 <span class="text-muted">used</span></p>
-                            </div>
-                            <div class="budget-stat-right">
-                                <p class="text-muted">$73.00 left</p>
-                            </div>
-                        </div>
-
-                        <div class="budget-footer">
-                            <span class="text-muted">Progress</span>
-                            <span class="progress-percentage">64%</span>
-                        </div>
-                  </div>
-                </div>
-
-                <!-- Budget Card 3 -->
-                <div class="budget-card">
-                    <div class="budget-header"><div>
-                        <h3 class="budget-name">Bills & Utilities</h3>
-                        <span class="transaction-category">Bills</span>
-                    </div>
-                        <div class="budget-actions">
-                            <button onclick="openEditBudgetModal('Bills & Utilities', '$400', 'Bills')" class="mini-btn edit-mini" title="Edit">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-                                </svg>
-                            </button>
-                            <button onclick="openDeleteBudgetModal('Bills & Utilities')" class="mini-btn delete-mini" title="Delete">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-                                    <line x1="10" y1="11" x2="10" y2="17" stroke-width="2"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="budget-limit-section">
-                            <p class="budget-limit">$400</p>
-                            <p class="budget-limit-label">limit</p>
-                        </div>
-                    </div>
-
-                    <div class="budget-progress-section">
-                        <div class="progress-bar">
-                            <div class="progress-fill warning" style="width: 72%"></div>
-                        </div>
-
-                        <div class="budget-stats">
-                            <div>
-                                <p class="budget-stat">$289.00 <span class="text-muted">used</span></p>
-                            </div>
-                            <div class="budget-stat-right">
-                                <p class="text-muted">$111.00 left</p>
-                            </div>
-                        </div>
-
-                        <div class="budget-footer">
-                            <span class="text-muted">Progress</span>
-                            <span class="progress-percentage warning">72%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Budget Card 4 -->
-                <div class="budget-card">
-                    <div class="budget-header">
-                        <div>
-                            <h3 class="budget-name">Health & Fitness</h3>
-                            <span class="transaction-category">Health</span>
-                        </div>
-                        <div class="budget-actions">
-                            <button onclick="openEditBudgetModal('Health & Fitness', '$150', 'Health')" class="mini-btn edit-mini" title="Edit">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-                                </svg>
-                            </button>
-                            <button onclick="openDeleteBudgetModal('Health & Fitness')" class="mini-btn delete-mini" title="Delete">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="budget-limit-section">
-                            <p class="budget-limit">$150</p>
-                            <p class="budget-limit-label">limit</p>
-                        </div>
-                    </div>
-
-                    <div class="budget-progress-section">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 60%"></div>
-                        </div>
-
-                        <div class="budget-stats">
-                            <div>
-                                <p class="budget-stat">$90.00 <span class="text-muted">used</span></p>
-                            </div>
-                            <div class="budget-stat-right">
-                                <p class="text-muted">$60.00 left</p>
-                            </div>
-                        </div>
-
-                        <div class="budget-footer">
-                            <span class="text-muted">Progress</span>
-                            <span class="progress-percentage">60%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Budget Card 5 -->
-                <div class="budget-card">
-                    <div class="budget-header">
-                        <div>
-                            <h3 class="budget-name">Entertainment</h3>
-                            <span class="transaction-category">Fun</span>
-                        </div>
-                        <div class="budget-actions">
-                            <button onclick="openEditBudgetModal('Entertainment', '$300', 'Fun')" class="mini-btn edit-mini" title="Edit">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"></path>
-                                </svg>
-                            </button>
-                            <button onclick="openDeleteBudgetModal('Entertainment')" class="mini-btn delete-mini" title="Delete">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2"></path>
-                                    <line x1="10" y1="11" x2="10" y2="17" stroke-width="2"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="budget-limit-section">
-                            <p class="budget-limit">$300</p>
-                            <p class="budget-limit-label">limit</p>
-                        </div>
-                    </div>
-
-                    <div class="budget-progress-section">
-                        <div class="progress-bar">
-                            <div class="progress-fill warning" style="width: 72%"></div>
-                        </div>
-
-                        <div class="budget-stats">
-                            <div>
-                                <p class="budget-stat">$215.00 <span class="text-muted">used</span></p>
-                            </div>
-                            <div class="budget-stat-right">
-                                <p class="text-muted">$85.00 left</p>
-                            </div>
-                        </div>
-
-                        <div class="budget-footer">
-                            <span class="text-muted">Progress</span>
-                            <span class="progress-percentage warning">72%</span>
-                        </div>
-                    </div>
-                </div>
             </div>
             
         </div>
@@ -359,7 +112,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Create New Budget</h3>
-                <button class="modal-close" onclick="close_modal('createBudgetModal')">×</button>
+                <button class="modal-close" data-modal-close="createBudgetModal">×</button>
             </div>
             <div>
                 <form id="createBudgetForm" class="modal-body">
@@ -374,19 +127,19 @@
                     <div class="form-group">
                         <label for="budgetCategory">Category</label>
                         <select class="form-input" id="budgetCategory" name="budgetCategory" required>
-                            <option value="" disabled selected>Select category</option>
-                            <option value="Food">Food</option>
-                            <option value="Transport">Transport</option>
-                            <option value="Bills">Bills</option>
-                            <option value="Health">Health</option>
-                            <option value="Fun">Fun</option>
+                            <option value="">Select category</option>
                         </select>
                     </div>
+                    <div class="modal-actions">
+                        <button class="btn-secondary" data-modal-close="createBudgetModal">Cancel</button>
+                        <button
+                                class="btn-primary"
+                                id="createBudgetSubmitBtn"
+                                type="submit">
+                            Create Budget
+                        </button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="close_modal('createBudgetModal')">Cancel</button>
-                <button class="btn-primary" onclick="createBudget()">Create Budget</button>
             </div>
         </div>
     </div>
@@ -396,33 +149,30 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Edit Budget</h3>
-                <button class="modal-close" onclick="close_modal('editBudgetModal')">×</button>
+                <button class="modal-close" data-modal-close="editBudgetModal">×</button>
             </div>
-            <form class="modal-body">
+            <form class="modal-body" id="editBudgetForm">
                 <div class="form-group">
-                    <label>Budget Name</label>
-                    <input type="text" id="editBudgetName" class="form-input" placeholder="Budget name">
+                    <label for="editBudgetName">Budget Name</label>
+                    <input type="text" name="editBudgetName" id="editBudgetName" class="form-input" placeholder="Budget name">
                 </div>
                 <div class="form-group">
-                    <label>Budget Limit</label>
-                    <input type="number" id="editBudgetLimit" class="form-input" placeholder="0.00">
+                    <label for="editBudgetLimit">Budget Limit</label>
+                    <input type="number" name="editBudgetLimit" id="editBudgetLimit" class="form-input" placeholder="0.00">
                 </div>
                 <div class="form-group">
-                    <label>Category</label>
-                    <select id="editBudgetCategory" class="form-input">
+                    <label for="editBudgetCategory">Category</label>
+                    <select id="editBudgetCategory" name="editBudgetCategory" class="form-input">
                         <option value="">Select category</option>
-                        <option value="Food">Food</option>
-                        <option value="Transport">Transport</option>
-                        <option value="Bills">Bills</option>
-                        <option value="Health">Health</option>
-                        <option value="Fun">Fun</option>
                     </select>
                 </div>
+                <div class="modal-actions">
+                    <button class="btn-secondary" data-modal-close="editBudgetModal">Cancel</button>
+                    <button class="btn-primary" id="saveBudgetChangesBtn" type="submit">
+                        Save Changes
+                    </button>
+                </div>
             </form>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="close_modal('editBudgetModal')">Cancel</button>
-                <button class="btn-primary">Save Changes</button>
-            </div>
         </div>
     </div>
 
@@ -437,39 +187,19 @@
                 <p style="color: var(--muted-foreground); font-size: 0.875rem; margin-top: 0.5rem;">This action cannot be undone.</p>
             </div>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="close_modal('deleteBudgetModal')">Cancel</button>
-                <button class="btn-danger">Delete</button>
+                <button class="btn-secondary" data-modal-close="deleteBudgetModal">Cancel</button>
+                <button class="btn-danger" id="confirmDeleteBudgetBtn">
+                    Delete
+                </button>
             </div>
         </div>
     </div>
+    </div>
 
-    <script>
-        initialize_sidebar_navigation();
+    <!-- SHARED -->
+    <script src="../js/shared/modal_manager.js"></script>
+    <script src="../js/shared/sidebar.js"></script>
+    <script src="../js/features/budgets/budget_ui.js"></script>
 
-
-
-
-
-        document.getElementById("createBudgetBtn").addEventListener('click', () => {
-            open_modal('createBudgetModal');
-        });
-
-        // Open Edit Budget Modal
-        function openEditBudgetModal(budgetName, budgetLimit, category) {
-            document.getElementById('editBudgetName').value = budgetName;
-            document.getElementById('editBudgetLimit').value = budgetLimit.replace('$', '');
-            document.getElementById('editBudgetCategory').value = category;
-            open_modal('editBudgetModal');
-        }
-
-        // Open Delete Budget Modal
-        function openDeleteBudgetModal(budgetName) {
-            document.getElementById('deleteBudgetName').textContent = budgetName;
-            open_modal('deleteBudgetModal');
-        }
-
-        
-
-    </script>
 </body>
 </html>

@@ -31,12 +31,15 @@ async function handle_response(res, defaultMessage = 'Request failed') {
 
 
 // ================= TRANSACTIONS =================
-async function get_transactions({ limit = 5, page = 1, category, account, search } = {}) {
+async function get_transactions({limit = 5, page = 1, category, account, search, from, to} = {}) {
     const params = new URLSearchParams({
-        limit, page,
+        limit,
+        page,
         ...(category && { category }),
         ...(account && { account }),
         ...(search && { search }),
+        ...(from && { from }),
+        ...(to && { to }),
     })
 
     const res = await fetch_with_auth(`/api/transactions?${params}`)
@@ -48,8 +51,6 @@ async function create_transaction(data) {
 
     if (!title) throw new Error('Title is required')
     if (amount === null || amount === undefined || amount === '') throw new Error('Amount is required')
-    if (!categoryId) throw new Error('Category is required')
-    if (!accountId) throw new Error('Account is required')
 
     const res = await fetch_with_auth('/api/transactions', {
         method: 'POST',
@@ -70,11 +71,11 @@ async function update_transaction(id, data) {
     return handle_response(res, 'Error updating transaction')
 }
 
-
 async function delete_transaction_api(id) {
     const res = await fetch_with_auth(`/api/transactions/${id}`, {
         method: 'DELETE',
     })
+
 
     return handle_response(res, 'Error deleting transaction')
 }
@@ -150,5 +151,113 @@ async function delete_category(id) {
         method: 'DELETE',
     })
 
-    return handle_response(res, 'Error deleting category')
+    const data = await res.json()
+    if (res.status === 409) {
+        return data
+    }
+
+    if (!res.ok) {
+        throw new Error(data.message || 'Error deleting category')
+    }
+
+    return data
+}
+
+async function delete_category_keep_transactions(id){
+    const res = await fetch_with_auth(
+        `/api/categories/${id}/keep-transactions`,
+        {
+            method: 'DELETE'
+        }
+    )
+
+    const data = await res.json()
+
+    if (!res.ok) {
+        throw new Error(data.message || 'Error deleting category')
+    }
+
+    return data
+}
+
+async function delete_category_with_transactions(id){
+    const res = await fetch_with_auth(
+        `/api/categories/${id}/delete-transactions`,
+        {
+            method: 'DELETE'
+        }
+    )
+
+    const data = await res.json()
+
+    if (!res.ok) {
+        throw new Error(data.message || 'Error deleting category')
+    }
+
+    return data
+}
+
+
+// ================= BUDGETS =================
+async function get_budgets(){
+    const res = await fetch_with_auth('/api/budgets')
+    const data = await handle_response(res, 'Error getting budgets')
+    return data.budgets
+}
+
+
+async function create_budget(data){
+    const {
+        budgetName,
+        limit,
+        categoryId
+    } = data
+
+    if (!budgetName?.trim()){
+        throw new Error('Budget name is required')
+    }
+
+    if (limit === undefined || limit === null || limit === ''){
+        throw new Error('Budget limit is required')
+    }
+
+    if (!categoryId){
+        throw new Error('Category is required')
+    }
+
+    const res = await fetch_with_auth(
+        '/api/budgets',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+    )
+
+    return handle_response(res, 'Error creating budget')
+}
+
+
+async function update_budget(id, data){
+    const res = await fetch_with_auth(`/api/budgets/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+
+    return handle_response(res, 'Error updating budget')
+}
+
+
+async function delete_budget(id){
+
+    const res = await fetch_with_auth(`/api/budgets/${id}`, {
+        method: 'DELETE'
+    })
+
+    return handle_response(res, 'Error deleting budget')
 }

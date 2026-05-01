@@ -117,9 +117,18 @@ function create_transaction_info(transaction) {
     dateEl.classList.add('transaction-date');
     dateEl.textContent = format_date(date)
 
-    const categoryEl = document.createElement('span');
-    categoryEl.classList.add('transaction-category');
-    categoryEl.textContent = categoryName || '';
+    const categoryEl = document.createElement('span')
+    categoryEl.classList.add('transaction-category')
+
+    categoryEl.innerHTML = `
+    <span class="transaction-category-icon">
+        ${transaction.categoryIcon || '📁'}
+    </span>
+
+    <span class="transaction-category-name">
+        ${categoryName || 'General'}
+    </span>
+`
 
     const accountEl = document.createElement('span');
     accountEl.classList.add('transaction-account');

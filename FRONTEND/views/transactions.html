@@ -172,7 +172,7 @@
                 </div>
                 <div class="form-group">
                     <label for="editTransactionAccount">Account</label>
-                    <select name="editTransactionAccount" class="form-input" id="editTransactionAccount" required></select>
+                    <select name="editTransactionAccount" class="form-input" id="editTransactionAccount"></select>
                 </div>
                 <div class="modal-actions">
                     <button class="btn-secondary" data-modal-close="editModalTransaction" type="button">Cancel</button>
@@ -221,7 +221,7 @@
                 </div>
                 <div class="form-group">
                     <label for="createTransactionAccount">Account</label>
-                    <select name="account" class="form-input" id="createTransactionAccount" required></select>
+                    <select name="account" class="form-input" id="createTransactionAccount"></select>
                 </div>
                 <div class="modal-actions">
                     <button class="btn-secondary" data-modal-close="createModalTransaction" type="button">Cancel</button>
@@ -337,6 +337,57 @@
                     <button type="submit" class="btn-primary" id="saveAccountBtn">Create Account</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+
+    <!-- Modal Linked Category-->
+    <div class="modal" id="linkedCategoryModal">
+        <div class="modal-content modal-small">
+
+            <div class="modal-header">
+                <h3>Category Has Transactions</h3>
+
+                <button
+                        class="modal-close"
+                        type="button"
+                        data-modal-close="linkedCategoryModal">
+
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <p>
+                    This category has transactions linked to it.
+                </p>
+
+                <p style="margin-top: 1rem;">
+                    What would you like to do?
+                </p>
+
+            </div>
+
+            <div class="modal-actions linked-category-buttons">
+                <button
+                        class="btn-primary"
+                        id="confirmKeepTransactionsBtn"
+                        type="button">
+
+                    Delete Category and Move Transactions to General
+
+                </button>
+
+                <button
+                        class="btn-danger"
+                        id="confirmDeleteTransactionsBtn"
+                        type="button">
+
+                    Delete Category and Transactions
+
+                </button>
+
+            </div>
         </div>
     </div>
 
