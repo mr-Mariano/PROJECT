@@ -1,6 +1,10 @@
 import { User } from '../models/User.js'
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken'
+import { Transaction } from '../models/Transaction.js'
+import { Category } from '../models/Category.js'
+import { Account } from '../models/Account.js'
+import { Budget } from '../models/Budget.js'
 
 const salt = Number(process.env.SALT_ROUNDS) || 10
 
@@ -67,13 +71,35 @@ export const update_user = async (req, res) => {
     const { name, email, password } = req.body
     const updateData = {}
 
-    if (name) updateData.name = name
-    if (email) updateData.email = email
+    if (name !== undefined) {
+        if (name.trim() === '') {
+            return res.status(400).json({ message: "Name cannot be empty" })
+        }
+        updateData.name = name.trim()
+    }
+
+    if (email !== undefined) {
+        if (email.trim() === '') {
+            return res.status(400).json({ message: "Email cannot be empty" })
+        }
+        updateData.email = email.trim()
+    }
+
+    if (password !== undefined) {
+        if (password.trim().length < 6) {
+            return res.status(400).json({ message: "Password must be at least 6 characters" })
+        }
+        updateData.password = await bcrypt.hash(password, salt)
+    }
+
+    if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({ message: "No fields to update" })
+    }
 
     try {
-        if (email) {
+        if (updateData.email) {
             const exists = await User.findOne({
-                email,
+                email: updateData.email,
                 _id: { $ne: req.user._id }
             })
 
@@ -82,21 +108,16 @@ export const update_user = async (req, res) => {
             }
         }
 
-        if (password) {
-            updateData.password = await bcrypt.hash(password, salt)
-        }
-
-        if (Object.keys(updateData).length === 0) {
-            return res.status(400).json({ message: "No fields to update" })
-        }
-
         const updated_user = await User.findByIdAndUpdate(
             req.user._id,
             updateData,
             { new: true, runValidators: true }
-        )
+        ).select('-password')
 
-        return res.status(200).json({ user: updated_user })
+        return res.status(200).json({
+            message: "User updated",
+            user: updated_user
+        })
 
     } catch (err) {
         return res.status(500).json({ message: "Internal Server Error" })
@@ -104,11 +125,41 @@ export const update_user = async (req, res) => {
 }
 
 export const delete_user = async(req, res) => {
-    try{
+    try {
+        await Promise.all([
+            Transaction.deleteMany({ user: req.user._id }),
+            Category.deleteMany({ user: req.user._id }),
+            Account.deleteMany({ user: req.user._id }),
+            Budget.deleteMany({ user: req.user._id })
+        ])
+
         const user_deleted = await User.findByIdAndDelete(req.user._id)
-        if(!user_deleted){ return res.status(404).json({ message : "User not found"})}
-        return res.status(200).json({ message : "User Deleted" })
-    }catch(err){
-        return res.status(500).json({ message : "Internal Server Error" })
+
+        if (!user_deleted) {
+            return res.status(404).json({ message: "User not found" })
+        }
+
+        return res.status(200).json({
+            message: "User and related data deleted"
+        })
+
+    } catch(err) {
+        return res.status(500).json({ message: "Internal Server Error" })
+    }
+}
+
+
+export const get_me = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).select('-password')
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' })
+        }
+
+        return res.status(200).json({ user })
+
+    } catch (err) {
+        return res.status(500).json({ message: 'Internal Server Error' })
     }
 }

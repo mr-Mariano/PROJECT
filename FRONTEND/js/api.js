@@ -261,3 +261,27 @@ async function delete_budget(id){
 
     return handle_response(res, 'Error deleting budget')
 }
+
+// ======== user ========
+async function update_user(data) {
+    const res = await fetch_with_auth('/api/users', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+
+    return handle_response(res, 'Error updating user')
+}
+
+async function delete_user() {
+    const res = await fetch_with_auth('/api/users', {
+        method: 'DELETE'
+    })
+
+    return handle_response(res, 'Error deleting user')
+}
+
+async function get_me() {
+    const res = await fetch_with_auth('/api/users/me')
+    return handle_response(res, 'Error getting user')
+}
