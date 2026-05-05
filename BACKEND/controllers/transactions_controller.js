@@ -187,7 +187,7 @@ export const update_transaction = async (req, res) => {
                 category: categoryId,
                 account: accountId
             },
-            { new: true }
+            { returnDocument: 'after' }
         )
             .populate('category', 'name icon')
             .populate('account', 'name')

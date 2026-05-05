@@ -176,7 +176,7 @@ function open_edit_budget_modal(budget){
 
     document.getElementById('editBudgetLimit').value = budget.limit
 
-    populate_categories_select(document.getElementById('editBudgetCategory'), budget.category._id)
+    populate_categories_select(document.getElementById('editBudgetCategory'), budget.category.id)
 
     open_modal('editBudgetModal')
 }

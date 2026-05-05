@@ -260,8 +260,7 @@
           <input
             type="file"
             id="fileInput"
-            accept=".pdf,.jpg,.jpeg,.png"
-            multiple
+            accept=".pdf"
             hidden
           />
 
@@ -304,420 +303,80 @@
                 Drag and drop your files here or use the upload button to
                 browse.
               </p>
-              <p class="upload-note">Supported formats: PDF, JPG and PNG</p>
+              <p class="upload-note">Supported formats: PDF</p>
             </div>
           </section>
 
           <section class="card documents-card">
             <div class="documents-card-header">
               <h3 class="card-title">Recent documents</h3>
-              <span
-                class="documents-count"
-                id="documentsCount"
-                >4 files</span
-              >
             </div>
-
-            <div
-              class="documents-list"
-              id="documentsList"
-            >
-              <div class="document-item">
-                <div class="document-info-wrapper">
-                  <div class="document-icon-wrapper">
-                    <svg
-                      class="document-icon"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                        stroke-width="2"
-                      ></path>
-                      <polyline
-                        points="14 2 14 8 20 8"
-                        stroke-width="2"
-                      ></polyline>
-                      <line
-                        x1="16"
-                        y1="13"
-                        x2="8"
-                        y2="13"
-                        stroke-width="2"
-                      ></line>
-                      <line
-                        x1="16"
-                        y1="17"
-                        x2="8"
-                        y2="17"
-                        stroke-width="2"
-                      ></line>
-                    </svg>
-                  </div>
-                  <div>
-                    <p class="document-name">Tax Return 2025.pdf</p>
-                    <div class="document-meta">
-                      <span>Mar 15, 2026</span>
-                      <span>2.4 MB</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="document-actions">
-                  <button
-                    class="document-download-btn"
-                    type="button"
-                  >
-                    View
-                  </button>
-                  <button
-                    class="document-delete-btn"
-                    type="button"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-
-              <div class="document-item">
-                <div class="document-info-wrapper">
-                  <div class="document-icon-wrapper">
-                    <svg
-                      class="document-icon"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                        stroke-width="2"
-                      ></path>
-                      <polyline
-                        points="14 2 14 8 20 8"
-                        stroke-width="2"
-                      ></polyline>
-                      <line
-                        x1="16"
-                        y1="13"
-                        x2="8"
-                        y2="13"
-                        stroke-width="2"
-                      ></line>
-                      <line
-                        x1="16"
-                        y1="17"
-                        x2="8"
-                        y2="17"
-                        stroke-width="2"
-                      ></line>
-                    </svg>
-                  </div>
-                  <div>
-                    <p class="document-name">Bank Statement March.pdf</p>
-                    <div class="document-meta">
-                      <span>Apr 01, 2026</span>
-                      <span>1.8 MB</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="document-actions">
-                  <button
-                    class="document-download-btn"
-                    type="button"
-                  >
-                    View
-                  </button>
-                  <button
-                    class="document-delete-btn"
-                    type="button"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-
-              <div class="document-item">
-                <div class="document-info-wrapper">
-                  <div class="document-icon-wrapper">
-                    <svg
-                      class="document-icon"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                        stroke-width="2"
-                      ></path>
-                      <polyline
-                        points="14 2 14 8 20 8"
-                        stroke-width="2"
-                      ></polyline>
-                      <line
-                        x1="16"
-                        y1="13"
-                        x2="8"
-                        y2="13"
-                        stroke-width="2"
-                      ></line>
-                      <line
-                        x1="16"
-                        y1="17"
-                        x2="8"
-                        y2="17"
-                        stroke-width="2"
-                      ></line>
-                    </svg>
-                  </div>
-                  <div>
-                    <p class="document-name">Insurance Policy.pdf</p>
-                    <div class="document-meta">
-                      <span>Jan 10, 2026</span>
-                      <span>3.2 MB</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="document-actions">
-                  <button
-                    class="document-download-btn"
-                    type="button"
-                  >
-                    View
-                  </button>
-                  <button
-                    class="document-delete-btn"
-                    type="button"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-
-              <div class="document-item">
-                <div class="document-info-wrapper">
-                  <div class="document-icon-wrapper">
-                    <svg
-                      class="document-icon"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                        stroke-width="2"
-                      ></path>
-                      <polyline
-                        points="14 2 14 8 20 8"
-                        stroke-width="2"
-                      ></polyline>
-                      <line
-                        x1="16"
-                        y1="13"
-                        x2="8"
-                        y2="13"
-                        stroke-width="2"
-                      ></line>
-                      <line
-                        x1="16"
-                        y1="17"
-                        x2="8"
-                        y2="17"
-                        stroke-width="2"
-                      ></line>
-                    </svg>
-                  </div>
-                  <div>
-                    <p class="document-name">Receipt - Electronics.pdf</p>
-                    <div class="document-meta">
-                      <span>Mar 28, 2026</span>
-                      <span>0.5 MB</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="document-actions">
-                  <button
-                    class="document-download-btn"
-                    type="button"
-                  >
-                    View
-                  </button>
-                  <button
-                    class="document-delete-btn"
-                    type="button"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
+            <div class="documents-list" id="documentsList">
+              <p class="upload-description" style="text-align:center;padding:1rem;">
+                Upload a PDF to extract and import transactions.
+              </p>
             </div>
           </section>
+
+          <!-- Extracted Transactions Section -->
+          <section class="card extracted-section hidden" id="extractedSection">
+            <div class="extracted-header">
+              <div>
+                <h3 class="card-title" id="extractedFilename"></h3>
+                <span class="documents-count" id="extractedCount"></span>
+              </div>
+              <div class="extracted-header-actions">
+                <button class="btn-secondary btn-sm" id="selectAllBtn" type="button">Select all</button>
+                <button class="btn-secondary btn-sm" id="deselectAllBtn" type="button">Deselect all</button>
+                <button class="btn-secondary btn-sm" id="cancelExtractedBtn" type="button">Cancel</button>
+              </div>
+            </div>
+            <div class="extracted-list" id="extractedList"></div>
+            <div class="extracted-footer">
+              <button class="btn-primary" id="importTransactionsBtn" type="button">Import</button>
+            </div>
+          </section>
+
         </div>
       </main>
     </div>
 
-    <div
-      class="modal"
-      id="deleteDocumentModal"
-    >
+    <!-- Import Modal -->
+    <div class="modal" id="importModal">
       <div class="modal-content modal-small">
         <div class="modal-header">
-          <h3>Delete Document</h3>
-          <button
-            class="modal-close"
-            type="button"
-            onclick="closeDeleteDocumentModal()"
-          >
-            ×
-          </button>
+          <h3>Import Transactions</h3>
+          <button class="modal-close" type="button" onclick="close_modal('importModal')">×</button>
         </div>
-        <div class="modal-body">
-          <p>
-            Are you sure you want to delete
-            <strong id="documentToDeleteName"></strong>?
-          </p>
-          <p class="text-muted">This action cannot be undone</p>
-        </div>
-        <div class="modal-actions">
-          <button
-            class="btn-secondary"
-            type="button"
-            onclick="closeDeleteDocumentModal()"
-          >
-            Cancel
-          </button>
-          <button
-            class="btn-danger"
-            type="button"
-            onclick="confirmDeleteDocument()"
-          >
-            Confirm Delete
-          </button>
-        </div>
+        <form id="importForm">
+          <div class="modal-body">
+            <p style="margin-bottom:1rem;color:var(--muted-foreground);font-size:0.875rem;">
+              Select an account to assign the imported transactions to.
+            </p>
+            <div class="form-group">
+              <label class="form-label">Account</label>
+              <select id="importAccountSelect" class="form-input" required>
+                <option value="">Select account</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Category <span style="color:var(--muted-foreground)">(optional)</span></label>
+              <select id="importCategorySelect" class="form-input">
+                <option value="">Select category</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-secondary" type="button" onclick="close_modal('importModal')">Cancel</button>
+            <button class="btn-primary" type="submit" id="confirmImportBtn">Import</button>
+          </div>
+        </form>
       </div>
     </div>
 
-    <script>
-      initialize_sidebar_navigation();
-
-      const chooseFilesBtn = document.getElementById('chooseFilesBtn');
-      const fileInput = document.getElementById('fileInput');
-      const uploadArea = document.getElementById('uploadArea');
-      const documentsList = document.getElementById('documentsList');
-      const documentsCount = document.getElementById('documentsCount');
-      const deleteDocumentModal = document.getElementById(
-        'deleteDocumentModal',
-      );
-      const documentToDeleteName = document.getElementById(
-        'documentToDeleteName',
-      );
-
-      let selectedDocumentName = '';
-
-      chooseFilesBtn.addEventListener('click', () => fileInput.click());
-      uploadArea.addEventListener('click', () => fileInput.click());
-
-      ['dragenter', 'dragover'].forEach((eventName) => {
-        uploadArea.addEventListener(eventName, (event) => {
-          event.preventDefault();
-          uploadArea.classList.add('drag-active');
-        });
-      });
-
-      ['dragleave', 'drop'].forEach((eventName) => {
-        uploadArea.addEventListener(eventName, (event) => {
-          event.preventDefault();
-          uploadArea.classList.remove('drag-active');
-        });
-      });
-
-      uploadArea.addEventListener('drop', (event) => {
-        const files = event.dataTransfer.files;
-        appendDocuments(files);
-      });
-
-      fileInput.addEventListener('change', (event) => {
-        appendDocuments(event.target.files);
-        fileInput.value = '';
-      });
-
-      documentsList.addEventListener('click', (event) => {
-        const deleteBtn = event.target.closest('.document-delete-btn');
-        if (!deleteBtn) {
-          return;
-        }
-
-        const documentItem = deleteBtn.closest('.document-item');
-        const documentName =
-          documentItem?.querySelector('.document-name')?.textContent ||
-          'this document';
-        openDeleteDocumentModal(documentName);
-      });
-
-      deleteDocumentModal.addEventListener('click', (event) => {
-        if (event.target === deleteDocumentModal) {
-          closeDeleteDocumentModal();
-        }
-      });
-
-      function openDeleteDocumentModal(documentName) {
-        selectedDocumentName = documentName;
-        documentToDeleteName.textContent = selectedDocumentName;
-        deleteDocumentModal.classList.add('active');
-      }
-
-      function closeDeleteDocumentModal() {
-        deleteDocumentModal.classList.remove('active');
-      }
-
-      function confirmDeleteDocument() {
-        console.log('Deleted', selectedDocumentName);
-        alert(`Document "${selectedDocumentName}" deleted`);
-        closeDeleteDocumentModal();
-      }
-
-      function appendDocuments(files) {
-        Array.from(files).forEach((file) => {
-          const item = document.createElement('div');
-          item.className = 'document-item';
-
-          const sizeInMb = `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
-          const today = new Date().toLocaleDateString('en-US', {
-            month: 'short',
-            day: '2-digit',
-            year: 'numeric',
-          });
-
-          item.innerHTML = `
-                <div class="document-info-wrapper">
-                    <div class="document-icon-wrapper">
-                        <svg class="document-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"></path>
-                            <polyline points="14 2 14 8 20 8" stroke-width="2"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13" stroke-width="2"></line>
-                            <line x1="16" y1="17" x2="8" y2="17" stroke-width="2"></line>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="document-name">${file.name}</p>
-                        <div class="document-meta">
-                            <span>${today}</span>
-                            <span>${sizeInMb}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="document-actions">
-                    <button class="document-download-btn" type="button">View</button>
-                    <button class="document-delete-btn" type="button">Delete</button>
-                </div>
-            `;
-
-          documentsList.prepend(item);
-        });
-
-        const totalItems =
-          documentsList.querySelectorAll('.document-item').length;
-        documentsCount.textContent = `${totalItems} file${totalItems === 1 ? '' : 's'}`;
-      }
-    </script>
+    <!-- Scripts -->
+    <script src="../js/shared/sidebar.js"></script>
+    <script src="../js/shared/modal_manager.js"></script>
+    <script src="../js/features/documents/documents_ui.js"></script>
   </body>
 </html>

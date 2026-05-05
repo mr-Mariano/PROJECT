@@ -10,7 +10,7 @@ async function fetch_with_auth(url, options = {}) {
 
     if (res.status === 401) {
         sessionStorage.removeItem('token')
-        window.location.href = '/login.html'
+        window.location.href = '/index.html'
     }
 
     return res
@@ -284,4 +284,17 @@ async function delete_user() {
 async function get_me() {
     const res = await fetch_with_auth('/api/users/me')
     return handle_response(res, 'Error getting user')
+}
+
+// ================= DOCUMENTS =================
+async function parse_document(file) {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const res = await fetch_with_auth('/api/documents/parse', {
+        method: 'POST',
+        body: formData
+    })
+
+    return handle_response(res, 'Error parsing document')
 }

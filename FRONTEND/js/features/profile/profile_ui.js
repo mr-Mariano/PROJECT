@@ -88,7 +88,7 @@ function bind_delete_account() {
                 await delete_user()
 
                 sessionStorage.removeItem('token')
-                window.location.href = 'login.html'
+                window.location.href = 'index.html'
             } catch (err) {
                 alert(err.message || 'Error deleting account')
             }

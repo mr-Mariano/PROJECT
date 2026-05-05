@@ -62,7 +62,7 @@ export const update_category = async (req, res) => {
                 const category = await Category.findOneAndUpdate(
                     { _id: id, user: req.user._id },
                     { name, icon },
-                    { new: true }
+                    { returnDocument: 'after' }
                 )
 
                 if (!category) {

@@ -187,3 +187,122 @@
     width: 100%;
   }
 }
+
+/* ===== EXTRACTED TRANSACTIONS ===== */
+.extracted-section {
+  margin-top: 1.5rem;
+}
+
+.extracted-section.hidden {
+  display: none;
+}
+
+.extracted-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.extracted-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.extracted-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.extracted-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background-color: rgba(30, 30, 30, 0.45);
+}
+
+.extracted-row:hover {
+  background-color: var(--background);
+}
+
+.extracted-checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.extracted-checkbox {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+.extracted-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.extracted-title {
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.extracted-date {
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+}
+
+.extracted-amount {
+  font-weight: var(--font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.amount-positive {
+  color: #4ade80;
+}
+
+.amount-negative {
+  color: #f87171;
+}
+
+.extracted-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.upload-spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid rgba(167, 139, 250, 0.25);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 0.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

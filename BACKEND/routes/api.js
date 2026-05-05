@@ -5,6 +5,7 @@ import users from "./users.js";
 import accounts from "./accounts.js";
 import categories from "./categories.js";
 import budgets from "./budgets.js"
+import documents from "./documents.js"
 
 export const api_router = express.Router()
 
@@ -14,4 +15,5 @@ api_router.use('/transactions', transactions)
 api_router.use('/accounts', accounts)
 api_router.use('/categories', categories)
 api_router.use('/budgets', budgets)
+api_router.use('/documents', documents)
 

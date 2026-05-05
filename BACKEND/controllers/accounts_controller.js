@@ -50,6 +50,42 @@ export const create_account = async (req, res) => {
         }
 }
 
+export const update_account = async (req, res) => {
+        const { id } = req.params
+        const { name } = req.body
+
+        if (!name) {
+                return res.status(400).json({ message: "Name is required" })
+        }
+
+        try {
+                const exists = await Account.findOne({
+                        name,
+                        user: req.user._id,
+                        _id: { $ne: id }
+                })
+
+                if (exists) {
+                        return res.status(400).json({ message: "Account already exists" })
+                }
+
+                const account = await Account.findOneAndUpdate(
+                        { _id: id, user: req.user._id },
+                        { name },
+                        { returnDocument: 'after' }
+                )
+
+                if (!account) {
+                        return res.status(404).json({ message: "Account not found" })
+                }
+
+                return res.status(200).json({ account: map_account(account) })
+
+        } catch {
+                return res.status(500).json({ message: "Internal Server Error" })
+        }
+}
+
 export const delete_account = async (req, res) => {
         const { id } = req.params
 

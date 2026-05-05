@@ -161,7 +161,7 @@ export const update_budget = async (req, res) => {
                 user: req.user._id
             },
             update_data,
-            { new: true }
+            { returnDocument: 'after' }
         ).populate('category', 'name icon')
 
         if (!updated_budget) {
