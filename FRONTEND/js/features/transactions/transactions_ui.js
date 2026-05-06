@@ -1,6 +1,9 @@
 // ==== GLOBAL STATE ====
 let selectedAccount  = 'all'
 let selectedCategory = 'all'
+let selectedSearch   = ''
+
+let searchTimeout = null
 
 let accounts     = []
 let categories   = []
@@ -19,6 +22,7 @@ let   CURRENT_PAGE = 1
 document.addEventListener('DOMContentLoaded', () => {
     bind_account_filter()
     bind_category_filter_events()
+    bind_transaction_search()
     bind_transaction_actions()
     bind_create_transaction_form()
     bind_edit_transaction_form()
@@ -44,8 +48,10 @@ async function init() {
 //  REFRESH HELPERS
 async function refresh_transactions() {
     const params = { limit: LIMIT, page: CURRENT_PAGE }
+
     if (selectedCategory !== 'all') params.category = selectedCategory
     if (selectedAccount  !== 'all') params.account  = selectedAccount
+    if (selectedSearch.trim() !== '') params.search = selectedSearch.trim()
 
     const response = await get_transactions(params)
     transactions = response.transactions
@@ -95,10 +101,20 @@ function _sync_active_category_btn(container) {
     })
 }
 
+function bind_transaction_search() {
+    const input = document.getElementById('transactionSearchInput')
+    if (!input) return
+    input.addEventListener('input', () => {
+        clearTimeout(searchTimeout)
+        searchTimeout = setTimeout(() => {
+            selectedSearch = input.value
+            CURRENT_PAGE = 1
+            refresh_transactions()
+        }, 300)
+    })
+}
 
-// ============================================================
 //  PAGINATION
-// ============================================================
 function render_pagination({ total, page, limit }) {
     const container = document.getElementById('pagination')
     if (!container) return
