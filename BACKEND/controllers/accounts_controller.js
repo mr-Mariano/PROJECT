@@ -1,5 +1,6 @@
 import { Account } from "../models/Account.js"
 import { Transaction } from "../models/Transaction.js"
+import { get_or_create_general_account } from "./transactions_controller.js"
 
 function map_account(acc){
         return {
@@ -90,18 +91,7 @@ export const delete_account = async (req, res) => {
         const { id } = req.params
 
         try {
-                const isUsed = await Transaction.exists({
-                        account: id,
-                        user: req.user._id
-                })
-
-                if (isUsed) {
-                        return res.status(400).json({
-                                message: "Cannot delete account with transactions"
-                        })
-                }
-
-                const account = await Account.findOneAndDelete({
+                const account = await Account.findOne({
                         _id: id,
                         user: req.user._id
                 })
@@ -110,8 +100,97 @@ export const delete_account = async (req, res) => {
                         return res.status(404).json({ message: "Account not found" })
                 }
 
+                if (account.name.trim().toLowerCase() === 'general') {
+                        return res.status(400).json({
+                                message: "General account cannot be deleted"
+                        })
+                }
+
+                const isUsed = await Transaction.exists({
+                        account: id,
+                        user: req.user._id
+                })
+
+                if (isUsed) {
+                        return res.status(409).json({
+                                message: "ACCOUNT_HAS_TRANSACTIONS"
+                        })
+                }
+
+                await account.deleteOne()
+
                 return res.status(200).json({ message: "Account deleted" })
 
+        } catch {
+                return res.status(500).json({ message: "Internal Server Error" })
+        }
+}
+
+export const delete_account_keep_transactions = async (req, res) => {
+        const { id } = req.params
+
+        try {
+                const account = await Account.findOne({
+                        _id: id,
+                        user: req.user._id
+                })
+
+                if (!account) {
+                        return res.status(404).json({ message: "Account not found" })
+                }
+
+                if (account.name.trim().toLowerCase() === 'general') {
+                        return res.status(400).json({
+                                message: "General account cannot be deleted"
+                        })
+                }
+
+                const general_account = await get_or_create_general_account(req.user._id)
+
+                await Transaction.updateMany(
+                        { user: req.user._id, account: account._id },
+                        { '$set': { account: general_account._id } }
+                )
+
+                await account.deleteOne()
+
+                return res.status(200).json({
+                        message: "Account deleted and transactions moved to General"
+                })
+        } catch {
+                return res.status(500).json({ message: "Internal Server Error" })
+        }
+}
+
+export const delete_account_with_transactions = async (req, res) => {
+        const { id } = req.params
+
+        try {
+                const account = await Account.findOne({
+                        _id: id,
+                        user: req.user._id
+                })
+
+                if (!account) {
+                        return res.status(404).json({ message: "Account not found" })
+                }
+
+                if (account.name.trim().toLowerCase() === 'general') {
+                        return res.status(400).json({
+                                message: "General account cannot be deleted"
+                        })
+                }
+
+                await Transaction.deleteMany({
+                        user: req.user._id,
+                        account: account._id
+                })
+
+                await account.deleteOne()
+
+                return res.status(200).json({
+                        message: "The transactions and account were deleted"
+                })
         } catch {
                 return res.status(500).json({ message: "Internal Server Error" })
         }

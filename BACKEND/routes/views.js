@@ -27,6 +27,11 @@ views_router.get( '/transactions.html', (req, res) => {
     send_views(res, 'transactions')
 })
 
+// Accounts
+views_router.get('/accounts.html', (req, res) => {
+    send_views(res, 'accounts')
+})
+
 // Budgets
 views_router.get('/budgets.html', (req, res) => {
     send_views(res, 'budgets')
