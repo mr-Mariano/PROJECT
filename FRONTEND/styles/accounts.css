@@ -1,0 +1,74 @@
+.accounts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.account-item-full {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--card);
+    border: 1px solid var(--border);
+}
+
+.account-item-full:hover {
+    background-color: rgba(56, 56, 56, 0.5);
+}
+
+.account-info {
+    min-width: 0;
+}
+
+.account-title {
+    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 0.35rem;
+}
+
+.account-meta {
+    color: var(--muted-foreground);
+    font-size: 0.82rem;
+}
+
+.empty-state {
+    color: var(--muted-foreground);
+    padding: 1rem 0;
+}
+
+#linkedAccountModal .modal-actions {
+    justify-content: initial;
+}
+
+#linkedAccountModal .modal-actions button {
+    max-width: none;
+}
+
+.linked-account-buttons {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.linked-account-buttons button {
+    flex: 1;
+    min-height: 72px;
+    padding: 1rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.35;
+    font-size: 0.95rem;
+}
+
+#linkedAccountModal .modal-content {
+    max-width: 700px;
+}
+
+@media (max-width: 768px) {
+    .linked-account-buttons {
+        flex-direction: column;
+    }
+}

@@ -113,6 +113,31 @@ async function delete_account(id) {
         method: 'DELETE',
     })
 
+    const data = await res.json()
+    if (res.status === 409) {
+        return data
+    }
+
+    if (!res.ok) {
+        throw new Error(data.message || 'Error deleting account')
+    }
+
+    return data
+}
+
+async function delete_account_keep_transactions(id){
+    const res = await fetch_with_auth(`/api/accounts/${id}/keep-transactions`, {
+        method: 'DELETE'
+    })
+
+    return handle_response(res, 'Error deleting account')
+}
+
+async function delete_account_with_transactions(id){
+    const res = await fetch_with_auth(`/api/accounts/${id}/delete-transactions`, {
+        method: 'DELETE'
+    })
+
     return handle_response(res, 'Error deleting account')
 }
 
