@@ -23,6 +23,10 @@ views_router.get('/dashboard.html', (req, res) => {
 })
 
 // Transactions
+views_router.get('/transactions', (req, res) => {
+    send_views(res, 'transactions')
+})
+
 views_router.get( '/transactions.html', (req, res) => {
     send_views(res, 'transactions')
 })
