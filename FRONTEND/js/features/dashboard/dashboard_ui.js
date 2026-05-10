@@ -297,6 +297,13 @@ function render_expenses_pie_chart(transactions){
             responsive: true,
             maintainAspectRatio: false,
             animation: false,
+            onClick: (_event, elements) => {
+                if (!elements || elements.length === 0) return
+                const clickedIndex = elements[0].index
+                const clickedCategory = labels[clickedIndex]
+                if (!clickedCategory) return
+                window.location.href = `/transactions?category=${encodeURIComponent(clickedCategory)}`
+            },
             plugins: {
                 legend: {
                     position: 'bottom'

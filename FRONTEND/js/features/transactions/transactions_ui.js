@@ -41,6 +41,7 @@ async function init() {
         refresh_accounts(),
         refresh_categories(),
     ])
+    apply_category_filter_from_query()
     await refresh_transactions()
 }
 
@@ -114,6 +115,21 @@ function bind_transaction_search() {
     })
 }
 
+function apply_category_filter_from_query() {
+    const params = new URLSearchParams(window.location.search)
+    const requestedCategory = (params.get('category') || '').trim()
+    if (!requestedCategory) return
+
+    const matchedCategory = categories.find((cat) =>
+        String(cat.name || '').trim().toLowerCase() === requestedCategory.toLowerCase()
+    )
+    if (!matchedCategory) return
+
+    selectedCategory = matchedCategory.id
+    const list = document.getElementById('filter-categories-container')
+    _sync_active_category_btn(list)
+}
+
 //  PAGINATION
 function render_pagination({ total, page, limit }) {
     const container = document.getElementById('pagination')
@@ -168,6 +184,7 @@ function openEditTransactionModal(tx) {
 
     document.getElementById('editTitle').value  = tx.title
     document.getElementById('editAmount').value = tx.amount
+    _set_transaction_type_radios('editType', Number(tx.amount) >= 0 ? 'income' : 'expense')
 
     _populate_select('editCategory',           categories, tx.categoryId)
     _populate_select('editTransactionAccount', accounts,   tx.accountId)
@@ -189,20 +206,29 @@ function bind_create_transaction_form() {
             e.preventDefault()
             const form = e.target
             const formData = new FormData(form)
+            const transactionType = formData.get('type')
 
             const categoryId = formData.get('category')
             const accountId  = formData.get('account')
+            const parsedAmount = Number(formData.get('amount'))
+
+            if (isNaN(parsedAmount)) {
+                alert('Invalid amount')
+                return
+            }
+
+            const normalizedAmount = _normalize_amount_by_type(parsedAmount, transactionType)
 
             try {
                 console.log({
                     title: formData.get('title'),
-                    amount: formData.get('amount'),
+                    amount: normalizedAmount,
                     categoryId: formData.get('category'),
                     accountId: formData.get('account')
                 })
                 await create_transaction({
                     title:      formData.get('title').trim(),
-                    amount:     parseFloat(formData.get('amount')),
+                    amount:     normalizedAmount,
                     categoryId,
                     accountId
                 })
@@ -223,6 +249,7 @@ function bind_edit_transaction_form() {
             const formData = new FormData(e.target)
             const title = formData.get('editTitle')
             const amount = formData.get('editAmount')
+            const transactionType = formData.get('editType')
             const category = formData.get('editCategory')
             const account = formData.get('editTransactionAccount')
 
@@ -233,10 +260,12 @@ function bind_edit_transaction_form() {
                 return
             }
 
+            const normalizedAmount = _normalize_amount_by_type(parsedAmount, transactionType)
+
             try {
                 await update_transaction(current_editing_transaction, {
                     title,
-                    amount: parsedAmount,
+                    amount: normalizedAmount,
                     categoryId: category,
                     accountId: account
                 })
@@ -249,6 +278,18 @@ function bind_edit_transaction_form() {
                 alert(err.message)
             }
         })
+}
+
+function _normalize_amount_by_type(amount, type) {
+    const absoluteAmount = Math.abs(Number(amount))
+    return type === 'income' ? absoluteAmount : -absoluteAmount
+}
+
+function _set_transaction_type_radios(name, type) {
+    const radios = document.querySelectorAll(`input[name="${name}"]`)
+    radios.forEach((radio) => {
+        radio.checked = radio.value === type
+    })
 }
 
 function bind_delete_transaction_confirm() {
