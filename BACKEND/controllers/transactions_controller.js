@@ -91,7 +91,7 @@ export const get_transactions = async (req, res) => {
 }
 
 export const create_transaction = async(req,res) => {
-    const { title, amount, categoryId, accountId } = req.body
+    const { title, amount, categoryId, accountId, date } = req.body
     if (!title || amount === undefined) {
         return res.status(400).json({ message: "Title and amount are required" })
     }
@@ -134,12 +134,43 @@ export const create_transaction = async(req,res) => {
             )
         }
 
+        // Procesar la fecha del documento si se proporciona
+        let transactionDate = new Date() // Fecha actual por defecto
+        if (date) {
+            // Si la fecha viene como string en formato YYYY-MM-DD, convertirla
+            if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+                // Crear fecha en zona horaria local para evitar problemas de timezone
+                const [year, month, day] = date.split('-').map(Number)
+                transactionDate = new Date(year, month - 1, day)
+
+                // Validar que la fecha sea razonable (no en el futuro muy lejano ni en el pasado muy lejano)
+                const now = new Date()
+                const minDate = new Date(now.getFullYear() - 10, 0, 1) // 10 años atrás
+                const maxDate = new Date(now.getFullYear() + 1, 11, 31) // Fin del próximo año
+
+                if (transactionDate < minDate || transactionDate > maxDate) {
+                    return res.status(400).json({
+                        message: 'Invalid transaction date. Date must be within the last 10 years and not in the far future.'
+                    })
+                }
+            } else {
+                // Si ya es un objeto Date o ISO string, usarlo directamente
+                transactionDate = new Date(date)
+                if (isNaN(transactionDate.getTime())) {
+                    return res.status(400).json({
+                        message: 'Invalid date format. Use YYYY-MM-DD format.'
+                    })
+                }
+            }
+        }
+
         const transaction = await Transaction.create({
             user: req.user._id,
             title,
             amount,
             category: category._id,
-            account: account._id
+            account: account._id,
+            date: transactionDate
         })
 
         return res.status(201).json({

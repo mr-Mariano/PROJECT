@@ -52,10 +52,11 @@ Return ONLY a valid JSON object in this exact format, with no extra text:
 }
 Rules:
 - "amount" must be a number. Use negative values for debits/expenses, positive for credits/income.
-- "date" must be in YYYY-MM-DD format. If the year is missing, infer it from context.
+- "date" must be in YYYY-MM-DD format. Extract the EXACT date from the document. If the year is missing, infer it from context or document date. Do NOT use current date.
 - "title" should be the merchant/description, cleaned up and concise (max 60 chars).
 - If no transactions are found, return { "transactions": [] }.
-- Do NOT include metadata, summaries, or opening/closing balances as transactions.`
+- Do NOT include metadata, summaries, or opening/closing balances as transactions.
+- IMPORTANT: Always use the date shown in the transaction record, never the current date.`
                 },
                 {
                     role: "user",
