@@ -1,4 +1,4 @@
 */node_modules/
 */.env
 *.txt
-.idea
+.idea.DS_Store
