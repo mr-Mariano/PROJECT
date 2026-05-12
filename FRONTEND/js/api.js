@@ -47,7 +47,12 @@ async function get_transactions({limit = 5, page = 1, category, account, search,
 }
 
 async function create_transaction(data) {
-    const { title, amount, categoryId, accountId } = data
+    const { title, amount, categoryId, accountId, epoch } = data
+
+    var cleanData = {
+        title, amount, categoryId, accountId,
+        epoch: epoch ? epoch : null
+    }
 
     if (!title) throw new Error('Title is required')
     if (amount === null || amount === undefined || amount === '') throw new Error('Amount is required')
@@ -55,7 +60,7 @@ async function create_transaction(data) {
     const res = await fetch_with_auth('/api/transactions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(cleanData),
     })
 
     return handle_response(res, 'Error creating transaction')

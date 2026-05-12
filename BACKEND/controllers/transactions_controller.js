@@ -91,7 +91,7 @@ export const get_transactions = async (req, res) => {
 }
 
 export const create_transaction = async(req,res) => {
-    const { title, amount, categoryId, accountId } = req.body
+    const { title, amount, categoryId, accountId, epoch } = req.body
     if (!title || amount === undefined) {
         return res.status(400).json({ message: "Title and amount are required" })
     }
@@ -134,12 +134,17 @@ export const create_transaction = async(req,res) => {
             )
         }
 
+        var currentDate = new Date()
+
+        if(epoch) currentDate = currentDate.setTime(epoch)
+
         const transaction = await Transaction.create({
             user: req.user._id,
             title,
             amount,
             category: category._id,
-            account: account._id
+            account: account._id,
+            date: currentDate
         })
 
         return res.status(201).json({

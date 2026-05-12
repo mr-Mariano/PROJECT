@@ -241,7 +241,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     title: tx.title,
                     amount: tx.amount,
                     accountId,
-                    categoryId: categoryId || undefined
+                    categoryId: categoryId || undefined,
+                    epoch: tx.epoch
                 })
                 success++
             } catch {

@@ -43,7 +43,7 @@ export const parse_document = async (req, res) => {
             messages: [
                 {
                     role: "system",
-                    content: `You are a financial document parser. Extract all transactions from the provided bank statement or financial document text.
+                    content: `Current date: ${new Date().toUTCString()}\nYou are a financial document parser. Extract all transactions from the provided bank statement or financial document text.
 Return ONLY a valid JSON object in this exact format, with no extra text:
 {
   "transactions": [
@@ -69,9 +69,15 @@ Rules:
         const content = completion.choices[0].message.content
         const parsed_result = JSON.parse(content)
 
+        if(!parsed_result.transactions.length) parsed_result.transactions=[]
+
+        for(let transaction of parsed_result.transactions) {
+            transaction.epoch = new Date(transaction.date).getTime()
+        }
+
         return res.status(200).json({
             filename: originalname,
-            transactions: parsed_result.transactions || []
+            transactions: parsed_result.transactions
         })
 
     } catch (err) {
